@@ -6,12 +6,16 @@ public class Variable {
     private String name;
     private Type type;
     private boolean assigned;
+    private boolean isFinal;
+    private boolean global;
 //    private Object value;
 
-    Variable(String name, Type type, boolean assigned){
+    Variable(String name, Type type, boolean assigned, boolean isFinal, boolean isGlobal){
         this.name = name;
         this.type = type;
         this.assigned = assigned;
+        this.isFinal = isFinal;
+        global = isGlobal;
     }
 
 //    Variable(Type type, Object value){
