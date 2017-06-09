@@ -2,6 +2,7 @@ package oop.ex6.validity;
 
 import oop.ex6.validity.command_validity.CommandLine;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public abstract class ScopeChecker {
@@ -13,6 +14,11 @@ public abstract class ScopeChecker {
     Status status;
     String scopeName;
 
+    /**
+     * Constructor for a scope.
+     * @param scopeVariables a list of the variables of the super scopes
+     * @param unidentifiedCommands
+     */
     ScopeChecker(LinkedList<Variable> scopeVariables, LinkedList<String> unidentifiedCommands){
         this.unidentifiedCommands = unidentifiedCommands;
         scopes = new LinkedList<ScopeChecker>();
@@ -20,17 +26,24 @@ public abstract class ScopeChecker {
         variables.addAll(scopeVariables);
     }
 
+    /**
+     * @return if the scope is closed
+     */
     boolean isClosed() {
         return status.equals(Status.CLOSED);
     }
 
+    /**
+     * Freeze the scope (after a return statement)
+     */
     public void freeze(){
-        if (status.equals(Status.OPEN))
-            status = Status.FROZEN;
-        else
-            System.out.println(); //EXCEPTION!!!!!!!!!!!!!!!!!!!!!#################################
+        isActivate();
+        status = Status.FROZEN;
     }
 
+    /**
+     * Close the scope (after a '}' )
+     */
     public void close(){
         if (status.equals(Status.SEMI_CLOSED) || status.equals(Status.FROZEN))
             status = Status.CLOSED;
@@ -38,10 +51,16 @@ public abstract class ScopeChecker {
             System.out.println(); //EXCEPTION!!!!!!!!!!!!!!!!!#########################
     }
 
-    public LinkedList<Variable> getVariables() {
+    /**
+     * @return a list of all the variables declared in the scope
+     */
+    public LinkedList<Variable> getVariablesList() {
         return variables;
     }
 
+    /**
+     * @return a list of all the direct sub-scopes
+     */
     public LinkedList<ScopeChecker> getScopes() {
         return scopes;
     }
@@ -53,11 +72,18 @@ public abstract class ScopeChecker {
         return scopeName;
     }
 
+    /**
+     * Checks if the scope is activate (not closed or frozen) for an action
+     */
     private void isActivate(){
         if (status.equals(Status.FROZEN) || status.equals(Status.CLOSED))
             return; // EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
+    /**
+     * Adds new sub-scope
+     * @param scope the new sub-scope
+     */
     public void addScope(ScopeChecker scope){
         isActivate();
         scopes.add(scope);
@@ -83,14 +109,30 @@ public abstract class ScopeChecker {
         }
     }
 
+    /**
+     * Check if a variable with the given name can be declared in the scope
+     * @param variableName the name of the variable to check
+     * @return true iff the variable can be declared
+     */
     public abstract boolean canBeDeclared(String variableName);
 
-    boolean canShadow(String variableName, boolean canShadow){
-        for (Variable variable: variables){
-            if (variable.getName().equals(variableName))
-                return (variable.isGlobal() && canShadow);
+//    boolean canShadow(String variableName, boolean canShadow){
+//        for (Variable variable: variables){
+//            if (variable.getName().equals(variableName))
+//                return (variable.isGlobal() && canShadow);
+//        }
+//        return true;
+//    }
+
+    public Variable getVariable(String variableName){
+        Iterator<Variable> variableIterator = variables.descendingIterator();
+        Variable currentVariable;
+        while (variableIterator.hasNext()) {
+            currentVariable = variableIterator.next();
+            if (currentVariable.getName().equals(variableName))
+                return currentVariable;
         }
-        return true;
+        return null;
     }
 
     public abstract Variable createScopeVariable(String name, Variable.Type type, boolean assigned, boolean isFinal);

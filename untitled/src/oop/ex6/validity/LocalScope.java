@@ -29,7 +29,8 @@ public class LocalScope extends ScopeChecker {
 
     @Override
     public boolean canBeDeclared(String variableName) {
-        return canShadow(variableName, true);
+        Variable variable = getVariable(variableName);
+        return variable == null || variable.isGlobal(); /// FIX THAT!!!!!!!!!!!!!!!
     }
 
     @Override

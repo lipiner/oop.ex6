@@ -4,8 +4,6 @@ import java.util.LinkedList;
 
 public class GlobalScope extends ScopeChecker {
 
-    private static final boolean GLOBAL = true;
-
     public GlobalScope(){
         super(new LinkedList<Variable>(), new LinkedList<String>());
         scopeName = null;
@@ -25,6 +23,19 @@ public class GlobalScope extends ScopeChecker {
 
     @Override
     public boolean canBeDeclared(String variableName) {
-        return canShadow(variableName, false);
+        Variable variable = getVariable(variableName);
+        return variable == null;
+    }
+
+    @Override
+    public void freeze(){
+        //Exception!!!!!!!!!!
+    }
+
+    @Override
+    public void addScope(ScopeChecker scope){
+        if (scope.getScopeName() == null)
+            //EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        super.addScope(scope);
     }
 }
