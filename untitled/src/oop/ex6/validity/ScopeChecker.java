@@ -6,35 +6,19 @@ import java.util.LinkedList;
 
 public abstract class ScopeChecker {
 
-    private enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED};
-    private Status status;
+    enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED};
     private LinkedList<Variable> variables;
     private LinkedList<ScopeChecker> scopes;
     private LinkedList<String> unidentifiedCommands;
-    private String scopeName;
+    Status status;
+    String scopeName;
 
     ScopeChecker(LinkedList<Variable> scopeVariables, LinkedList<String> unidentifiedCommands){
-        scopeName = null;
-        status = Status.SEMI_CLOSED;
-        initialize(scopeVariables, unidentifiedCommands);
-    }
-
-    ScopeChecker(String methodName, LinkedList<Variable> scopeVariables, LinkedList<String> unidentifiedCommands){
-        scopeName = methodName;
-        status = Status.OPEN;
-        initialize(scopeVariables, unidentifiedCommands);
-    }
-
-    private void initialize(LinkedList<Variable> scopeVariables, LinkedList<String> unidentifiedCommands){
         this.unidentifiedCommands = unidentifiedCommands;
         scopes = new LinkedList<ScopeChecker>();
         variables = new LinkedList<Variable>();
         variables.addAll(scopeVariables);
     }
-
-//    public boolean isGlobal() {
-//        return global;
-//    }
 
     boolean isClosed() {
         return status.equals(Status.CLOSED);
@@ -69,15 +53,22 @@ public abstract class ScopeChecker {
         return scopeName;
     }
 
+    private void isActivate(){
+        if (status.equals(Status.FROZEN) || status.equals(Status.CLOSED))
+            return; // EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+
     public void addScope(ScopeChecker scope){
+        isActivate();
         scopes.add(scope);
     }
 
     public void addVariable(Variable variable){
+        isActivate();
         variables.add(variable);
     }
 
-    public void addUnidentifiedCommands(String command){
+    public void addUnidentifiedCommand(String command){
         unidentifiedCommands.add(command);
     }
 
@@ -92,5 +83,15 @@ public abstract class ScopeChecker {
         }
     }
 
-    public abstract boolean canBeDeclared(Variable variable);
+    public abstract boolean canBeDeclared(String variableName);
+
+    boolean canShadow(String variableName, boolean canShadow){
+        for (Variable variable: variables){
+            if (variable.getName().equals(variableName))
+                return (variable.isGlobal() && canShadow);
+        }
+        return true;
+    }
+
+    public abstract Variable createScopeVariable(String name, Variable.Type type, boolean assigned, boolean isFinal);
 }

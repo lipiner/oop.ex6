@@ -3,7 +3,7 @@ package oop.ex6.validity;
 public class Variable {
 
     public enum Type {INT, DOUBLE, STRING, BOOLEAN, CHAR}
-    private String name;
+    private final String name;
     private Type type;
     private boolean assigned;
     private boolean isFinal;
@@ -39,5 +39,13 @@ public class Variable {
 
     public void setAssigned(){
         assigned = true;
+    }
+
+    public boolean isGlobal() {
+        return global;
+    }
+
+    public boolean isFinal() {
+        return isFinal;
     }
 }
