@@ -4,5 +4,6 @@
 public class balba {
 
     public void method1() {
+        public int shaharIsTooYoung = 23;
     }
 }
