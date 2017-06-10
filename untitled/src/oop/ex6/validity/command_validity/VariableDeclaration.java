@@ -8,10 +8,15 @@ public class VariableDeclaration extends CommandLine {
     private String variableType;
     private String variableName;
     private String variableValue;
+    private boolean isFinal, isMethodParameter;
 
 
     public VariableDeclaration(String type, boolean isFinal, String name, String value){
         variableValue = value;
+    }
+
+    public VariableDeclaration(String type, boolean isFinal, String name) {
+        isMethodParameter = true;
     }
 
 
