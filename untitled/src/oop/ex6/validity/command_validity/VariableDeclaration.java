@@ -5,22 +5,27 @@ import oop.ex6.validity.Variable;
 
 public class VariableDeclaration extends CommandLine {
 
-    private String variableType;
-    private String variableName;
-    private String variableValue;
+    private String variableType, variableName, variableValue;
     private boolean isFinal, isMethodParameter;
 
 
     public VariableDeclaration(String type, boolean isFinal, String name, String value){
+        variableType = type;
         variableValue = value;
+        variableName = name;
+        this.isFinal = isFinal;
+        isMethodParameter = false;
     }
 
     public VariableDeclaration(String type, boolean isFinal, String name) {
+        variableType = type;
+        variableName = name;
+        this.isFinal = isFinal;
         isMethodParameter = true;
     }
 
 
-    void check(ScopeChecker scope){
+    public void check(ScopeChecker scope){
         Variable.Type type = Variable.Type.valueOf(variableType);
         //if (type.equals(Variable.Type.CHAR) || type.equals(Variable.Type.STRING)){
 

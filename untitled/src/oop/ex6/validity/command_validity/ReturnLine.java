@@ -7,6 +7,6 @@ public class ReturnLine extends CommandLine {
     public ReturnLine(){}
 
     @Override
-    void check(ScopeChecker scope) {
+    public void check(ScopeChecker scope) {
     }
 }

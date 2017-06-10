@@ -6,11 +6,16 @@ import java.util.LinkedList;
 
 public class MethodDeclaration extends CommandLine {
 
+    String methodName;
+    LinkedList<VariableDeclaration> methodVariables;
+
     public MethodDeclaration(String methodName, LinkedList<VariableDeclaration> methodVariables){
+        this.methodName = methodName;
+        this.methodVariables = methodVariables;
     }
 
     @Override
-    void check(ScopeChecker scope) {
+    public void check(ScopeChecker scope) {
 
     }
 }

@@ -7,9 +7,7 @@ import java.util.LinkedList;
 
 public abstract class CommandLine {
 
-    public CommandLine(){
-    } // DO I NEED THIS?
 
-    abstract void check(ScopeChecker scope);
+    public abstract void check(ScopeChecker scope);
 
 }

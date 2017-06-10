@@ -7,6 +7,6 @@ public class CloseScope extends CommandLine {
     public CloseScope(){}
 
     @Override
-    void check(ScopeChecker scope) {
+    public void check(ScopeChecker scope) {
     }
 }

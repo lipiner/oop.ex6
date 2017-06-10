@@ -6,9 +6,13 @@ import java.util.LinkedList;
 
 public class DefiningBlock extends CommandLine {
 
-    public DefiningBlock (LinkedList<String> variables){}
+    LinkedList<String> conditionVariables;
+
+    public DefiningBlock (LinkedList<String> variables){
+        conditionVariables = variables;
+    }
 
     @Override
-    void check(ScopeChecker scope) {
+    public void check(ScopeChecker scope) {
     }
 }

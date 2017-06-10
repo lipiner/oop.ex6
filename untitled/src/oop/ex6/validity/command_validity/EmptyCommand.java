@@ -8,6 +8,6 @@ public class EmptyCommand extends CommandLine {
     }
 
     @Override
-    void check(ScopeChecker scope) {
+    public void check(ScopeChecker scope) {
     }
 }
