@@ -136,4 +136,8 @@ public abstract class ScopeChecker {
     }
 
     public abstract Variable createScopeVariable(String name, Variable.Type type, boolean assigned, boolean isFinal);
+
+    public void canYouSeeThat(){
+        System.out.println("yay!");
+    }
 }
