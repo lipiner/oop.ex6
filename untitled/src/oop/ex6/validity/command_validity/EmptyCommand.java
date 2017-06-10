@@ -1,8 +1,14 @@
 package oop.ex6.validity.command_validity;
 
-class EmptyCommand extends CommandLine {
+import oop.ex6.validity.ScopeChecker;
 
-    EmptyCommand(String command){
-        super(command);
+public class EmptyCommand extends CommandLine {
+
+    public EmptyCommand(){
+    }
+
+    @Override
+    boolean check(ScopeChecker scope) {
+        return true;
     }
 }
