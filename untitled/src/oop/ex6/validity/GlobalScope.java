@@ -5,7 +5,6 @@ import java.util.LinkedList;
 public class GlobalScope extends ScopeChecker {
 
     public GlobalScope(){
-        super(new LinkedList<Variable>(), new LinkedList<String>());
         scopeName = null;
         status = Status.SEMI_CLOSED;
     }
@@ -37,5 +36,10 @@ public class GlobalScope extends ScopeChecker {
         if (scope.getScopeName() == null)
             //EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         super.addScope(scope);
+    }
+
+    @Override
+    public void close() {
+        //EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 }
