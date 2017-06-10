@@ -8,7 +8,6 @@ public class EmptyCommand extends CommandLine {
     }
 
     @Override
-    boolean check(ScopeChecker scope) {
-        return true;
+    void check(ScopeChecker scope) {
     }
 }

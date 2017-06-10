@@ -9,7 +9,6 @@ public class DefiningBlock extends CommandLine {
     public DefiningBlock (LinkedList<String> variables){}
 
     @Override
-    boolean check(ScopeChecker scope) {
-        return false;
+    void check(ScopeChecker scope) {
     }
 }

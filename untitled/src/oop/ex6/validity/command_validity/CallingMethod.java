@@ -11,7 +11,6 @@ public class CallingMethod extends CommandLine {
     }
 
     @Override
-    boolean check(ScopeChecker scope) {
-        return false;
+    void check(ScopeChecker scope) {
     }
 }

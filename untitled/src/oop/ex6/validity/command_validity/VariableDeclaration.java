@@ -20,12 +20,11 @@ public class VariableDeclaration extends CommandLine {
     }
 
 
-    boolean check(ScopeChecker scope){
+    void check(ScopeChecker scope){
         Variable.Type type = Variable.Type.valueOf(variableType);
         //if (type.equals(Variable.Type.CHAR) || type.equals(Variable.Type.STRING)){
 
         //}
 
-        return true; //DELETE
     }
 }

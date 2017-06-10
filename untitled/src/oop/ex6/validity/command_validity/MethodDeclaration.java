@@ -10,7 +10,7 @@ public class MethodDeclaration extends CommandLine {
     }
 
     @Override
-    boolean check(ScopeChecker scope) {
-        return false;
+    void check(ScopeChecker scope) {
+
     }
 }
