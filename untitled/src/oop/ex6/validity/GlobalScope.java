@@ -15,10 +15,10 @@ public class GlobalScope extends ScopeChecker {
         // CHECK UNIDENTIFIED!!!!!!!!!!
     }
 
-    @Override
-    public Variable createScopeVariable(String name, Variable.Type type, boolean assigned, boolean isFinal) {
-        return new Variable(name, type, assigned, isFinal, true);
-    }
+//    @Override
+//    public Variable createScopeVariable(String name, Variable.Type type, boolean assigned, boolean isFinal) {
+//        return new Variable(name, type, assigned, isFinal, true);
+//    }
 
     @Override
     public boolean canBeDeclared(String variableName) {

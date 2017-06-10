@@ -3,7 +3,7 @@ package oop.ex6.validity;
 import oop.ex6.SyntaxChecker;
 import oop.ex6.validity.command_validity.CommandLine;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public abstract class ScopeChecker {
@@ -70,10 +70,14 @@ public abstract class ScopeChecker {
 
     /**
      * Checks if the scope is activate (not closed or frozen) for an action
+     * @throws CompilingException if there is an unreachable statement
+     * @throws CallingClosedScopeException if the scope is closed
      */
-    private void isActivate(){
-        if (status.equals(Status.FROZEN) || status.equals(Status.CLOSED))
+    private void isActivate() throws CompilingException, CallingClosedScopeException {
+        if (status.equals(Status.FROZEN))
             return; // EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (status.equals(Status.CLOSED))
+            throw new CallingClosedScopeException();
     }
 
     /**
@@ -100,7 +104,7 @@ public abstract class ScopeChecker {
             if (!scopes.getLast().isClosed())
                 scopes.getLast().readLine(command);
         } else {
-            CommandLine commandLine = SyntaxChecker.CheckLine(command);
+            LinkedList<CommandLine> commandLine = SyntaxChecker.checkLine(command);
             // CALL COMMAND LINE!!!!!!!!!!!!!!!!!!!!!!!!!
         }
     }
@@ -127,6 +131,6 @@ public abstract class ScopeChecker {
         return null;
     }
 
-    public abstract Variable createScopeVariable(String name, Variable.Type type, boolean assigned, boolean isFinal);
+//    public abstract Variable createScopeVariable(String name, Variable.Type type, boolean assigned, boolean isFinal);
 
 }
