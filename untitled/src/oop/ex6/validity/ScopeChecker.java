@@ -1,5 +1,6 @@
 package oop.ex6.validity;
 
+import oop.ex6.SyntaxChecker;
 import oop.ex6.validity.command_validity.CommandLine;
 
 import java.util.Iterator;
@@ -10,7 +11,7 @@ public abstract class ScopeChecker {
     enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED};
     private LinkedList<Variable> variables;
     private LinkedList<ScopeChecker> scopes;
-    private LinkedList<String> unidentifiedCommands;
+    LinkedList<String> unidentifiedCommands;
     Status status;
     String scopeName;
 
@@ -19,11 +20,11 @@ public abstract class ScopeChecker {
      * @param scopeVariables a list of the variables of the super scopes
      * @param unidentifiedCommands
      */
-    ScopeChecker(LinkedList<Variable> scopeVariables, LinkedList<String> unidentifiedCommands){
-        this.unidentifiedCommands = unidentifiedCommands;
+    ScopeChecker(){
+        unidentifiedCommands = new LinkedList<String>();
         scopes = new LinkedList<ScopeChecker>();
         variables = new LinkedList<Variable>();
-        variables.addAll(scopeVariables);
+//        variables.addAll(scopeVariables);
     }
 
     /**
@@ -44,12 +45,7 @@ public abstract class ScopeChecker {
     /**
      * Close the scope (after a '}' )
      */
-    public void close(){
-        if (status.equals(Status.SEMI_CLOSED) || status.equals(Status.FROZEN))
-            status = Status.CLOSED;
-        else
-            System.out.println(); //EXCEPTION!!!!!!!!!!!!!!!!!#########################
-    }
+    public abstract void close();
 
     /**
      * @return a list of all the variables declared in the scope
@@ -104,7 +100,7 @@ public abstract class ScopeChecker {
             if (!scopes.getLast().isClosed())
                 scopes.getLast().readLine(command);
         } else {
-            CommandLine commandLine = null;
+            CommandLine commandLine = SyntaxChecker.CheckLine(command);
             // CALL COMMAND LINE!!!!!!!!!!!!!!!!!!!!!!!!!
         }
     }
@@ -116,28 +112,21 @@ public abstract class ScopeChecker {
      */
     public abstract boolean canBeDeclared(String variableName);
 
-//    boolean canShadow(String variableName, boolean canShadow){
-//        for (Variable variable: variables){
-//            if (variable.getName().equals(variableName))
-//                return (variable.isGlobal() && canShadow);
-//        }
-//        return true;
-//    }
-
     public Variable getVariable(String variableName){
-        Iterator<Variable> variableIterator = variables.descendingIterator();
-        Variable currentVariable;
-        while (variableIterator.hasNext()) {
-            currentVariable = variableIterator.next();
-            if (currentVariable.getName().equals(variableName))
-                return currentVariable;
-        }
+//        Iterator<Variable> variableIterator = variables.descendingIterator();
+//        Variable currentVariable;
+//        while (variableIterator.hasNext()) {
+//            currentVariable = variableIterator.next();
+//            if (currentVariable.getName().equals(variableName))
+//                return currentVariable;
+//        }
+
+        for (Variable variable: variables)
+            if (variable.getName().equals(variableName))
+                return variable;
         return null;
     }
 
     public abstract Variable createScopeVariable(String name, Variable.Type type, boolean assigned, boolean isFinal);
 
-    public void canYouSeeThat(){
-        System.out.println("yay!");
-    }
 }
