@@ -8,10 +8,12 @@ import java.util.LinkedList;
 
 public abstract class ScopeChecker {
 
+    private static final String UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE = "Unreachable statement";
+
     enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED};
     private LinkedList<Variable> variables;
     private LinkedList<ScopeChecker> scopes;
-    LinkedList<String> unidentifiedCommands;
+    LinkedList<CommandLine> unidentifiedCommands;
     Status status;
     String scopeName;
 
@@ -21,7 +23,7 @@ public abstract class ScopeChecker {
      * @param unidentifiedCommands
      */
     ScopeChecker(){
-        unidentifiedCommands = new LinkedList<String>();
+        unidentifiedCommands = new LinkedList<CommandLine>();
         scopes = new LinkedList<ScopeChecker>();
         variables = new LinkedList<Variable>();
 //        variables.addAll(scopeVariables);
@@ -36,8 +38,9 @@ public abstract class ScopeChecker {
 
     /**
      * Freeze the scope (after a return statement)
+     * @throws CompilingException if the action is not valid in the scope
      */
-    public void freeze(){
+    public void freeze() throws CompilingException{
         isActivate();
         status = Status.FROZEN;
     }
@@ -75,7 +78,7 @@ public abstract class ScopeChecker {
      */
     private void isActivate() throws CompilingException, CallingClosedScopeException {
         if (status.equals(Status.FROZEN))
-            return; // EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            throw new CompilingException(UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE);
         if (status.equals(Status.CLOSED))
             throw new CallingClosedScopeException();
     }
@@ -83,18 +86,19 @@ public abstract class ScopeChecker {
     /**
      * Adds new sub-scope
      * @param scope the new sub-scope
+     * @throws CompilingException if the action is not valid in the scope
      */
-    public void addScope(ScopeChecker scope){
+    public void addScope(ScopeChecker scope) throws CompilingException{
         isActivate();
         scopes.add(scope);
     }
 
-    public void addVariable(Variable variable){
+    public void addVariable(Variable variable) throws CompilingException{
         isActivate();
         variables.add(variable);
     }
 
-    public void addUnidentifiedCommand(String command){
+    public void addUnidentifiedCommand(CommandLine command){
         unidentifiedCommands.add(command);
     }
 

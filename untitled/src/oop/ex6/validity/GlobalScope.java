@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 public class GlobalScope extends ScopeChecker {
 
+    private static final String ILLEGAL_OPERATION_EXCEPTION_MESSAGE = "Illegal operation: ";
+
     public GlobalScope(){
         scopeName = null;
         status = Status.SEMI_CLOSED;
@@ -27,12 +29,12 @@ public class GlobalScope extends ScopeChecker {
     }
 
     @Override
-    public void freeze(){
-        //Exception!!!!!!!!!!
+    public void freeze() throws CompilingException{
+        throw new CompilingException(ILLEGAL_OPERATION_EXCEPTION_MESSAGE);
     }
 
     @Override
-    public void addScope(ScopeChecker scope){
+    public void addScope(ScopeChecker scope) throws CompilingException{
         if (scope.getScopeName() == null)
             //EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         super.addScope(scope);
