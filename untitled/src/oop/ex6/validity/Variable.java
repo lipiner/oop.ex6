@@ -1,5 +1,7 @@
 package oop.ex6.validity;
 
+import java.util.LinkedList;
+
 public class Variable {
 
     public enum Type {INT, DOUBLE, STRING, BOOLEAN, CHAR}
@@ -37,7 +39,9 @@ public class Variable {
         return assigned;
     }
 
-    public void setAssigned(){
+    public void assign(){
+        if (assigned && isFinal)
+            //EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         assigned = true;
     }
 
@@ -45,7 +49,8 @@ public class Variable {
         return global;
     }
 
-    public boolean isFinal() {
-        return isFinal;
-    }
+//    public boolean isFinal() {
+//        return isFinal;
+//    }
+
 }
