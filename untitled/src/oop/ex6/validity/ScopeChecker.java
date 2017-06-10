@@ -47,12 +47,12 @@ public abstract class ScopeChecker {
      */
     public abstract void close();
 
-    /**
-     * @return a list of all the variables declared in the scope
-     */
-    public LinkedList<Variable> getVariablesList() {
-        return variables;
-    }
+//    /**
+//     * @return a list of all the variables declared in the scope
+//     */
+//    public LinkedList<Variable> getVariablesList() {
+//        return variables;
+//    }
 
     /**
      * @return a list of all the direct sub-scopes
