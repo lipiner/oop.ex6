@@ -52,6 +52,11 @@ public class SyntaxChecker {
                     "\\s*(" + CONDITION + "))\\s*\\)\\s*\\{\\s*";
 
 
+    /**
+     *
+     * @param line
+     * @return
+     */
     public static LinkedList<CommandLine> checkLine(String line) { //CHANGE FROM VOID!!
         LinkedList<CommandLine> lineList = new LinkedList<CommandLine>();
 
@@ -77,6 +82,11 @@ public class SyntaxChecker {
         return lineList;
     }
 
+    /**
+     *
+     * @param line
+     * @return
+     */
     private static CommandLine assignmentCreation(String line) {
         Matcher m = getPatternMatcher(ASSIGNMENT_LINE, line, true);
         String variableName = m.group(1);
@@ -85,6 +95,11 @@ public class SyntaxChecker {
         return new Assigning(variableName, input);
     }
 
+    /**
+     *
+     * @param line
+     * @return
+     */
     private static LinkedList<CommandLine> varDeclarationCreation(String line) {
         LinkedList<CommandLine> lineList = new LinkedList<CommandLine>();
         Matcher m = getPatternMatcher(VARIABLE_DECLARATION_LINE, line, true);
@@ -104,6 +119,11 @@ public class SyntaxChecker {
         return lineList;
     }
 
+    /**
+     *
+     * @param line
+     * @return
+     */
     private static CommandLine blockCreation(String line) {
         Matcher m = getPatternMatcher(IF_WHILE_LINE, line, true);
         String conditions = m.group(2);
@@ -118,6 +138,11 @@ public class SyntaxChecker {
         return new DefiningBlock(variables);
     }
 
+    /**
+     *
+     * @param line
+     * @return
+     */
     private static CommandLine methodCallCreation (String line) {
         Matcher m = getPatternMatcher(METHOD_CALL_LINE, line, true);
         String methodName = m.group(1);
@@ -132,6 +157,11 @@ public class SyntaxChecker {
 
     }
 
+    /**
+     *
+     * @param line
+     * @return
+     */
     private static CommandLine methodDeclarationCreation (String line) {
         Matcher m = getPatternMatcher(METHOD_DECLARATION_LINE, line, true);
         String methodName = m.group(1);
@@ -150,6 +180,13 @@ public class SyntaxChecker {
         return new MethodDeclaration(methodName, methodParameters);
     }
 
+    /**
+     *
+     * @param pattern
+     * @param text
+     * @param performMatch
+     * @return
+     */
     private static Matcher getPatternMatcher(String pattern, String text, boolean performMatch) {
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher((text));
