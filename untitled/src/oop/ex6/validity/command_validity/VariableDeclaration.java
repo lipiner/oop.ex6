@@ -10,18 +10,17 @@ public class VariableDeclaration extends CommandLine {
     private String variableValue;
 
 
-    VariableDeclaration(String type, String name, String value){
+    public VariableDeclaration(String type, boolean isFinal, String name, String value){
         variableValue = value;
     }
 
-    VariableDeclaration(String type, String name){
-        this(type, name, null);
-    }
 
-    public void check(ScopeChecker scope){
+    boolean check(ScopeChecker scope){
         Variable.Type type = Variable.Type.valueOf(variableType);
-        if (type.equals(Variable.Type.CHAR) || type.equals(Variable.Type.STRING)){
+        //if (type.equals(Variable.Type.CHAR) || type.equals(Variable.Type.STRING)){
 
-        }
+        //}
+
+        return true; //DELETE
     }
 }
