@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class MethodDeclaration extends CommandLine {
 
-    MethodDeclaration(String methodName, LinkedList<VariableDeclaration> methodVariables){
+    public MethodDeclaration(String methodName, LinkedList<VariableDeclaration> methodVariables){
     }
 
     @Override
