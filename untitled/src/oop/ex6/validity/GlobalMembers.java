@@ -17,7 +17,7 @@ public class GlobalMembers {
         unidentifiedCommands = new LinkedList<CommandLine>();
     }
 
-    public static GlobalMembers getInstance(){
+    static GlobalMembers getInstance(){
         if (instance == null)
             instance = new GlobalMembers();
         return instance;
@@ -30,18 +30,18 @@ public class GlobalMembers {
         return null;
     }
 
-    public void addMethod(String methodName, LinkedList<Variable.Type> methodVariables){
+    void addMethod(String methodName, LinkedList<Variable.Type> methodVariables){
         methodsList.add(new Method(methodName, methodVariables));
     }
 
-    public Variable getGlobalVariable(String variableName) {
+    Variable getGlobalVariable(String variableName) {
         for (Variable variable: globalVariables)
             if (variable.getName().equals(variableName))
                 return variable;
         return null;
     }
 
-    public void addVariable(Variable variable){
+    void addVariable(Variable variable){
         globalVariables.add(variable);
     }
 

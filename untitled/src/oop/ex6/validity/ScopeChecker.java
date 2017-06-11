@@ -3,20 +3,16 @@ package oop.ex6.validity;
 import oop.ex6.SyntaxChecker;
 import oop.ex6.validity.command_validity.CommandLine;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public abstract class ScopeChecker {
 
     private static final String UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE = "Unreachable statement";
 
-    enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED};
+    enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED}
     private ScopeChecker innerScope;
 //    private GlobalMembers globalMembers;
     private boolean method;
-
-//    LinkedList<Method> knownMethods;
-//    LinkedList<CommandLine> unidentifiedCommands;
     Status status;
     String scopeName;
 
@@ -92,8 +88,9 @@ public abstract class ScopeChecker {
         if (innerScope != null && !innerScope.isClosed())
             innerScope.readLine(command);
         else {
-            LinkedList<CommandLine> commandLine = SyntaxChecker.checkLine(command);
-            // CALL COMMAND LINE!!!!!!!!!!!!!!!!!!!!!!!!!
+            LinkedList<CommandLine> commandLines = SyntaxChecker.checkLine(command);
+            for (CommandLine commandLine: commandLines)
+                commandLine.check(this);
         }
     }
 

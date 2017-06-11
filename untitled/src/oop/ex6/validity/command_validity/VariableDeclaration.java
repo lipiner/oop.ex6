@@ -29,7 +29,7 @@ public class VariableDeclaration extends CommandLine {
 
     public void check(ScopeChecker scope) throws CompilingException{
         Variable.Type type = Variable.Type.valueOf(variableType);
-        Variable newVariable = new Variable(variableName, type, isMethodParameter, isFinal) // add scope.isGlobal!
+        Variable newVariable = new Variable(variableName, type, isMethodParameter, isFinal); // add scope.isGlobal!
 
         if (!isMethodParameter && variableValue != null)
             newVariable.assign(variableValue, scope, this);
