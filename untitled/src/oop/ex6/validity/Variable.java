@@ -45,7 +45,7 @@ public class Variable {
 
         }
         else if (Pattern.matches(SyntaxChecker.STRING_VALUE, value)) {
-            if (type != Type.STRING) // can I do this with ==?
+            if (type != Type.STRING) // can I do this with ==?  NO
                 throw new CompilingException();
         }
         else if (Pattern.matches(SyntaxChecker.INT_VALUE, value)) {
