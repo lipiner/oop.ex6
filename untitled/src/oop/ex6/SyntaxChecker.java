@@ -51,6 +51,7 @@ public class SyntaxChecker {
             END_SCOPE_LINE = "\\s*\\}\\s*",
             IF_WHILE_LINE = "\\s*(if|while)\\s*\\(" + "((\\s*(" + CONDITION + ")\\s*(\\|\\||&&))*" +
                     "\\s*(" + CONDITION + "))\\s*\\)\\s*\\{\\s*";
+    private static Matcher lineMatcher;
 
 
     /**
@@ -58,29 +59,40 @@ public class SyntaxChecker {
      * @param line
      * @return
      */
-    public static LinkedList<CommandLine> checkLine(String line) throws CompilingException {
-        LinkedList<CommandLine> lineList = new LinkedList<CommandLine>();
+    public static CommandLine checkLine(String line) throws CompilingException {
 
-        if (Pattern.matches(EMPTY_LINE, line)||Pattern.matches(COMMENT_LINE, line)) {
-            lineList.add(new EmptyCommand());
-        } else if (Pattern.matches(VARIABLE_DECLARATION_LINE, line)) {
-            lineList = varDeclarationCreation(line);
-        } else if (Pattern.matches(ASSIGNMENT_LINE, line)) {
-            lineList.add(assignmentCreation(line));
-        } else if (Pattern.matches(METHOD_DECLARATION_LINE, line)) {
-            lineList.add(methodDeclarationCreation(line));
-        } else if (Pattern.matches(METHOD_CALL_LINE, line)) {
-            lineList.add(methodCallCreation(line));
-        } else if (Pattern.matches(RETURN_LINE, line)) {
-            lineList.add(new ReturnLine());
-        } else if (Pattern.matches(END_SCOPE_LINE, line)) {
-            lineList.add(new CloseScope());
-        } else if (Pattern.matches(IF_WHILE_LINE, line)) {
-            lineList.add(blockCreation(line));
+        if (isMatchPattern(EMPTY_LINE, line)||isMatchPattern(COMMENT_LINE, line)) {
+            return new EmptyCommand();
+        } else if (isMatchPattern(VARIABLE_DECLARATION_LINE, line)) {
+            return varDeclarationCreation(line);
+        } else if (isMatchPattern(ASSIGNMENT_LINE, line)) {
+            return assignmentCreation(line);
+        } else if (isMatchPattern(METHOD_DECLARATION_LINE, line)) {
+            return methodDeclarationCreation(line);
+        } else if (isMatchPattern(METHOD_CALL_LINE, line)) {
+            return methodCallCreation(line);
+        } else if (isMatchPattern(RETURN_LINE, line)) {
+            return new ReturnLine();
+        } else if (isMatchPattern(END_SCOPE_LINE, line)) {
+            return new CloseScope();
+        } else if (isMatchPattern(IF_WHILE_LINE, line)) {
+            return blockCreation(line);
         } else {
             throw new CompilingException();
         }
-        return lineList;
+    }
+
+    /**
+     *
+     * @param stringPattern
+     * @param text
+     * @return
+     */
+    private static boolean isMatchPattern (String stringPattern, String text) {
+        Pattern pattern = Pattern.compile(stringPattern);
+        lineMatcher = pattern.matcher(text);
+
+        return lineMatcher.matches();
     }
 
     /**
@@ -89,35 +101,37 @@ public class SyntaxChecker {
      * @return
      */
     private static CommandLine assignmentCreation(String line) {
-        Matcher m = getPatternMatcher(ASSIGNMENT_LINE, line, true);
-        String variableName = m.group(1);
-        String input = m.group(8);
+        String variableName = lineMatcher.group(1);
+        String input = lineMatcher.group(8);
 
         return new Assigning(variableName, input);
     }
+
+
 
     /**
      *
      * @param line
      * @return
      */
-    private static LinkedList<CommandLine> varDeclarationCreation(String line) {
-        LinkedList<CommandLine> lineList = new LinkedList<CommandLine>();
-        Matcher m = getPatternMatcher(VARIABLE_DECLARATION_LINE, line, true);
+    private static CommandLine varDeclarationCreation(String line) {
+        LinkedList<VariableDeclaration> lineList = new LinkedList<VariableDeclaration>();
         boolean isFinal = false;
-        if (m.group(1) != null)
+        if (lineMatcher.group(1) != null)
             isFinal = true;
-        String variableType = m.group(2);
-        String declares = m.group(3);
-        m = getPatternMatcher(DECLARATION_EXPRESSION, declares, false);
-        while (m.find()) {
-            String variableName = m.group(1);
-            String input = m.group(8);
+        String variableType = lineMatcher.group(2);
+        String declares = lineMatcher.group(3);
+
+        Pattern declarationExpPattern = Pattern.compile(DECLARATION_EXPRESSION);
+        lineMatcher = declarationExpPattern.matcher(declares);
+        while (lineMatcher.find()) {
+            String variableName = lineMatcher.group(1);
+            String input = lineMatcher.group(8);
 
             lineList.add(new VariableDeclaration(variableType, isFinal, variableName, input));
         }
 
-        return lineList;
+        return new MultipleVariableDeclaration(lineList);
     }
 
     /**
@@ -126,12 +140,13 @@ public class SyntaxChecker {
      * @return
      */
     private static CommandLine blockCreation(String line) {
-        Matcher m = getPatternMatcher(IF_WHILE_LINE, line, true);
-        String conditions = m.group(2);
-        m = getPatternMatcher(CONDITION, conditions, false);
+        String conditions = lineMatcher.group(2);
+        Pattern conditionPattern = Pattern.compile(CONDITION);
+
+        lineMatcher = conditionPattern.matcher(conditions);
         LinkedList<String> variables = new LinkedList<String>();
-        while (m.find()) {
-            String variable = m.group(1);
+        while (lineMatcher.find()) {
+            String variable = lineMatcher.group(1);
             if (variable != null)
                 variables.add(variable);
         }
@@ -145,13 +160,14 @@ public class SyntaxChecker {
      * @return
      */
     private static CommandLine methodCallCreation (String line) {
-        Matcher m = getPatternMatcher(METHOD_CALL_LINE, line, true);
-        String methodName = m.group(1);
-        String inputs =m.group(4);
-        m = getPatternMatcher(METHOD_INPUT, inputs, false);
+        String methodName = lineMatcher.group(1);
+        String inputs = lineMatcher.group(4);
+
+        Pattern methodInputPattern = Pattern.compile(METHOD_INPUT);
+        lineMatcher = methodInputPattern.matcher(inputs);
         LinkedList<String> inputsList = new LinkedList<String>();
-        while (m.find()) {
-            inputsList.add(inputs.substring(m.start(), m.end()));
+        while (lineMatcher.find()) {
+            inputsList.add(inputs.substring(lineMatcher.start(), lineMatcher.end()));
         }
 
         return new CallingMethod(methodName, inputsList);
@@ -164,37 +180,21 @@ public class SyntaxChecker {
      * @return
      */
     private static CommandLine methodDeclarationCreation (String line) {
-        Matcher m = getPatternMatcher(METHOD_DECLARATION_LINE, line, true);
-        String methodName = m.group(1);
-        String parameters = m.group(4);
-        m = getPatternMatcher(METHOD_PARAMETER, parameters, false);
+        String methodName = lineMatcher.group(1);
+        String parameters = lineMatcher.group(4);
+
+        Pattern methodParameterPattern = Pattern.compile(METHOD_PARAMETER);
+        lineMatcher = methodParameterPattern.matcher(parameters);
         LinkedList<VariableDeclaration> methodParameters = new LinkedList<VariableDeclaration>();
-        while (m.find()) {
+        while (lineMatcher.find()) {
             boolean isFinal = false;
-            if (m.group(1) != null)
+            if (lineMatcher.group(1) != null)
                 isFinal = true;
-            String parameterType = m.group(2);
-            String parameterName = m.group(3);
+            String parameterType = lineMatcher.group(2);
+            String parameterName = lineMatcher.group(3);
             methodParameters.add(new VariableDeclaration(parameterType, isFinal, parameterName));
         }
 
         return new MethodDeclaration(methodName, methodParameters);
-    }
-
-    /**
-     *
-     * @param pattern
-     * @param text
-     * @param performMatch
-     * @return
-     */
-    private static Matcher getPatternMatcher(String pattern, String text, boolean performMatch) {
-        Pattern p = Pattern.compile(pattern);
-        Matcher m = p.matcher((text));
-
-        if (performMatch)
-            m.matches();
-
-        return m;
     }
 }

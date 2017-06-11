@@ -3,6 +3,7 @@ package oop.ex6.validity;
 import oop.ex6.SyntaxChecker;
 import oop.ex6.validity.command_validity.CommandLine;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Variable {
@@ -17,14 +18,13 @@ public class Variable {
      * Constructor fot a variable object.
      * @param name the variable's name.
      * @param type the variable's type
-     * @param assigned if the variable has assigned
      * @param isFinal if the variable is final or not
      */
-    public Variable(String name, Type type, boolean assigned, boolean isFinal){
+    public Variable(String name, Type type, boolean isFinal){
         this.name = name;
         this.type = type;
-        this.assigned = assigned;
         this.isFinal = isFinal;
+        assigned = false;
     }
 
     /**
@@ -49,40 +49,43 @@ public class Variable {
         return assigned;
     }
 
-    public void assign(String value, ScopeChecker scope, CommandLine line) throws CompilingException{
+    public void assign () {
+        assigned = true;
+    }
+
+    public void assign(String value) throws CompilingException{
         if (assigned && isFinal)
             throw new CompilingException();
 
-        if (Pattern.matches(SyntaxChecker.VARIABLE_NAME, value)) {
-            Variable assignVariable = scope.getVariable(value);
-            if (assignVariable == null)
-                scope.addUnidentifiedCommand(line); // SHOULD SOLVE THE RECURSION WHEN CALLING IT IN THE END
-            else if (type != assignVariable.getType() || !assignVariable.isAssigned())
-                throw new CompilingException();
-
-        }
-        else if (Pattern.matches(SyntaxChecker.STRING_VALUE, value)) {
-            if (type != Type.STRING) // can I do this with ==?  NO
+        if (isMatchedType(SyntaxChecker.STRING_VALUE, value)) {
+            if (!type.equals(Type.STRING))
                 throw new CompilingException();
         }
-        else if (Pattern.matches(SyntaxChecker.INT_VALUE, value)) {
-            if (type == Type.STRING || type == Type.CHAR)
+        else if (isMatchedType(SyntaxChecker.INT_VALUE, value)) {
+            if (type.equals(Type.STRING) || type.equals(Type.CHAR))
                 throw new CompilingException();
         }
-        else if (Pattern.matches(SyntaxChecker.DOUBLE_VALUE, value)) {
-            if (type != Type.DOUBLE && type != Type.BOOLEAN)
+        else if (isMatchedType(SyntaxChecker.DOUBLE_VALUE, value)) {
+            if (!type.equals(Type.DOUBLE) && !type.equals(Type.BOOLEAN))
                 throw new CompilingException();
         }
-        else if (Pattern.matches(SyntaxChecker.CHAR_VALUE, value)) {
-            if (type!= Type.CHAR)
+        else if (isMatchedType(SyntaxChecker.CHAR_VALUE, value)) {
+            if (!type.equals(Type.CHAR))
                 throw new CompilingException();
         }
-        else if (Pattern.matches(SyntaxChecker.BOOLEAN_VALUE, value)) {
-            if (type!= Type.BOOLEAN)
+        else if (isMatchedType(SyntaxChecker.BOOLEAN_VALUE, value)) {
+            if (!type.equals(Type.BOOLEAN)) //SHOULD DO ELSE?
                 throw new CompilingException();
         }
 
         assigned = true;
+    }
+
+    private boolean isMatchedType(String stringPattern, String value) {
+        Pattern pattern = Pattern.compile(stringPattern);
+        Matcher patternMatcher = pattern.matcher(value);
+
+        return patternMatcher.matches();
     }
 
 //    /**

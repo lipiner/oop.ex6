@@ -23,18 +23,21 @@ public class VariableDeclaration extends CommandLine {
         variableName = name;
         this.isFinal = isFinal;
         isMethodParameter = true;
-        variableValue = null; // SHOULD I SO THIS?  - WHY NOT?
     }
 
 
     public void check(ScopeChecker scope) throws CompilingException{
         Variable.Type type = Variable.Type.valueOf(variableType);
-        Variable newVariable = new Variable(variableName, type, isMethodParameter, isFinal);
-
-        if (!isMethodParameter && variableValue != null)
-            newVariable.assign(variableValue, scope, this);
-
+        Variable newVariable = new Variable(variableName, type, isFinal);
         scope.addVariable(newVariable);
+
+        if (isMethodParameter)
+            newVariable.assign();
+        else if (variableValue != null) {
+            Assigning assignLine = new Assigning(variableName, variableValue);
+
+            assignLine.check(scope);
+        }
 
     }
 }

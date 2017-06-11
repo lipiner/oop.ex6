@@ -9,7 +9,7 @@ public class MultipleVariableDeclaration extends CommandLine {
 
     private LinkedList<VariableDeclaration> variableDeclarations;
 
-    MultipleVariableDeclaration(LinkedList<VariableDeclaration> declarations){
+    public MultipleVariableDeclaration(LinkedList<VariableDeclaration> declarations){
         variableDeclarations = declarations;
     }
 
