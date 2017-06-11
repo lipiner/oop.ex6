@@ -31,7 +31,7 @@ public abstract class ScopeChecker {
     }
 
     /**
-     * @return if the scope is closed
+     * @return true iff the scope is closed
      */
     private boolean isClosed() {
         return status.equals(Status.CLOSED);
@@ -77,6 +77,12 @@ public abstract class ScopeChecker {
      */
     public abstract boolean canBeDeclared(String variableName);
 
+    /**
+     * Adds new variable to the scope
+     * @param variable the new variable of the scope
+     * @throws CompilingException if the variable cannot be declared in the scope or
+     * if the operation is not allowed
+     */
     public void addVariable(Variable variable) throws CompilingException{
         if(canBeDeclared(variable.getName()))
             addVariableToScope(variable);
@@ -84,14 +90,33 @@ public abstract class ScopeChecker {
             throw new CompilingException(REPEATED_DECLARATION_EXCEPTION_MESSAGE);
     }
 
+    /**
+     * Adds the variable to the scope's variable list.
+     * @param variable the new variable of the scope
+     * @throws CompilingException if the operation is not allowed
+     */
     abstract void addVariableToScope(Variable variable) throws CompilingException;
 
+    /**
+     * Gets a variable in the scope given it's name
+     * @param variableName the variable's name
+     * @return the found variable if existed, null otherwise
+     */
     public abstract Variable getVariable(String variableName);
 
+    /**
+     * Adds an unidentified command to the global unidentified commands list.
+     * @param command the unidentified command
+     */
     public void addUnidentifiedCommand(CommandLine command){
         GlobalMembers.getInstance().addUnidentifiedCommands(command);
     }
 
+    /**
+     * Process a command line.
+     * @param command Sjavac command line.
+     * @throws CompilingException if the command is invalid.
+     */
     public void readLine(String command) throws CompilingException{
         if (innerScope != null && !innerScope.isClosed())
             innerScope.readLine(command);
@@ -102,6 +127,9 @@ public abstract class ScopeChecker {
         }
     }
 
+    /**
+     * @return true iff the current scope is a method.
+     */
     boolean isMethod(){
         return method;
     }
