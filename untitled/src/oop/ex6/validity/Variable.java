@@ -3,7 +3,6 @@ package oop.ex6.validity;
 import oop.ex6.SyntaxChecker;
 import oop.ex6.validity.command_validity.CommandLine;
 
-import java.util.LinkedList;
 import java.util.regex.Pattern;
 
 public class Variable {
@@ -13,15 +12,15 @@ public class Variable {
     private Type type;
     private boolean assigned;
     private boolean isFinal;
-    private boolean global;
+//    private boolean global;
 //    private Object value;
 
-    public Variable(String name, Type type, boolean assigned, boolean isFinal, boolean isGlobal){
+    public Variable(String name, Type type, boolean assigned, boolean isFinal){
         this.name = name;
         this.type = type;
         this.assigned = assigned;
         this.isFinal = isFinal;
-        global = isGlobal;
+//        global = isGlobal;
     }
 
 //    Variable(Type type, Object value){
@@ -79,12 +78,21 @@ public class Variable {
         assigned = true;
     }
 
-    public boolean isGlobal() {
-        return global;
+    public static Type getType(String typeName) {
+        switch (Type.valueOf(typeName)) {
+            case INT:
+                return Type.INT;
+            case DOUBLE:
+                return Type.DOUBLE;
+            case STRING:
+                return Type.STRING;
+            case CHAR:
+                return Type.CHAR;
+            case BOOLEAN:
+                return Type.BOOLEAN;
+            default:
+                throw new UnexpectedTypeException();
+        }
     }
-
-//    public boolean isFinal() {
-//        return isFinal;
-//    }
 
 }
