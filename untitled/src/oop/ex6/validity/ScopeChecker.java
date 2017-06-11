@@ -21,10 +21,10 @@ public abstract class ScopeChecker {
      * Constructor for a scope
      */
     ScopeChecker(boolean isMethod){
-//        unidentifiedCommands = new LinkedList<CommandLine>();
-//        scopes = new LinkedList<ScopeChecker>();
         innerScope = null;
         method = isMethod;
+//        unidentifiedCommands = new LinkedList<CommandLine>();
+//        scopes = new LinkedList<ScopeChecker>();
 //        variables = new LinkedList<Variable>();
 //        globalMembers = GlobalMembers.getInstance();
 //        variables.addAll(scopeVariables);
