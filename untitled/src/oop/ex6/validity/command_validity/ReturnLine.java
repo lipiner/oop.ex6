@@ -1,5 +1,6 @@
 package oop.ex6.validity.command_validity;
 
+import oop.ex6.validity.CompilingException;
 import oop.ex6.validity.ScopeChecker;
 
 public class ReturnLine extends CommandLine {
@@ -7,6 +8,7 @@ public class ReturnLine extends CommandLine {
     public ReturnLine(){}
 
     @Override
-    public void check(ScopeChecker scope) {
+    public void check(ScopeChecker scope) throws CompilingException {
+        scope.freeze();
     }
 }

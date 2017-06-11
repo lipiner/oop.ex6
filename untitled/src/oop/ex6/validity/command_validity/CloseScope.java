@@ -8,5 +8,6 @@ public class CloseScope extends CommandLine {
 
     @Override
     public void check(ScopeChecker scope) {
+        scope.close();
     }
 }

@@ -39,7 +39,7 @@ public class Variable {
         return assigned;
     }
 
-    public void assign(){
+    public void assign(String value){
         if (assigned && isFinal)
             //EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         assigned = true;
