@@ -9,6 +9,10 @@ public class LocalScope extends ScopeChecker {
     private LinkedList<Variable> variables;
     private ScopeChecker superScope;
 
+    /**
+     * Constructor fot a local scope.
+     * @param superScope the outer scope of that one.
+     */
     public LocalScope(ScopeChecker superScope){
         super(false);
         this.superScope = superScope;
@@ -16,6 +20,12 @@ public class LocalScope extends ScopeChecker {
         status = Status.SEMI_CLOSED;
     }
 
+    /**
+     * Constructor fot a local scope that is a method.
+     * @param superScope the outer scope of that one.
+     * @param methodName the method's name
+     * @param methodVariables a list of all the variable that the method gets.
+     */
     public LocalScope(ScopeChecker superScope, String methodName, LinkedList<Variable> methodVariables){
         super(true);
         this.superScope = superScope;
@@ -71,11 +81,17 @@ public class LocalScope extends ScopeChecker {
         return variable == null;
     }
 
+    @Override
     void addVariableToScope(Variable variable) throws CompilingException{
         isActivate();
         variables.add(variable);
     }
 
+    /**
+     * Checks for a variable only in the current scope.
+     * @param variableName the variable's name.
+     * @return the variable object if found, null otherwise.
+     */
     private Variable getScopeVariable(String variableName){
         for (Variable variable: variables)
             if (variable.getName().equals(variableName))
