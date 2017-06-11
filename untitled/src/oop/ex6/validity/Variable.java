@@ -13,6 +13,13 @@ public class Variable {
     private boolean assigned;
     private boolean isFinal;
 
+    /**
+     * Constructor fot a variable object.
+     * @param name the variable's name.
+     * @param type the variable's type
+     * @param assigned if the variable has assigned
+     * @param isFinal if the variable is final or not
+     */
     public Variable(String name, Type type, boolean assigned, boolean isFinal){
         this.name = name;
         this.type = type;
@@ -20,14 +27,24 @@ public class Variable {
         this.isFinal = isFinal;
     }
 
+    /**
+     * @return the variable's name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the variable's type
+     */
     public Type getType() {
         return type;
     }
 
+    /**
+     * Checks if the variable has already assigned or not
+     * @return true iff the variable has already assigned
+     */
     public boolean isAssigned() {
         return assigned;
     }
@@ -68,21 +85,13 @@ public class Variable {
         assigned = true;
     }
 
-    public static Type getType(String typeName) {
-        switch (Type.valueOf(typeName)) {
-            case INT:
-                return Type.INT;
-            case DOUBLE:
-                return Type.DOUBLE;
-            case STRING:
-                return Type.STRING;
-            case CHAR:
-                return Type.CHAR;
-            case BOOLEAN:
-                return Type.BOOLEAN;
-            default:
-                throw new UnexpectedTypeException();
-        }
-    }
+//    /**
+//     * Convert a given string to a Type object.
+//     * @param typeName a variable type as string
+//     * @return a Type object of the given string
+//     */
+//    public static Type getType(String typeName) {
+//        return Type.valueOf(typeName);
+//    }
 
 }
