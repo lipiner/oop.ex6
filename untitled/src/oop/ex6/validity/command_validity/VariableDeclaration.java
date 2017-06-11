@@ -35,9 +35,6 @@ public class VariableDeclaration extends CommandLine {
             newVariable.assign(variableValue, scope, this);
 
         scope.addVariable(newVariable);
-        //if (type.equals(Variable.Type.CHAR) || type.equals(Variable.Type.STRING)){
-
-        //}
 
     }
 }
