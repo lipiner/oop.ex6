@@ -9,6 +9,9 @@ public class GlobalScope extends ScopeChecker {
     private static final String FREEZE_EXCEPTION_MESSAGE = "Cannot freeze global scope";
     private static final String ILLEGAL_SCOPE_OPENING_MESSAGE = "If/while statements not in a method";
 
+    /**
+     * Constructor for a global scope.
+     */
     public GlobalScope(){
         super(false);
         scopeName = null;
