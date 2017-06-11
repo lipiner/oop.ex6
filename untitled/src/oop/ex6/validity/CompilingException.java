@@ -2,11 +2,11 @@ package oop.ex6.validity;
 
 public class CompilingException extends Exception {
 
-    CompilingException(){
+    public CompilingException(){
         super();
     }
 
-    CompilingException(String message){
+    public CompilingException(String message){
         super(message);
     }
 }

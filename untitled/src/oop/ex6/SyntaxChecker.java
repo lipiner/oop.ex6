@@ -1,6 +1,7 @@
 package oop.ex6;
 
 
+import oop.ex6.validity.CompilingException;
 import oop.ex6.validity.command_validity.*;
 
 import java.util.LinkedList;
@@ -57,7 +58,7 @@ public class SyntaxChecker {
      * @param line
      * @return
      */
-    public static LinkedList<CommandLine> checkLine(String line) { //CHANGE FROM VOID!!
+    public static LinkedList<CommandLine> checkLine(String line) throws CompilingException {
         LinkedList<CommandLine> lineList = new LinkedList<CommandLine>();
 
         if (Pattern.matches(EMPTY_LINE, line)||Pattern.matches(COMMENT_LINE, line)) {
@@ -77,7 +78,7 @@ public class SyntaxChecker {
         } else if (Pattern.matches(IF_WHILE_LINE, line)) {
             lineList.add(blockCreation(line));
         } else {
-            //EXCEPTION!!
+            throw new CompilingException();
         }
         return lineList;
     }
