@@ -23,7 +23,7 @@ public class VariableDeclaration extends CommandLine {
         variableName = name;
         this.isFinal = isFinal;
         isMethodParameter = true;
-        variableValue = null; // SHOULD I SO THIS?
+        variableValue = null; // SHOULD I SO THIS?  - WHY NOT?
     }
 
 
