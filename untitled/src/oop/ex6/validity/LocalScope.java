@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 public class LocalScope extends ScopeChecker {
 
+    private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
+    private static final String NESTED_METHODS_EXCEPTION_MESSAGE = "Nested methods";
     private LinkedList<Variable> variables;
     private ScopeChecker superScope;
 
@@ -43,14 +45,14 @@ public class LocalScope extends ScopeChecker {
             case SEMI_CLOSED:
                 status = Status.CLOSED;
             default:
-                throw new CompilingException();
+                throw new CompilingException(MISSING_RETURN_EXCEPTION_MESSAGE);
         }
     }
 
     @Override
     public void openScope(ScopeChecker scope) throws CompilingException{
         if (scope.isMethod())
-            throw new CompilingException();
+            throw new CompilingException(NESTED_METHODS_EXCEPTION_MESSAGE);
         super.openScope(scope);
     }
 
@@ -69,12 +71,9 @@ public class LocalScope extends ScopeChecker {
         return variable == null;
     }
 
-    public void addVariable(Variable variable) throws CompilingException{
+    void addVariableToScope(Variable variable) throws CompilingException{
         isActivate();
-        if(canBeDeclared(variable.getName()))
-            variables.add(variable);
-        else
-            throw new CompilingException();
+        variables.add(variable);
     }
 
     private Variable getScopeVariable(String variableName){

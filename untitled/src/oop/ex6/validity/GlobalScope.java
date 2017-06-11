@@ -6,7 +6,8 @@ import java.util.LinkedList;
 
 public class GlobalScope extends ScopeChecker {
 
-    private static final String ILLEGAL_OPERATION_EXCEPTION_MESSAGE = "Illegal operation: ";
+    private static final String FREEZE_EXCEPTION_MESSAGE = "Cannot freeze global scope";
+    private static final String ILLEGAL_SCOPE_OPENING_MESSAGE = "If/while statements not in a method";
 
     public GlobalScope(){
         super(false);
@@ -14,26 +15,15 @@ public class GlobalScope extends ScopeChecker {
         status = Status.SEMI_CLOSED;
     }
 
-//    public void closeFile(){
-//        if (!this.getScopes().getLast().isClosed())
-//            System.out.println(); ///EXCEPTION!!!!!!!!!!!!!!
-//        // CHECK UNIDENTIFIED!!!!!!!!!!
-//    }
-
-//    @Override
-//    public Variable createScopeVariable(String name, Variable.Type type, boolean assigned, boolean isFinal) {
-//        return new Variable(name, type, assigned, isFinal, true);
-//    }
-
     @Override
     public void freeze() throws CompilingException{
-        throw new CompilingException(ILLEGAL_OPERATION_EXCEPTION_MESSAGE);
+        throw new CompilingException(FREEZE_EXCEPTION_MESSAGE);
     }
 
     @Override
     public void close() throws CompilingException {
-        if (this.getInnerScope() != null || !this.getInnerScope().isClosed())
-            throw new CompilingException();
+//        if (this.getInnerScope() != null || !this.getInnerScope().isClosed())
+//            throw new CompilingException();
         LinkedList<CommandLine> commandLines = GlobalMembers.getInstance().getUnidentifiedCommands();
         for (CommandLine commandLine : commandLines)
             commandLine.check(this);
@@ -42,7 +32,7 @@ public class GlobalScope extends ScopeChecker {
     @Override
     public void openScope(ScopeChecker scope) throws CompilingException{
         if (!scope.isMethod())
-            throw new CompilingException();
+            throw new CompilingException(ILLEGAL_SCOPE_OPENING_MESSAGE);
         super.openScope(scope);
     }
 
@@ -58,10 +48,7 @@ public class GlobalScope extends ScopeChecker {
     }
 
     @Override
-    public void addVariable(Variable variable) throws CompilingException{
-        if(canBeDeclared(variable.getName()))
-            GlobalMembers.getInstance().addVariable(variable);
-        else
-            throw new CompilingException();
+    void addVariableToScope(Variable variable){
+        GlobalMembers.getInstance().addVariable(variable);
     }
 }

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 public abstract class ScopeChecker {
 
     private static final String UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE = "Unreachable statement";
+    private static final String REPEATED_DECLARATION_EXCEPTION_MESSAGE = "Variable has already declared";
 
     enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED}
     private ScopeChecker innerScope;
@@ -32,7 +33,7 @@ public abstract class ScopeChecker {
     /**
      * @return if the scope is closed
      */
-    boolean isClosed() {
+    private boolean isClosed() {
         return status.equals(Status.CLOSED);
     }
 
@@ -76,7 +77,14 @@ public abstract class ScopeChecker {
      */
     public abstract boolean canBeDeclared(String variableName);
 
-    public abstract void addVariable(Variable variable) throws CompilingException;
+    public void addVariable(Variable variable) throws CompilingException{
+        if(canBeDeclared(variable.getName()))
+            addVariableToScope(variable);
+        else
+            throw new CompilingException(REPEATED_DECLARATION_EXCEPTION_MESSAGE);
+    }
+
+    abstract void addVariableToScope(Variable variable) throws CompilingException;
 
     public abstract Variable getVariable(String variableName);
 
@@ -98,8 +106,8 @@ public abstract class ScopeChecker {
         return method;
     }
 
-    ScopeChecker getInnerScope(){
-        return innerScope;
-    }
+//    ScopeChecker getInnerScope(){
+//        return innerScope;
+//    }
 
 }
