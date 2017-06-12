@@ -3,12 +3,12 @@ package oop.ex6.validity;
 import oop.ex6.SyntaxChecker;
 import oop.ex6.validity.command_validity.CommandLine;
 
-import java.util.LinkedList;
-
 public abstract class ScopeChecker {
 
     private static final String UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE = "Unreachable statement";
     private static final String REPEATED_DECLARATION_EXCEPTION_MESSAGE = "Variable has already declared";
+    private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
+    private static final String UNIDENTIFIED_COMMAND_EXCEPTION_MESSAGE = "Calling for unidentified command";
 
     enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED}
     private ScopeChecker innerScope;
@@ -46,7 +46,17 @@ public abstract class ScopeChecker {
     /**
      * Close the scope (after a '}' )
      */
-    public abstract void close() throws CompilingException;
+    public void close() throws CompilingException{
+        switch (status) {
+            case CLOSED:
+                throw new CallingClosedScopeException();
+            case FROZEN:
+            case SEMI_CLOSED:
+                status = Status.CLOSED;
+            default:
+                throw new CompilingException(MISSING_RETURN_EXCEPTION_MESSAGE);
+        }
+    }
 
     /**
      * Checks if the scope is activate (not closed or frozen) for an action
@@ -92,23 +102,26 @@ public abstract class ScopeChecker {
 
     /**
      * Adds the variable to the scope's variable list.
-     * @param variable the new variable of the scope
-     * @throws CompilingException if the operation is not allowed
+     * @param variable the new variable of the scope.
+     * @throws CompilingException if the operation is not allowed.
      */
     abstract void addVariableToScope(Variable variable) throws CompilingException;
 
     /**
-     * Gets a variable in the scope given it's name
-     * @param variableName the variable's name
-     * @return the found variable if existed, null otherwise
+     * Gets a variable in the scope given it's name.
+     * @param variableName the variable's name.
+     * @return the found variable if existed, null otherwise.
      */
     public abstract Variable getVariable(String variableName);
 
     /**
      * Adds an unidentified command to the global unidentified commands list.
-     * @param command the unidentified command
+     * @param command the unidentified command.
+     * @throws CompilingException if the command is already added.
      */
-    public void addUnidentifiedCommand(CommandLine command){
+    public void addUnidentifiedCommand(CommandLine command) throws CompilingException{
+        if (status.equals(Status.CLOSED))
+            throw new CompilingException(UNIDENTIFIED_COMMAND_EXCEPTION_MESSAGE);
         GlobalMembers.getInstance().addUnidentifiedCommands(command);
     }
 
@@ -121,9 +134,8 @@ public abstract class ScopeChecker {
         if (innerScope != null && !innerScope.isClosed())
             innerScope.readLine(command);
         else {
-            LinkedList<CommandLine> commandLines = SyntaxChecker.checkLine(command);
-            for (CommandLine commandLine: commandLines)
-                commandLine.check(this);
+            CommandLine commandLine = SyntaxChecker.checkLine(command);
+            commandLine.check(this);
         }
     }
 

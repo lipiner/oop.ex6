@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class LocalScope extends ScopeChecker {
 
-    private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
+//    private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
     private static final String NESTED_METHODS_EXCEPTION_MESSAGE = "Nested methods";
     private LinkedList<Variable> variables;
     private ScopeChecker superScope;
@@ -46,18 +46,18 @@ public class LocalScope extends ScopeChecker {
         status = Status.FROZEN;
     }
 
-    @Override
-    public void close() throws CompilingException{
-        switch (status){
-            case CLOSED:
-                throw new CallingClosedScopeException();
-            case FROZEN:
-            case SEMI_CLOSED:
-                status = Status.CLOSED;
-            default:
-                throw new CompilingException(MISSING_RETURN_EXCEPTION_MESSAGE);
-        }
-    }
+//    @Override
+//    public void close() throws CompilingException{
+//        switch (status){
+//            case CLOSED:
+//                throw new CallingClosedScopeException();
+//            case FROZEN:
+//            case SEMI_CLOSED:
+//                status = Status.CLOSED;
+//            default:
+//                throw new CompilingException(MISSING_RETURN_EXCEPTION_MESSAGE);
+//        }
+//    }
 
     @Override
     public void openScope(ScopeChecker scope) throws CompilingException{

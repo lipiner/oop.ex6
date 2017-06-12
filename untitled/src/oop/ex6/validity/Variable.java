@@ -57,7 +57,7 @@ public class Variable {
         if (assigned && isFinal)
             throw new CompilingException();
 
-        if (isMatchedType(SyntaxChecker.STRING_VALUE, value)) {
+        if (isMatchedType(SyntaxChecker.STRING_VALUE, value)) {  // WHY USE SYNTAX CHECKER?
             if (!type.equals(Type.STRING))
                 throw new CompilingException();
         }

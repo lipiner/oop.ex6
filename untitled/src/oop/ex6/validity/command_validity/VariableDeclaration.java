@@ -33,8 +33,8 @@ public class VariableDeclaration extends CommandLine {
 
         if (isMethodParameter)
             newVariable.assign();
-        else if (variableValue != null) {
-            Assigning assignLine = new Assigning(variableName, variableValue);
+        else if (variableValue != null) {  //When you define this as null?
+            Assigning assignLine = new Assigning(variableName, variableValue);  //Maybe we should send the variable object so it will be more efficient
 
             assignLine.check(scope);
         }

@@ -29,7 +29,7 @@ public class Assigning extends CommandLine {
                 Variable assignVariable = scope.getVariable(value);
                 if (assignVariable == null)
                     scope.addUnidentifiedCommand(this); // SHOULD SOLVE THE RECURSION WHEN CALLING IT IN THE END
-                else if (variable.getType() != assignVariable.getType() || !assignVariable.isAssigned())
+                else if (variable.getType() != assignVariable.getType() || !assignVariable.isAssigned()) // SHOULDN'T IT BE IN VARIABLE?
                     throw new CompilingException();
             }
             else { // the value is not a variable
