@@ -114,7 +114,7 @@ public class SyntaxChecker {
      * @param line
      * @return
      */
-    private static CommandLine varDeclarationCreation(String line) {
+    private static CommandLine varDeclarationCreation(String line) throws CompilingException{
         LinkedList<VariableDeclaration> lineList = new LinkedList<VariableDeclaration>();
         boolean isFinal = false;
         if (lineMatcher.group(1) != null)
@@ -128,6 +128,8 @@ public class SyntaxChecker {
             String variableName = lineMatcher.group(1);
             String input = lineMatcher.group(8);
 
+            if (isFinal && input == null)
+                throw new CompilingException();
             lineList.add(new VariableDeclaration(variableType, isFinal, variableName, input));
         }
 
