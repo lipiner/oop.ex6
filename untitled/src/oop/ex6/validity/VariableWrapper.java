@@ -95,4 +95,8 @@ public class VariableWrapper {
     public Variable.Type getType(){
         return variable.getType();
     }
+
+    public boolean isGlobal(){
+        return variable.isGlobal();
+    }
 }
