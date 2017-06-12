@@ -29,17 +29,19 @@ public class Assigning extends CommandLine {
             variable = scope.getVariable(variableName);
 
         if (variable == null)
-            scope.addUnidentifiedCommand(this); /// CHECK THIS - WHEN CALLING FROM UNIDENTIFIED
+            scope.addUnidentifiedCommand(this);
         else{
             Pattern variableNamePattern = Pattern.compile(SyntaxChecker.VARIABLE_NAME);
             Matcher variableNameMatcher = variableNamePattern.matcher(value);
 
             if (variableNameMatcher.matches()) { // the value is a variable
                 Variable assignVariable = scope.getVariable(value);
-                if (assignVariable == null)
-                    scope.addUnidentifiedCommand(this); // SHOULD SOLVE THE RECURSION WHEN CALLING IT IN THE END
-                else if (variable.getType() != assignVariable.getType() || !assignVariable.isAssigned()) // SHOULDN'T IT BE IN VARIABLE?
-                    throw new CompilingException();
+                if (assignVariable == null) {
+                    variable.assign(); // assuming the variable is legally assigned until the unidentified check
+                    scope.addUnidentifiedCommand(this);
+                }
+                else
+                    variable.assign(assignVariable);
             }
             else { // the value is not a variable
                 variable.assign(value);

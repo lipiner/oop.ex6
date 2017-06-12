@@ -52,6 +52,13 @@ public class Variable {
         assigned = true;
     }
 
+    public void assign (Variable assignVariable) throws CompilingException {
+        if (type != assignVariable.getType() || !assignVariable.isAssigned()) // MORE COMPLICATED
+            throw new CompilingException();
+
+        assigned = true;
+    }
+
     public void assign(String value) throws CompilingException{
         if (assigned && isFinal)
             throw new CompilingException();
