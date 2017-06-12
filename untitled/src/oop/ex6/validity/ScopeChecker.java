@@ -87,13 +87,15 @@ public abstract class ScopeChecker {
      */
     public abstract boolean canBeDeclared(String variableName);
 
+    public abstract Variable addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException;
+
     /**
      * Adds new variable to the scope
      * @param variable the new variable of the scope
      * @throws CompilingException if the variable cannot be declared in the scope or
      * if the operation is not allowed
      */
-    public void addVariable(Variable variable) throws CompilingException{
+    void addVariable(Variable variable) throws CompilingException{
         if(canBeDeclared(variable.getName()))
             addVariableToScope(variable);
         else
