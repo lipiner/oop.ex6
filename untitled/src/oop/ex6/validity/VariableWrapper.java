@@ -88,15 +88,15 @@ public class VariableWrapper {
         return variable;
     }
 
-    public String getVariableName(){
+    String getVariableName(){
         return variable.getName();
     }
 
-    public Variable.Type getType(){
+    Variable.Type getType(){
         return variable.getType();
     }
 
-    public boolean isGlobal(){
+    private boolean isGlobal(){
         return variable.isGlobal();
     }
 }
