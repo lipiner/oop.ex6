@@ -27,6 +27,7 @@ public class GlobalScope extends ScopeChecker {
     public void close() throws CompilingException {
 //        if (this.getInnerScope() != null || !this.getInnerScope().isClosed())
 //            throw new CompilingException();
+        super.close();
         LinkedList<CommandLine> commandLines = GlobalMembers.getInstance().getUnidentifiedCommands();
         for (CommandLine commandLine : commandLines)
             commandLine.check(this);

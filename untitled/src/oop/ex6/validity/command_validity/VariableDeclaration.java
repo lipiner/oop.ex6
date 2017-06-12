@@ -27,14 +27,14 @@ public class VariableDeclaration extends CommandLine {
 
 
     public void check(ScopeChecker scope) throws CompilingException{
-        Variable.Type type = Variable.Type.valueOf(variableType);
+        Variable.Type type = Variable.Type.valueOf(variableType.toUpperCase());
         Variable newVariable = new Variable(variableName, type, isFinal);
         scope.addVariable(newVariable);
 
         if (isMethodParameter)
             newVariable.assign();
         else if (variableValue != null) {
-            Assigning assignLine = new Assigning(variableName, variableValue);  //Maybe we should send the variable object so it will be more efficient
+            Assigning assignLine = new Assigning(newVariable, variableValue);
 
             assignLine.check(scope);
         }

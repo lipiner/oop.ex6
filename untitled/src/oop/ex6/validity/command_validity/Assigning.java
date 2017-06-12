@@ -10,19 +10,24 @@ import java.util.regex.Pattern;
 
 public class Assigning extends CommandLine {
     private String variableName, value;
+    private Variable variable;
 
     public Assigning(String variableName, String value){
         this.variableName = variableName;
         this.value = value;
     }
 
-    @Override
-    public void check(ScopeChecker scope) throws CompilingException{
-        Variable variable = scope.getVariable(variableName);
-        check(scope, variable);
+    public Assigning(Variable variable, String value){
+        this.variable = variable;
+        variableName = null;
+        this.value = value;
     }
 
-    public void check(ScopeChecker scope, Variable variable) throws CompilingException{
+    @Override
+    public void check(ScopeChecker scope) throws CompilingException{
+        if (variableName != null)
+            variable = scope.getVariable(variableName);
+
         if (variable == null)
             scope.addUnidentifiedCommand(this); /// CHECK THIS - WHEN CALLING FROM UNIDENTIFIED
         else{
