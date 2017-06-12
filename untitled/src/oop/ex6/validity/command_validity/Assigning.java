@@ -19,6 +19,10 @@ public class Assigning extends CommandLine {
     @Override
     public void check(ScopeChecker scope) throws CompilingException{
         Variable variable = scope.getVariable(variableName);
+        check(scope, variable);
+    }
+
+    public void check(ScopeChecker scope, Variable variable) throws CompilingException{
         if (variable == null)
             scope.addUnidentifiedCommand(this); /// CHECK THIS - WHEN CALLING FROM UNIDENTIFIED
         else{

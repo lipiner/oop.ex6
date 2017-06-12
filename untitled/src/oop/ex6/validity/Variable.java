@@ -1,7 +1,6 @@
 package oop.ex6.validity;
 
 import oop.ex6.SyntaxChecker;
-import oop.ex6.validity.command_validity.CommandLine;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,7 +56,7 @@ public class Variable {
         if (assigned && isFinal)
             throw new CompilingException();
 
-        if (isMatchedType(SyntaxChecker.STRING_VALUE, value)) {  // WHY USE SYNTAX CHECKER?
+        if (isMatchedType(SyntaxChecker.STRING_VALUE, value)) {
             if (!type.equals(Type.STRING))
                 throw new CompilingException();
         }
