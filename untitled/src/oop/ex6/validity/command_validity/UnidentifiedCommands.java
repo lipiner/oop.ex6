@@ -13,8 +13,12 @@ public class UnidentifiedCommands extends CommandLine {
         commandLine = command;
     }
 
-    @Override
-    public void check(ScopeChecker scope) throws CompilingException {
+    public void check() throws CompilingException {
         commandLine.check(scope);
+    }
+
+    @Override
+    public void check(ScopeChecker scope)throws UnsupportedOperationException{
+        throw new UnsupportedOperationException();
     }
 }

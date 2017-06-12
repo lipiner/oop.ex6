@@ -1,8 +1,5 @@
 package oop.ex6.validity;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Variable {
 
     public enum Type {INT, DOUBLE, STRING, BOOLEAN, CHAR}
@@ -29,14 +26,14 @@ public class Variable {
     /**
      * @return the variable's name
      */
-    public String getName() {
+    String getName() {
         return name;
     }
 
     /**
      * @return the variable's type
      */
-    public Type getType() {
+    Type getType() {
         return type;
     }
 

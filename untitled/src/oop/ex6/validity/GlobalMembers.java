@@ -55,7 +55,7 @@ public class GlobalMembers {
 //    }
 
 
-    public LinkedList<CommandLine> getUnidentifiedCommands() {
+    LinkedList<CommandLine> getUnidentifiedCommands() {
         return unidentifiedCommands;
     }
 }
