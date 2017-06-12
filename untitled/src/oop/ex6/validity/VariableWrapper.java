@@ -20,7 +20,7 @@ public class VariableWrapper {
         assigned = true;
     }
 
-    public void assign (Variable assignVariable) throws CompilingException {
+    public void assign (VariableWrapper assignVariable) throws CompilingException {
         if (!assigned && !assignVariable.isGlobal())
             throw new CompilingException();
 //        if (!assigned && assignVariable.isGlobal())

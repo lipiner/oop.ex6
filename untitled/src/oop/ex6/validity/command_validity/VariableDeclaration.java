@@ -3,6 +3,7 @@ package oop.ex6.validity.command_validity;
 import oop.ex6.validity.CompilingException;
 import oop.ex6.validity.ScopeChecker;
 import oop.ex6.validity.Variable;
+import oop.ex6.validity.VariableWrapper;
 
 public class VariableDeclaration extends CommandLine {
 
@@ -27,7 +28,7 @@ public class VariableDeclaration extends CommandLine {
 
 
     public void check(ScopeChecker scope) throws CompilingException{
-        Variable newVariable = scope.addVariable(variableName, variableType, isFinal);
+        VariableWrapper newVariable = scope.addVariable(variableName, variableType, isFinal);
 
         if (isMethodParameter)
             newVariable.assign();

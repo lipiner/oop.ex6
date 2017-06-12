@@ -4,20 +4,21 @@ import oop.ex6.SyntaxChecker;
 import oop.ex6.validity.CompilingException;
 import oop.ex6.validity.ScopeChecker;
 import oop.ex6.validity.Variable;
+import oop.ex6.validity.VariableWrapper;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Assigning extends CommandLine {
     private String variableName, value;
-    private Variable variable;
+    private VariableWrapper variable;
 
     public Assigning(String variableName, String value){
         this.variableName = variableName;
         this.value = value;
     }
 
-    public Assigning(Variable variable, String value){
+    public Assigning(VariableWrapper variable, String value){
         this.variable = variable;
         variableName = null;
         this.value = value;
@@ -35,7 +36,7 @@ public class Assigning extends CommandLine {
             Matcher variableNameMatcher = variableNamePattern.matcher(value);
 
             if (variableNameMatcher.matches()) { // the value is a variable
-                Variable assignVariable = scope.getVariable(value);
+                VariableWrapper assignVariable = scope.getVariable(value);
                 if (assignVariable == null) {
                     variable.assign(); // assuming the variable is legally assigned until the unidentified check
                     scope.addUnidentifiedCommand(this);
