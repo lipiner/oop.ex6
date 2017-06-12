@@ -12,6 +12,7 @@ public class Variable {
     private Type type;
     private boolean assigned;
     private boolean isFinal;
+    private boolean global;
 
     /**
      * Constructor fot a variable object.
@@ -24,6 +25,7 @@ public class Variable {
         this.type = Type.valueOf(type.toUpperCase());
         this.isFinal = isFinal;
         assigned = false;
+        global = isGlobal;
     }
 
     /**
@@ -53,10 +55,14 @@ public class Variable {
     }
 
     public void assign (Variable assignVariable) throws CompilingException {
-        if (type != assignVariable.getType() || !assignVariable.isAssigned()) // MORE COMPLICATED
+        if (!assignVariable.isAssigned() && !assignVariable.isGlobal())
             throw new CompilingException();
 
+        if(type != assignVariable.getType()) // MORE COMPLICATED
+            throw new CompilingException();
         assigned = true;
+        if (!assignVariable.isAssigned() && assignVariable.isGlobal())
+            throw new ;
     }
 
     public void assign(String value) throws CompilingException{
@@ -92,6 +98,10 @@ public class Variable {
         Matcher patternMatcher = pattern.matcher(value);
 
         return patternMatcher.matches();
+    }
+
+    private boolean isGlobal(){
+        return global;
     }
 
 //    /**
