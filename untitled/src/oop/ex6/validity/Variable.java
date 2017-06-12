@@ -57,12 +57,22 @@ public class Variable {
     public void assign (Variable assignVariable) throws CompilingException {
         if (!assignVariable.isAssigned() && !assignVariable.isGlobal())
             throw new CompilingException();
-
-        if(type != assignVariable.getType()) // MORE COMPLICATED
-            throw new CompilingException();
-        assigned = true;
         if (!assignVariable.isAssigned() && assignVariable.isGlobal())
             throw new ;
+
+        if(type.equals(Type.DOUBLE)) { // checking for matching types
+            if (!assignVariable.getType().equals(Type.DOUBLE) && !assignVariable.getType().equals(Type.INT))
+                throw new CompilingException();
+        } else if (type.equals(Type.BOOLEAN)) {
+            if (!assignVariable.getType().equals(Type.DOUBLE) && !assignVariable.getType().equals(Type.INT)
+                    && !assignVariable.getType().equals(Type.BOOLEAN))
+                throw new CompilingException();
+        } else {
+            if (type != assignVariable.getType())
+                throw new CompilingException();
+        }
+
+        assigned = true;
     }
 
     public void assign(String value) throws CompilingException{
