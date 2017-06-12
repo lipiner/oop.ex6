@@ -6,8 +6,8 @@ import java.util.LinkedList;
 
 public class GlobalScope extends ScopeChecker {
 
-    private static final String FREEZE_EXCEPTION_MESSAGE = "Cannot freeze global scope";
-    private static final String ILLEGAL_SCOPE_OPENING_MESSAGE = "If/while statements not in a method";
+    private static final String ILLEGAL_SCOPE_OPENING_MESSAGE = "If/while statements not in a method",
+            FREEZE_CLOSE_EXCEPTION_MESSAGE = "Illegal operation: return or in } in global scope";
 
     /**
      * Constructor for a global scope.
@@ -20,14 +20,16 @@ public class GlobalScope extends ScopeChecker {
 
     @Override
     public void freeze() throws CompilingException{
-        throw new CompilingException(FREEZE_EXCEPTION_MESSAGE);
+        throw new CompilingException(FREEZE_CLOSE_EXCEPTION_MESSAGE);
     }
 
     @Override
     public void close() throws CompilingException {
-//        if (this.getInnerScope() != null || !this.getInnerScope().isClosed())
-//            throw new CompilingException();
-        super.close();
+        throw new CompilingException(FREEZE_CLOSE_EXCEPTION_MESSAGE);
+    }
+
+    public void closeFile() throws CompilingException {
+        status = Status.CLOSED;
         LinkedList<CommandLine> commandLines = GlobalMembers.getInstance().getUnidentifiedCommands();
         for (CommandLine commandLine : commandLines)
             commandLine.check(this);
