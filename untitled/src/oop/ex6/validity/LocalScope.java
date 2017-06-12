@@ -81,6 +81,12 @@ public class LocalScope extends ScopeChecker {
         return variable == null;
     }
 
+    public Variable addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
+        Variable variable = new Variable(variableName, variableType, isFinal, false);
+        super.addVariable(variable);
+        return variable;
+    }
+
     @Override
     void addVariableToScope(Variable variable) throws CompilingException{
         isActivate();

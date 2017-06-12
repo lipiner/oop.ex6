@@ -19,9 +19,9 @@ public class Variable {
      * @param type the variable's type
      * @param isFinal if the variable is final or not
      */
-    public Variable(String name, Type type, boolean isFinal){
+    public Variable(String name, String type, boolean isFinal, boolean isGlobal){
         this.name = name;
-        this.type = type;
+        this.type = Type.valueOf(type.toUpperCase());
         this.isFinal = isFinal;
         assigned = false;
     }

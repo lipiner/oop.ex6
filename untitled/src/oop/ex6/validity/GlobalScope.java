@@ -40,6 +40,12 @@ public class GlobalScope extends ScopeChecker {
         super.openScope(scope);
     }
 
+    public Variable addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
+        Variable variable = new Variable(variableName, variableType, isFinal, true);
+        super.addVariable(variable);
+        return variable;
+    }
+
     @Override
     public Variable getVariable(String variableName) {
         return GlobalMembers.getInstance().getGlobalVariable(variableName);

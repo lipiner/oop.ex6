@@ -27,9 +27,7 @@ public class VariableDeclaration extends CommandLine {
 
 
     public void check(ScopeChecker scope) throws CompilingException{
-        Variable.Type type = Variable.Type.valueOf(variableType.toUpperCase());
-        Variable newVariable = new Variable(variableName, type, isFinal);
-        scope.addVariable(newVariable);
+        Variable newVariable = scope.addVariable(variableName, variableType, isFinal);
 
         if (isMethodParameter)
             newVariable.assign();
