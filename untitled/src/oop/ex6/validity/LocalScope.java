@@ -6,7 +6,7 @@ public class LocalScope extends ScopeChecker {
 
 //    private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
     private static final String NESTED_METHODS_EXCEPTION_MESSAGE = "Nested methods";
-    private LinkedList<Variable> variables;
+    private LinkedList<VariableWrapper> variables;
     private ScopeChecker superScope;
 
     /**
@@ -16,7 +16,7 @@ public class LocalScope extends ScopeChecker {
     public LocalScope(ScopeChecker superScope){
         super(false);
         this.superScope = superScope;
-        variables = new LinkedList<Variable>();
+        variables = new LinkedList<VariableWrapper>();
         status = Status.SEMI_CLOSED;
     }
 
@@ -26,14 +26,14 @@ public class LocalScope extends ScopeChecker {
      * @param methodName the method's name
      * @param methodVariables a list of all the variable that the method gets.
      */
-    public LocalScope(ScopeChecker superScope, String methodName, LinkedList<Variable> methodVariables){
+    public LocalScope(ScopeChecker superScope, String methodName, LinkedList<VariableWrapper> methodVariables){
         super(true);
         this.superScope = superScope;
         variables = methodVariables;
         status = Status.OPEN;
 
         LinkedList<Variable.Type> types = new LinkedList<Variable.Type>();
-        for (Variable variable: variables)
+        for (VariableWrapper variable: variables)
             types.add(variable.getType());
         GlobalMembers.getInstance().addMethod(methodName, types);
 //        this.methodVariables = methodVariables;
@@ -67,8 +67,8 @@ public class LocalScope extends ScopeChecker {
     }
 
     @Override
-    public Variable getVariable(String variableName) {
-        Variable foundVariable = getScopeVariable(variableName);
+    public VariableWrapper getVariable(String variableName) {
+        VariableWrapper foundVariable = getScopeVariable(variableName);
         if (foundVariable != null)
             return foundVariable;
         else
@@ -77,18 +77,19 @@ public class LocalScope extends ScopeChecker {
 
     @Override
     public boolean canBeDeclared(String variableName) {
-        Variable variable = getScopeVariable(variableName);
-        return variable == null;
+        VariableWrapper variableWrapper = getScopeVariable(variableName);
+        return variableWrapper == null;
     }
 
-    public Variable addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
+    public VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
         Variable variable = new Variable(variableName, variableType, isFinal, false);
-        super.addVariable(variable);
-        return variable;
+        VariableWrapper variableWrapper = new VariableWrapper(variable);
+        super.addVariable(variableWrapper);
+        return variableWrapper;
     }
 
     @Override
-    void addVariableToScope(Variable variable) throws CompilingException{
+    void addVariableToScope(VariableWrapper variable) throws CompilingException{
         isActivate();
         variables.add(variable);
     }
@@ -98,10 +99,40 @@ public class LocalScope extends ScopeChecker {
      * @param variableName the variable's name.
      * @return the variable object if found, null otherwise.
      */
-    private Variable getScopeVariable(String variableName){
-        for (Variable variable: variables)
-            if (variable.getName().equals(variableName))
+    private VariableWrapper getScopeVariable(String variableName){
+        for (VariableWrapper variable: variables)
+            if (variable.getVariableName().equals(variableName))
                 return variable;
         return null;
+    }
+
+    public void assignVariable(VariableWrapper variable, Variable assignVariable) throws CompilingException{
+        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
+        scopeVariable.assign(assignVariable);
+    }
+
+    public void assignVariable(VariableWrapper variable, String value) throws CompilingException{
+        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
+        scopeVariable.assign(value);
+    }
+
+    public void assignVariable(VariableWrapper variable) throws CompilingException{
+        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
+        scopeVariable.assign();
+    }
+
+    private VariableWrapper getScopeVariableWrapper(VariableWrapper variable){
+        VariableWrapper scopeVariable = null;
+        for (VariableWrapper variableWrapper: variables) {
+            if (variableWrapper == variable) {
+                scopeVariable = variableWrapper;
+                break;
+            }
+        }
+        if (scopeVariable == null) {
+            scopeVariable = new VariableWrapper(variable.getVariable());
+            variables.add(scopeVariable);
+        }
+        return scopeVariable;
     }
 }

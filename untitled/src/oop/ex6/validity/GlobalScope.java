@@ -42,25 +42,26 @@ public class GlobalScope extends ScopeChecker {
         super.openScope(scope);
     }
 
-    public Variable addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
+    public VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
         Variable variable = new Variable(variableName, variableType, isFinal, true);
-        super.addVariable(variable);
-        return variable;
+        VariableWrapper variableWrapper = new VariableWrapper(variable);
+        super.addVariable(variableWrapper);
+        return variableWrapper;
     }
 
     @Override
-    public Variable getVariable(String variableName) {
+    public VariableWrapper getVariable(String variableName) {
         return GlobalMembers.getInstance().getGlobalVariable(variableName);
     }
 
     @Override
     public boolean canBeDeclared(String variableName) {
-        Variable variable = getVariable(variableName);
+        VariableWrapper variable = getVariable(variableName);
         return variable == null;
     }
 
     @Override
-    void addVariableToScope(Variable variable){
+    void addVariableToScope(VariableWrapper variable){
         GlobalMembers.getInstance().addVariable(variable);
     }
 }

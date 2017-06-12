@@ -87,7 +87,7 @@ public abstract class ScopeChecker {
      */
     public abstract boolean canBeDeclared(String variableName);
 
-    public abstract Variable addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException;
+    public abstract VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException;
 
     /**
      * Adds new variable to the scope
@@ -95,8 +95,8 @@ public abstract class ScopeChecker {
      * @throws CompilingException if the variable cannot be declared in the scope or
      * if the operation is not allowed
      */
-    void addVariable(Variable variable) throws CompilingException{
-        if(canBeDeclared(variable.getName()))
+    void addVariable(VariableWrapper variable) throws CompilingException{
+        if(canBeDeclared(variable.getVariableName()))
             addVariableToScope(variable);
         else
             throw new CompilingException(REPEATED_DECLARATION_EXCEPTION_MESSAGE);
@@ -107,14 +107,14 @@ public abstract class ScopeChecker {
      * @param variable the new variable of the scope.
      * @throws CompilingException if the operation is not allowed.
      */
-    abstract void addVariableToScope(Variable variable) throws CompilingException;
+    abstract void addVariableToScope(VariableWrapper variable) throws CompilingException;
 
     /**
      * Gets a variable in the scope given it's name.
      * @param variableName the variable's name.
      * @return the found variable if existed, null otherwise.
      */
-    public abstract Variable getVariable(String variableName);
+    public abstract VariableWrapper getVariable(String variableName);
 
     /**
      * Adds an unidentified command to the global unidentified commands list.

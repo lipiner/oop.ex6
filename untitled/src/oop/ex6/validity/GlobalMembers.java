@@ -8,12 +8,12 @@ public class GlobalMembers {
 
     private static GlobalMembers instance = null;
     private LinkedList<Method> methodsList;
-    private LinkedList<Variable> globalVariables;
+    private LinkedList<VariableWrapper> globalVariables;
     private LinkedList<CommandLine> unidentifiedCommands;
 
     private GlobalMembers(){
         methodsList = new LinkedList<Method>();
-        globalVariables = new LinkedList<Variable>();
+        globalVariables = new LinkedList<VariableWrapper>();
         unidentifiedCommands = new LinkedList<CommandLine>();
     }
 
@@ -34,18 +34,18 @@ public class GlobalMembers {
         methodsList.add(new Method(methodName, methodVariables));
     }
 
-    Variable getGlobalVariable(String variableName) {
-        for (Variable variable: globalVariables)
-            if (variable.getName().equals(variableName))
+    VariableWrapper getGlobalVariable(String variableName) {
+        for (VariableWrapper variable: globalVariables)
+            if (variable.getVariableName().equals(variableName))
                 return variable;
         return null;
     }
 
-    void addVariable(Variable variable){
+    void addVariable(VariableWrapper variable){
         globalVariables.add(variable);
     }
 
-    public void addUnidentifiedCommands(CommandLine commandLine){
+    void addUnidentifiedCommands(CommandLine commandLine){
         unidentifiedCommands.add(commandLine);
     }
 
