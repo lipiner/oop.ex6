@@ -20,9 +20,12 @@ public abstract class ScopeChecker {
     /**
      * Constructor for a scope
      */
-    ScopeChecker(boolean isMethod){
+    ScopeChecker(boolean isMethod, ScopeChecker superScope) throws CompilingException{
         innerScope = null;
         method = isMethod;
+
+        if (superScope != null)
+            superScope.openScope(this);
 //        unidentifiedCommands = new LinkedList<CommandLine>();
 //        scopes = new LinkedList<ScopeChecker>();
 //        variables = new LinkedList<Variable>();
@@ -75,7 +78,7 @@ public abstract class ScopeChecker {
      * @param scope the new sub-scope
      * @throws CompilingException if the action is not valid in the scope
      */
-    public void openScope(ScopeChecker scope) throws CompilingException{
+    void openScope(ScopeChecker scope) throws CompilingException{
         isActivate();
         innerScope = scope;
     }

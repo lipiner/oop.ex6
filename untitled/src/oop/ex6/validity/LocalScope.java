@@ -15,8 +15,8 @@ public class LocalScope extends ScopeChecker {
      * Constructor fot a local scope.
      * @param superScope the outer scope of that one.
      */
-    public LocalScope(ScopeChecker superScope){
-        super(false);
+    public LocalScope(ScopeChecker superScope) throws CompilingException{
+        super(false, superScope);
         this.superScope = superScope;
         variables = new LinkedList<VariableWrapper>();
         status = Status.SEMI_CLOSED;
@@ -28,26 +28,27 @@ public class LocalScope extends ScopeChecker {
      * @param methodName the method's name
 //     * @param methodVariables a list of all the variable that the method gets.
      */
-    public LocalScope(ScopeChecker superScope, String methodName, LinkedList<CommandLine> methodSignature)
+    public LocalScope(ScopeChecker superScope, LinkedList<VariableWrapper> variables)
             throws CompilingException{
-        super(true);
+        super(true, superScope);
         this.superScope = superScope;
         status = Status.OPEN;
+        this.variables.addAll(variables);
 
-        createMethod(methodName, methodSignature);
+//        createMethod(methodName, methodSignature);
 //        this.methodVariables = methodVariables;
 //        variables = new LinkedList<Variable>();
     }
 
-    private void createMethod(String methodName, LinkedList<CommandLine> methodSignature) throws CompilingException{
-        variables = new LinkedList<VariableWrapper>();
-        for (CommandLine commandLine: methodSignature)
-            commandLine.check(this);
-        LinkedList<Variable.Type> types = new LinkedList<Variable.Type>();
-        for (VariableWrapper variable: variables)
-            types.add(variable.getType());
-        GlobalMembers.getInstance().addMethod(methodName, types, this);
-    }
+//    private void createMethod(String methodName, LinkedList<CommandLine> methodSignature) throws CompilingException{
+//        variables = new LinkedList<VariableWrapper>();
+//        for (CommandLine commandLine: methodSignature)
+//            commandLine.check(this);
+//        LinkedList<Variable.Type> types = new LinkedList<Variable.Type>();
+//        for (VariableWrapper variable: variables)
+//            types.add(variable.getType());
+//        GlobalMembers.getInstance().addMethod(methodName, types, this);
+//    }
 
     @Override
     public void freeze() throws CompilingException{
@@ -69,7 +70,7 @@ public class LocalScope extends ScopeChecker {
 //    }
 
     @Override
-    public void openScope(ScopeChecker scope) throws CompilingException{
+    void openScope(ScopeChecker scope) throws CompilingException{
         if (scope.isMethod())
             throw new CompilingException(NESTED_METHODS_EXCEPTION_MESSAGE);
         super.openScope(scope);

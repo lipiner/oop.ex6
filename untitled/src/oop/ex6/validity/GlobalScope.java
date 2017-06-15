@@ -8,8 +8,8 @@ public class GlobalScope extends ScopeChecker {
     /**
      * Constructor for a global scope.
      */
-    public GlobalScope(){
-        super(false);
+    public GlobalScope() throws CompilingException{
+        super(false, null);
         scopeName = null;
         status = Status.SEMI_CLOSED;
     }
@@ -32,7 +32,7 @@ public class GlobalScope extends ScopeChecker {
 //    }
 
     @Override
-    public void openScope(ScopeChecker scope) throws CompilingException{
+    void openScope(ScopeChecker scope) throws CompilingException{
         if (!scope.isMethod())
             throw new CompilingException(ILLEGAL_SCOPE_OPENING_MESSAGE);
         super.openScope(scope);
