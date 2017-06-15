@@ -83,6 +83,12 @@ public class VariableWrapper {
         assigned = true;
     }
 
+    /**
+     *
+     * @param stringPattern
+     * @param value
+     * @return
+     */
     private boolean isMatchedType(String stringPattern, String value) {
         Pattern pattern = Pattern.compile(stringPattern);
         Matcher patternMatcher = pattern.matcher(value);
@@ -98,18 +104,30 @@ public class VariableWrapper {
         return assigned;
     }
 
+    /**
+     * @return the variable object
+     */
     public Variable getVariable() {
         return variable;
     }
 
+    /**
+     * @return the variable's name
+     */
     String getVariableName(){
         return variable.getName();
     }
 
+    /**
+     * @return the variable's type
+     */
     public Variable.Type getType(){
         return variable.getType();
     }
 
+    /**
+     * @return true iff the variable is global
+     */
     private boolean isGlobal(){
         return variable.isGlobal();
     }

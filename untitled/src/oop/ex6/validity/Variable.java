@@ -42,10 +42,16 @@ public class Variable {
         return type;
     }
 
+    /**
+     * @return true iff the variable is global
+     */
     boolean isGlobal(){
         return global;
     }
 
+    /**
+     * @return true iff the variable is final
+     */
     boolean isFinal(){
         return finalModifier;
     }
