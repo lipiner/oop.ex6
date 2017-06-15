@@ -10,7 +10,7 @@ public class Variable {
     public enum Type {INT, DOUBLE, STRING, BOOLEAN, CHAR}
     private final String name;
     private Type type;
-    private boolean assigned;
+//    private boolean assigned;
     private boolean finalModifier;
     private boolean global;
 
@@ -24,8 +24,8 @@ public class Variable {
         this.name = name;
         this.type = Type.valueOf(type.toUpperCase());
         this.finalModifier = isFinal;
-        assigned = false;
-        global = isGlobal;
+//        assigned = false;
+        global = isGlobal;  // DO WE NEED THAT NOW???
     }
 
     /**

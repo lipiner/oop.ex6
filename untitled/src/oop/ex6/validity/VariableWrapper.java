@@ -29,7 +29,7 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
-        if (!assigned && !assignVariable.isGlobal()) //WHAT FOR??
+        if (!assigned && !assignVariable.isGlobal()) //WHAT FOR?? DO WE NEED GLOBAL???
             throw new CompilingException();
 //        if (!assigned && assignVariable.isGlobal())
 //            throw new ;

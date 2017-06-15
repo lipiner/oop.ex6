@@ -8,7 +8,6 @@ public abstract class ScopeChecker {
     private static final String UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE = "Unreachable statement";
     private static final String REPEATED_DECLARATION_EXCEPTION_MESSAGE = "Variable has already declared";
     private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
-    private static final String UNIDENTIFIED_COMMAND_EXCEPTION_MESSAGE = "Calling for unidentified command";
 
     enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED}
 //    private GlobalMembers globalMembers;
@@ -36,7 +35,7 @@ public abstract class ScopeChecker {
     /**
      * @return true iff the scope is closed
      */
-    public boolean isClosed() {
+    boolean isClosed() {
         return status.equals(Status.CLOSED);
     }
 
