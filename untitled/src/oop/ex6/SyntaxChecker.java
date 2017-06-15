@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class SyntaxChecker {
 
-
+    public enum LineStatus {OPEN_SCOPE, }
     public static final String
             // types regex
             INT_TYPE = "int",
@@ -82,6 +82,7 @@ public class SyntaxChecker {
         }
     }
 
+    public static
     /**
      *
      * @param stringPattern
