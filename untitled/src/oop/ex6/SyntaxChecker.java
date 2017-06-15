@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class SyntaxChecker {
 
-    public enum LineStatus {OPEN_SCOPE, }
+    public enum LineStatus {OPEN_SCOPE, CLOSE_SCOPE, STANDART};
     public static final String
             // types regex
             INT_TYPE = "int",
@@ -49,8 +49,10 @@ public class SyntaxChecker {
                     "\\s*(" + METHOD_INPUT + "))\\s*\\);\\s*",
             RETURN_LINE = "\\s*return\\s*;\\s*",
             END_SCOPE_LINE = "\\s*\\}\\s*",
+            OPEN_SCOPE_LINE = ".*\\{\\s*",
             IF_WHILE_LINE = "\\s*(if|while)\\s*\\(" + "((\\s*(" + CONDITION + ")\\s*(\\|\\||&&))*" +
                     "\\s*(" + CONDITION + "))\\s*\\)\\s*\\{\\s*";
+
     private static Matcher lineMatcher;
 
 
@@ -82,7 +84,20 @@ public class SyntaxChecker {
         }
     }
 
-    public static
+    /**
+     *
+     * @param line
+     * @return
+     */
+    public static LineStatus getLineType(String line) {
+        if (isMatchPattern(OPEN_SCOPE_LINE, line))
+            return LineStatus.OPEN_SCOPE;
+        else if (isMatchPattern(END_SCOPE_LINE, line))
+            return LineStatus.CLOSE_SCOPE;
+        else
+            return LineStatus.STANDART;
+    }
+
     /**
      *
      * @param stringPattern
