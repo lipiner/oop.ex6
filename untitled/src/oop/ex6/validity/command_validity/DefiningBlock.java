@@ -1,5 +1,7 @@
 package oop.ex6.validity.command_validity;
 
+import jdk.nashorn.internal.codegen.CompilationException;
+import oop.ex6.validity.CompilingException;
 import oop.ex6.validity.ScopeChecker;
 import oop.ex6.validity.Variable;
 import oop.ex6.validity.VariableWrapper;
@@ -15,9 +17,25 @@ public class DefiningBlock extends CommandLine {
     }
 
     @Override
-    public void check(ScopeChecker scope) {
+    public void check(ScopeChecker scope) throws CompilingException{
         for (String variableName: conditionVariables){
-            VariableWrapper variable = scope.getVariable(variableName);
+            checkVariable(variableName, scope);
+
         }
+        // OPEN NEW SCOPE
+    }
+
+    private void checkVariable (String variableName, ScopeChecker scope) throws CompilingException {
+        VariableWrapper variable = scope.getVariable(variableName);
+
+        // the variable does not exist
+        if (variable == null)
+            throw new CompilingException();
+        // the variable type is wrong
+        else if (variable.getType().equals(Variable.Type.CHAR) || variable.getType().equals(Variable.Type.STRING))
+            throw new CompilingException();
+        // the variable is not assigned
+        else if (!variable.isAssigned())
+            throw new CompilingException();
     }
 }
