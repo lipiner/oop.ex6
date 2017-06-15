@@ -90,6 +90,14 @@ public abstract class ScopeChecker {
      */
     public abstract boolean canBeDeclared(String variableName);
 
+    /**
+     * Creates a variable and adds it into the scope
+     * @param variableName
+     * @param variableType
+     * @param isFinal
+     * @return
+     * @throws CompilingException
+     */
     public abstract VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException;
 
     /**
@@ -150,6 +158,47 @@ public abstract class ScopeChecker {
     boolean isMethod(){
         return method;
     }
+
+    /**
+     * Change the assigning status in the scope of the given variable.
+     * Tries to assign a given variable into another one.
+     * @param variable the variable to be assigned
+     * @param assignVariable the value of the variable. The variable that is being assign into
+     * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
+     */
+    public void assignVariable(VariableWrapper variable, VariableWrapper assignVariable) throws CompilingException{
+        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
+        scopeVariable.assign(assignVariable);
+    }
+
+    /**
+     * Change the assigning status in the scope of the given variable.
+     * Tries to assign a given value (as string) into another one.
+     * @param variable the variable to be assigned
+     * @param value the value of the variable. It should be variable type as String
+     * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
+     */
+    public void assignVariable(VariableWrapper variable, String value) throws CompilingException{
+        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
+        scopeVariable.assign(value);
+    }
+
+    /**
+     * Change the assigning status in the scope of the given variable.
+     * @param variable the variable to be assigned
+     */
+    public void assignVariable(VariableWrapper variable){
+        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
+        scopeVariable.assign();
+    }
+
+    /**
+     * Gets the VariableWrapper object of the variable in the current scope. If the variable is not
+     * existed in the scope, creates a new VariableWrapper object.
+     * @param variable the wanted variable
+     * @return the VariableWrapper object of the variable in the current scope
+     */
+    abstract VariableWrapper getScopeVariableWrapper(VariableWrapper variable);
 
 //    ScopeChecker getInnerScope(){
 //        return innerScope;

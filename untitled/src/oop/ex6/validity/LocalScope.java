@@ -1,7 +1,5 @@
 package oop.ex6.validity;
 
-import oop.ex6.validity.command_validity.CommandLine;
-
 import java.util.LinkedList;
 
 public class LocalScope extends ScopeChecker {
@@ -25,8 +23,7 @@ public class LocalScope extends ScopeChecker {
     /**
      * Constructor fot a local scope that is a method.
      * @param superScope the outer scope of that one.
-     * @param methodName the method's name
-//     * @param methodVariables a list of all the variable that the method gets.
+     * @param variables a list of all the variable that the method gets.
      */
     public LocalScope(ScopeChecker superScope, LinkedList<VariableWrapper> variables)
             throws CompilingException{
@@ -91,6 +88,7 @@ public class LocalScope extends ScopeChecker {
         return variableWrapper == null;
     }
 
+    @Override
     public VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
         Variable variable = new Variable(variableName, variableType, isFinal, false);
         VariableWrapper variableWrapper = new VariableWrapper(variable);
@@ -116,22 +114,8 @@ public class LocalScope extends ScopeChecker {
         return null;
     }
 
-    public void assignVariable(VariableWrapper variable, VariableWrapper assignVariable) throws CompilingException{
-        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
-        scopeVariable.assign(assignVariable);
-    }
-
-    public void assignVariable(VariableWrapper variable, String value) throws CompilingException{
-        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
-        scopeVariable.assign(value);
-    }
-
-    public void assignVariable(VariableWrapper variable) throws CompilingException{
-        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
-        scopeVariable.assign();
-    }
-
-    private VariableWrapper getScopeVariableWrapper(VariableWrapper variable){
+    @Override
+    VariableWrapper getScopeVariableWrapper(VariableWrapper variable){
         VariableWrapper scopeVariable = null;
         for (VariableWrapper variableWrapper: variables) {
             if (variableWrapper == variable) {

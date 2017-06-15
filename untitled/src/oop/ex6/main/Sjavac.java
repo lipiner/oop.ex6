@@ -2,6 +2,7 @@ package oop.ex6.main;
 
 import oop.ex6.SyntaxChecker;
 import oop.ex6.validity.CompilingException;
+import oop.ex6.validity.GlobalMembers;
 import oop.ex6.validity.GlobalScope;
 
 import java.io.File;
@@ -27,6 +28,8 @@ public class Sjavac {
 
             // reading the global section
             while (newLine != null) {
+                GlobalMembers.getInstance().updateLineNumber();
+
                 if (scopeDepth == 0)
                     scope.readLine(newLine);
 

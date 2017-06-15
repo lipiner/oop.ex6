@@ -65,4 +65,8 @@ public class GlobalScope extends ScopeChecker {
         return innerScope == null || innerScope.isClosed();
     }
 
+    VariableWrapper getScopeVariableWrapper(VariableWrapper variable){
+        return GlobalMembers.getInstance().getGlobalVariable(variable);
+    }
+
 }

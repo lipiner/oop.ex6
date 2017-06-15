@@ -19,7 +19,7 @@ public class GlobalMembers {
         lineNumber = 0;
     }
 
-    static GlobalMembers getInstance(){
+    public static GlobalMembers getInstance(){
         if (instance == null)
             instance = new GlobalMembers();
         return instance;
@@ -40,6 +40,13 @@ public class GlobalMembers {
         for (VariableWrapper variable: globalVariables)
             if (variable.getVariableName().equals(variableName))
                 return variable;
+        return null;
+    }
+
+    public VariableWrapper getGlobalVariable(VariableWrapper variable) {
+        for (VariableWrapper scopeVariable: globalVariables)
+            if (scopeVariable == variable)
+                return scopeVariable;
         return null;
     }
 
