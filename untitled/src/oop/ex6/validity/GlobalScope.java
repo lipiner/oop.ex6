@@ -1,9 +1,5 @@
 package oop.ex6.validity;
 
-import oop.ex6.validity.command_validity.CommandLine;
-
-import java.util.LinkedList;
-
 public class GlobalScope extends ScopeChecker {
 
     private static final String ILLEGAL_SCOPE_OPENING_MESSAGE = "If/while statements not in a method",
@@ -28,12 +24,12 @@ public class GlobalScope extends ScopeChecker {
         throw new CompilingException(FREEZE_CLOSE_EXCEPTION_MESSAGE);
     }
 
-    public void closeFile() throws CompilingException {
-        status = Status.CLOSED;
-        LinkedList<CommandLine> commandLines = GlobalMembers.getInstance().getUnidentifiedCommands();
-        for (CommandLine commandLine : commandLines)
-            commandLine.check(this);
-    }
+//    public void closeFile() throws CompilingException {
+//        status = Status.CLOSED;
+////        LinkedList<CommandLine> commandLines = GlobalMembers.getInstance().getUnidentifiedCommands();
+////        for (CommandLine commandLine : commandLines)
+////            commandLine.check(this);
+//    }
 
     @Override
     public void openScope(ScopeChecker scope) throws CompilingException{
@@ -64,4 +60,9 @@ public class GlobalScope extends ScopeChecker {
     void addVariableToScope(VariableWrapper variable){
         GlobalMembers.getInstance().addVariable(variable);
     }
+
+    public boolean isMethodClosed(){
+        return innerScope == null || innerScope.isClosed();
+    }
+
 }

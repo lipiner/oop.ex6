@@ -9,12 +9,14 @@ public class GlobalMembers {
     private static GlobalMembers instance = null;
     private LinkedList<Method> methodsList;
     private LinkedList<VariableWrapper> globalVariables;
-    private LinkedList<CommandLine> unidentifiedCommands;
+//    private LinkedList<CommandLine> unidentifiedCommands;
+    private int lineNumber;
 
     private GlobalMembers(){
         methodsList = new LinkedList<Method>();
         globalVariables = new LinkedList<VariableWrapper>();
-        unidentifiedCommands = new LinkedList<CommandLine>();
+//        unidentifiedCommands = new LinkedList<CommandLine>();
+        lineNumber = 0;
     }
 
     static GlobalMembers getInstance(){
@@ -30,8 +32,8 @@ public class GlobalMembers {
         return null;
     }
 
-    void addMethod(String methodName, LinkedList<Variable.Type> methodVariables){
-        methodsList.add(new Method(methodName, methodVariables));
+    void addMethod(String methodName, LinkedList<Variable.Type> methodVariables, ScopeChecker scope){
+        methodsList.add(new Method(methodName, methodVariables, scope, lineNumber));
     }
 
     VariableWrapper getGlobalVariable(String variableName) {
@@ -45,17 +47,25 @@ public class GlobalMembers {
         globalVariables.add(variable);
     }
 
-    void addUnidentifiedCommands(CommandLine commandLine){
-        unidentifiedCommands.add(commandLine);
-    }
-
-//    public void checkUnidentifiedCommands(){
-//        for (CommandLine commandLine: unidentifiedCommands)
-//            commandLine.check();
+//    void addUnidentifiedCommands(CommandLine commandLine){
+//        unidentifiedCommands.add(commandLine);
+//    }
+//
+////    public void checkUnidentifiedCommands(){
+////        for (CommandLine commandLine: unidentifiedCommands)
+////            commandLine.check();
+////    }
+//
+//
+//    LinkedList<CommandLine> getUnidentifiedCommands() {
+//        return unidentifiedCommands;
 //    }
 
+    public int getLineNumber() {
+        return lineNumber;
+    }
 
-    LinkedList<CommandLine> getUnidentifiedCommands() {
-        return unidentifiedCommands;
+    public void updateLineNumber() {
+        lineNumber++;
     }
 }

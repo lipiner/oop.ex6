@@ -1,10 +1,12 @@
 package oop.ex6.validity;
 
+import oop.ex6.validity.command_validity.CommandLine;
+
 import java.util.LinkedList;
 
 public class LocalScope extends ScopeChecker {
 
-//    private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
+    //    private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
     private static final String NESTED_METHODS_EXCEPTION_MESSAGE = "Nested methods";
     private LinkedList<VariableWrapper> variables;
     private ScopeChecker superScope;
@@ -24,20 +26,27 @@ public class LocalScope extends ScopeChecker {
      * Constructor fot a local scope that is a method.
      * @param superScope the outer scope of that one.
      * @param methodName the method's name
-     * @param methodVariables a list of all the variable that the method gets.
+//     * @param methodVariables a list of all the variable that the method gets.
      */
-    public LocalScope(ScopeChecker superScope, String methodName, LinkedList<VariableWrapper> methodVariables){
+    public LocalScope(ScopeChecker superScope, String methodName, LinkedList<CommandLine> methodSignature)
+            throws CompilingException{
         super(true);
         this.superScope = superScope;
-        variables = methodVariables;
         status = Status.OPEN;
 
+        createMethod(methodName, methodSignature);
+//        this.methodVariables = methodVariables;
+//        variables = new LinkedList<Variable>();
+    }
+
+    private void createMethod(String methodName, LinkedList<CommandLine> methodSignature) throws CompilingException{
+        variables = new LinkedList<VariableWrapper>();
+        for (CommandLine commandLine: methodSignature)
+            commandLine.check(this);
         LinkedList<Variable.Type> types = new LinkedList<Variable.Type>();
         for (VariableWrapper variable: variables)
             types.add(variable.getType());
-        GlobalMembers.getInstance().addMethod(methodName, types);
-//        this.methodVariables = methodVariables;
-//        variables = new LinkedList<Variable>();
+        GlobalMembers.getInstance().addMethod(methodName, types, this);
     }
 
     @Override
@@ -106,7 +115,7 @@ public class LocalScope extends ScopeChecker {
         return null;
     }
 
-    public void assignVariable(VariableWrapper variable, Variable assignVariable) throws CompilingException{
+    public void assignVariable(VariableWrapper variable, VariableWrapper assignVariable) throws CompilingException{
         VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
         scopeVariable.assign(assignVariable);
     }

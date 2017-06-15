@@ -11,9 +11,9 @@ public abstract class ScopeChecker {
     private static final String UNIDENTIFIED_COMMAND_EXCEPTION_MESSAGE = "Calling for unidentified command";
 
     enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED}
-    private ScopeChecker innerScope;
 //    private GlobalMembers globalMembers;
     private boolean method;
+    ScopeChecker innerScope;
     Status status;
     String scopeName;
 
@@ -33,7 +33,7 @@ public abstract class ScopeChecker {
     /**
      * @return true iff the scope is closed
      */
-    private boolean isClosed() {
+    public boolean isClosed() {
         return status.equals(Status.CLOSED);
     }
 
@@ -116,16 +116,16 @@ public abstract class ScopeChecker {
      */
     public abstract VariableWrapper getVariable(String variableName);
 
-    /**
-     * Adds an unidentified command to the global unidentified commands list.
-     * @param command the unidentified command.
-     * @throws CompilingException if the command is already added.
-     */
-    public void addUnidentifiedCommand(CommandLine command) throws CompilingException{
-        if (status.equals(Status.CLOSED))
-            throw new CompilingException(UNIDENTIFIED_COMMAND_EXCEPTION_MESSAGE);
-        GlobalMembers.getInstance().addUnidentifiedCommands(command);
-    }
+//    /**
+//     * Adds an unidentified command to the global unidentified commands list.
+//     * @param command the unidentified command.
+//     * @throws CompilingException if the command is already added.
+//     */
+//    public void addUnidentifiedCommand(CommandLine command) throws CompilingException{
+//        if (status.equals(Status.CLOSED))
+//            throw new CompilingException(UNIDENTIFIED_COMMAND_EXCEPTION_MESSAGE);
+//        GlobalMembers.getInstance().addUnidentifiedCommands(command);
+//    }
 
     /**
      * Process a command line.

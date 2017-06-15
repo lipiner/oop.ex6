@@ -21,12 +21,13 @@ public class VariableWrapper {
     }
 
     public void assign (VariableWrapper assignVariable) throws CompilingException {
-        if (!assigned && !assignVariable.isGlobal())
+        if (!assigned && !assignVariable.isGlobal()) //WHAT FOR??
             throw new CompilingException();
 //        if (!assigned && assignVariable.isGlobal())
 //            throw new ;
 
-        if(variable.getType().equals(Variable.Type.DOUBLE)) { // checking for matching types
+        // checking for matching types
+        if(variable.getType().equals(Variable.Type.DOUBLE)) {
             if (!assignVariable.getType().equals(Variable.Type.DOUBLE) && !assignVariable.getType().equals(Variable.Type.INT))
                 throw new CompilingException();
         } else if (variable.getType().equals(Variable.Type.BOOLEAN)) {
