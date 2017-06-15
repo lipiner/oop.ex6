@@ -30,16 +30,18 @@ public class Assigning extends CommandLine {
             variable = scope.getVariable(variableName);
 
         if (variable == null)
-            scope.addUnidentifiedCommand(this);
-        else{
+            throw new CompilingException();
+            //scope.addUnidentifiedCommand(this);
+        else {
             Pattern variableNamePattern = Pattern.compile(SyntaxChecker.VARIABLE_NAME);
             Matcher variableNameMatcher = variableNamePattern.matcher(value);
 
             if (variableNameMatcher.matches()) { // the value is a variable
                 VariableWrapper assignVariable = scope.getVariable(value);
                 if (assignVariable == null) {
-                    variable.assign(); // assuming the variable is legally assigned until the unidentified check
-                    scope.addUnidentifiedCommand(this);
+                    throw new CompilingException();
+                    //variable.assign(); // assuming the variable is legally assigned until the unidentified check
+                    //scope.addUnidentifiedCommand(this);
                 }
                 else
                     variable.assign(assignVariable);
