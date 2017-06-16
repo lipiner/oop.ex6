@@ -27,7 +27,7 @@ public class SyntaxChecker {
             STRING_VALUE = "\".*\"",
             BOOLEAN_VALUE = "true|false",
             CHAR_VALUE = "\'.?\'",
-            VARIABLE_VALUE = INT_VALUE + "|" + DOUBLE_VALUE + "|" + STRING_VALUE + "|" + BOOLEAN_VALUE + "|" +
+            VARIABLE_VALUE = DOUBLE_VALUE + "|" + INT_VALUE + "|" + STRING_VALUE + "|" + BOOLEAN_VALUE + "|" +
                     CHAR_VALUE,
             // names regex
             VARIABLE_NAME = "(_(\\w)+)|(([A-Z]|[a-z])(\\w)*)",
