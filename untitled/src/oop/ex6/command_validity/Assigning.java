@@ -27,14 +27,14 @@ public class Assigning extends CommandLine {
 
     @Override
     public void check(ScopeChecker scope) throws CompilingException{
-        System.out.println(value); //////////////////////////////
+//        System.out.println(value); //////////////////////////////
         if (variableName != null)
             variable = scope.getVariable(variableName);
 
         if (variable == null)
             throw new CompilingException(VARIABLE_NOT_FOUND_MSG);
         else {
-            Matcher variableNameMatcher = SyntaxChecker.VARIABLE_NAME_PATTERN.matcher(value); // SUPPORT TRUE / FALSE
+            Matcher variableNameMatcher = SyntaxChecker.VARIABLE_NAME_PATTERN.matcher(value);
 
             if (variableNameMatcher.matches()) {
                 // the value is a variable
