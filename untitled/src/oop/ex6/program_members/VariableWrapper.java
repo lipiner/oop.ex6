@@ -129,7 +129,7 @@ public class VariableWrapper {
     /**
      * @return the variable's type
      */
-    public Variable.Type getType(){
+    private Variable.Type getType(){
         return variable.getType();
     }
 

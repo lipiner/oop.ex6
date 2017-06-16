@@ -17,7 +17,7 @@ public class LocalScope extends ScopeChecker {
         super(false, superScope);
         this.superScope = superScope;
         variables = new LinkedList<VariableWrapper>();
-        status = Status.SEMI_CLOSED;
+//        status = Status.SEMI_CLOSED;
     }
 
     /**
@@ -25,11 +25,11 @@ public class LocalScope extends ScopeChecker {
      * @param superScope the outer scope of that one.
      * @param variables a list of all the variable that the method gets.
      */
-    public LocalScope(ScopeChecker superScope, LinkedList<VariableWrapper> variables)
+    LocalScope(ScopeChecker superScope, LinkedList<VariableWrapper> variables)
             throws CompilingException{
         super(true, superScope);
         this.superScope = superScope;
-        status = Status.OPEN;
+//        status = Status.OPEN;
         this.variables.addAll(variables);
 
 //        createMethod(methodName, methodSignature);
@@ -49,8 +49,8 @@ public class LocalScope extends ScopeChecker {
 
     @Override
     public void freeze() throws CompilingException{
-        isActivate();
-        status = Status.FROZEN;
+        if (isMethod())
+            status = Status.FROZEN;
     }
 
 //    @Override
@@ -98,7 +98,6 @@ public class LocalScope extends ScopeChecker {
 
     @Override
     void addVariableToScope(VariableWrapper variable) throws CompilingException{
-        isActivate();
         variables.add(variable);
     }
 

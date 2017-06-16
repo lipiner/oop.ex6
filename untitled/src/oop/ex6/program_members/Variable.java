@@ -45,10 +45,7 @@ public class Variable {
     }
 
     boolean canBeBoolean() {
-        if (type == Type.STRING || type == Type.CHAR)
-            return false;
-
-        return true;
+        return !(type == Type.STRING || type == Type.CHAR);
     }
 
 //    public void assign () {

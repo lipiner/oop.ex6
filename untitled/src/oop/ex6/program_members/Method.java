@@ -19,12 +19,16 @@ public class Method {
         name = methodName;
         this.methodVariables = methodVariables;
         this.lineNumber = lineNumber;
+
+        // assigning the method parameters
+        for (VariableWrapper variable: methodVariables)
+            variable.assign();
     }
 
     /**
      * @return the method's name
      */
-    public String getName() {
+    String getName() {
         return name;
     }
 
@@ -47,10 +51,6 @@ public class Method {
 //    }
 
     public void openScope() throws CompilingException{
-        ScopeChecker scope = new LocalScope(superScope, methodVariables);
-
-        // assigning the method parameters
-        for (VariableWrapper variable: methodVariables)
-            scope.assignVariable(variable);
+        new LocalScope(superScope, methodVariables);
     }
 }

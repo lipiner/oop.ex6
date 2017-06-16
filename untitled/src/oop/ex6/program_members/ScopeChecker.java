@@ -5,7 +5,6 @@ import oop.ex6.command_validity.CommandLine;
 
 public abstract class ScopeChecker {
 
-    private static final String UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE = "Unreachable statement";
     private static final String REPEATED_DECLARATION_EXCEPTION_MESSAGE = "Variable has already declared";
     private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
 
@@ -22,6 +21,7 @@ public abstract class ScopeChecker {
     ScopeChecker(boolean isMethod, ScopeChecker superScope) throws CompilingException{
         innerScope = null;
         method = isMethod;
+        activate();
 
         if (superScope != null)
             superScope.openScope(this);
@@ -36,7 +36,7 @@ public abstract class ScopeChecker {
      * @return true iff the scope is closed
      */
     boolean isClosed() {
-        return status.equals(Status.CLOSED);
+        return status == Status.CLOSED;
     }
 
     /**
@@ -50,12 +50,10 @@ public abstract class ScopeChecker {
      */
     public void close() throws CompilingException{
         switch (status) {
-            case CLOSED:
-                throw new CallingClosedScopeException();
             case FROZEN:
             case SEMI_CLOSED:
                 status = Status.CLOSED;
-            default:
+            case OPEN:
                 throw new CompilingException(MISSING_RETURN_EXCEPTION_MESSAGE);
         }
     }
@@ -65,11 +63,18 @@ public abstract class ScopeChecker {
      * @throws CompilingException if there is an unreachable statement
      * @throws CallingClosedScopeException if the scope is closed
      */
-    void isActivate() throws CompilingException, CallingClosedScopeException {
-        if (status.equals(Status.FROZEN))
-            throw new CompilingException(UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE);
-        if (status.equals(Status.CLOSED))
+    private void isActivate() throws CompilingException, CallingClosedScopeException {
+//        if (status.equals(Status.FROZEN))
+//            throw new CompilingException(UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE);
+        if (isClosed())
             throw new CallingClosedScopeException();
+    }
+
+    private void activate(){
+        if (method)
+            status = Status.OPEN;
+        else
+            status = Status.SEMI_CLOSED;
     }
 
     /**
@@ -78,7 +83,6 @@ public abstract class ScopeChecker {
      * @throws CompilingException if the action is not valid in the scope
      */
     void openScope(ScopeChecker scope) throws CompilingException{
-        isActivate();
         innerScope = scope;
     }
 
@@ -89,14 +93,14 @@ public abstract class ScopeChecker {
      */
     public abstract boolean canBeDeclared(String variableName);
 
-    /**
-     * Creates a variable and adds it into the scope
-     * @param variableName
-     * @param variableType
-     * @param isFinal
-     * @return
-     * @throws CompilingException
-     */
+//    /**
+//     * Creates a variable and adds it into the scope
+//     * @param variableName
+//     * @param variableType
+//     * @param isFinal
+//     * @return
+//     * @throws CompilingException
+//     */
 //    public abstract VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException;
 
     /**
@@ -143,11 +147,15 @@ public abstract class ScopeChecker {
      * @throws CompilingException if the command is invalid.
      */
     public void readLine(String command) throws CompilingException{
+        isActivate();
         if (innerScope != null && !innerScope.isClosed())
             innerScope.readLine(command);
         else {
+            boolean shouldBeActivate = status == Status.FROZEN;
             CommandLine commandLine = SyntaxChecker.checkLine(command);
             commandLine.check(this);
+            if (!isClosed() && shouldBeActivate)
+                activate();
         }
     }
 
@@ -182,14 +190,14 @@ public abstract class ScopeChecker {
         scopeVariable.assign(value);
     }
 
-    /**
-     * Change the assigning status in the scope of the given variable.
-     * @param variable the variable to be assigned
-     */
-    public void assignVariable(VariableWrapper variable){
-        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
-        scopeVariable.assign();
-    }
+//    /**
+//     * Change the assigning status in the scope of the given variable.
+//     * @param variable the variable to be assigned
+//     */
+//    public void assignVariable(VariableWrapper variable){
+//        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
+//        scopeVariable.assign();
+//    }
 
     /**
      * Gets the VariableWrapper object of the variable in the current scope. If the variable is not

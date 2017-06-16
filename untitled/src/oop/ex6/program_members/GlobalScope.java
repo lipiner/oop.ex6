@@ -11,7 +11,7 @@ public class GlobalScope extends ScopeChecker {
     public GlobalScope() throws CompilingException{
         super(false, null);
         scopeName = null;
-        status = Status.SEMI_CLOSED;
+//        status = Status.SEMI_CLOSED;
     }
 
     @Override

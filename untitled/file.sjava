@@ -1,0 +1,6 @@
+int a	= 4;
+void foo(){
+String a = 5;
+int b = a;
+return;
+}
