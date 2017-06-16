@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class CallingMethod extends CommandLine {
     private String methodName;
-    LinkedList <String> methodInput;
+    private LinkedList <String> methodInput;
 
     public CallingMethod(String methodName, LinkedList<String> methodInput) {
         this.methodName = methodName;

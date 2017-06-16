@@ -45,6 +45,8 @@ public class Sjavac {
 
             // reading the local section
 
+            System.out.println(CORRECT_CODE);
+
         }
         catch (IOException e) {
             System.out.println(IO_PROBLEM); //EXPLANATION??
