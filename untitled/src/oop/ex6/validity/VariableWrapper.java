@@ -29,18 +29,19 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
+        //WHY WE ARE NOT MAKING SURE THAT IT'S NOT FINAL? WHY?
         if (!assigned && !assignVariable.isGlobal()) //WHAT FOR?? DO WE NEED GLOBAL???
             throw new CompilingException();
 //        if (!assigned && assignVariable.isGlobal())
 //            throw new ;
 
         // checking for matching types
-        if(variable.getType().equals(Variable.Type.DOUBLE)) {
-            if (!assignVariable.getType().equals(Variable.Type.DOUBLE) && !assignVariable.getType().equals(Variable.Type.INT))
+        if(variable.getType() == Variable.Type.DOUBLE) {
+            if (assignVariable.getType() != Variable.Type.DOUBLE && assignVariable.getType() != Variable.Type.INT)
                 throw new CompilingException();
-        } else if (variable.getType().equals(Variable.Type.BOOLEAN)) {
-            if (!assignVariable.getType().equals(Variable.Type.DOUBLE) && !assignVariable.getType().equals(Variable.Type.INT)
-                    && !assignVariable.getType().equals(Variable.Type.BOOLEAN))
+        } else if (variable.getType() == Variable.Type.BOOLEAN) {
+            if (assignVariable.getType() != Variable.Type.DOUBLE && assignVariable.getType() != Variable.Type.INT
+                    && assignVariable.getType() != Variable.Type.BOOLEAN)
                 throw new CompilingException();
         } else {
             if (variable.getType() != assignVariable.getType())
@@ -55,7 +56,7 @@ public class VariableWrapper {
      * @param value the value of the variable. It should be variable type as String
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
-    void assign(String value) throws CompilingException{
+    void assign(String value) throws CompilingException{  // I FEEL THAT THERE SHOULD BE A WAY TO COMBINE THE METHODS SINCE SOME OF THE IF'S ARE THE SAME
         if (assigned && variable.isFinal())
             throw new CompilingException();
 

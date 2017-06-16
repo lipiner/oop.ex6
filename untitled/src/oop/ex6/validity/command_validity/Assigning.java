@@ -43,10 +43,10 @@ public class Assigning extends CommandLine {
                     //scope.addUnidentifiedCommand(this);
                 }
                 else
-                    variable.assign(assignVariable);
+                    scope.assignVariable(variable, assignVariable);
             }
             else { // the value is not a variable
-                variable.assign(value);
+                scope.assignVariable(variable, value);
             }
         }
     }

@@ -1,6 +1,5 @@
 package oop.ex6.validity.command_validity;
 
-import jdk.nashorn.internal.codegen.CompilationException;
 import oop.ex6.validity.CompilingException;
 import oop.ex6.validity.ScopeChecker;
 import oop.ex6.validity.Variable;
@@ -31,7 +30,7 @@ public class DefiningBlock extends CommandLine {
         if (variable == null)
             throw new CompilingException();
         // the variable type is wrong
-        else if (variable.getType().equals(Variable.Type.CHAR) || variable.getType().equals(Variable.Type.STRING))
+        else if (variable.getType().equals(Variable.Type.CHAR) || variable.getType().equals(Variable.Type.STRING)) // WTF?
             throw new CompilingException();
         // the variable is not assigned
         else if (!variable.isAssigned())
