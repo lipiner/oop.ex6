@@ -31,7 +31,7 @@ public class VariableDeclaration extends CommandLine {
         VariableWrapper newVariable = scope.addVariable(variableName, variableType, isFinal);
 
         if (isMethodParameter)
-            newVariable.assign();
+            scope.assignVariable(newVariable);
         else if (variableValue != null) {
             Assigning assignLine = new Assigning(newVariable, variableValue);
 

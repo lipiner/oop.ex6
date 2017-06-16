@@ -4,6 +4,7 @@ import oop.ex6.SyntaxChecker;
 import oop.ex6.validity.CompilingException;
 import oop.ex6.validity.GlobalMembers;
 import oop.ex6.validity.GlobalScope;
+import oop.ex6.validity.Method;
 
 import java.io.File;
 import java.io.FileReader;
@@ -44,7 +45,7 @@ public class Sjavac {
             }
 
             // reading the local section
-
+            for (Method method: GlobalMembers.getInstance())
             System.out.println(CORRECT_CODE);
 
         }

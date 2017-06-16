@@ -43,13 +43,6 @@ public class Variable {
     }
 
     /**
-     * @return true iff the variable is global
-     */
-    boolean isGlobal(){
-        return global;
-    }
-
-    /**
      * @return true iff the variable is final
      */
     boolean isFinal(){

@@ -32,6 +32,7 @@ public class GlobalMembers {
         return null;
     }
 
+
     void addMethod(String methodName, LinkedList<VariableWrapper> methodVariables, ScopeChecker scope){
         methodsList.add(new Method(methodName, methodVariables, scope, lineNumber));
     }

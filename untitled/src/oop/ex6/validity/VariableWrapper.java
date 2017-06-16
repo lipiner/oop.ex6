@@ -29,11 +29,12 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
-        //WHY WE ARE NOT MAKING SURE THAT IT'S NOT FINAL? WHY?
-        if (!assigned && !assignVariable.isGlobal()) //WHAT FOR?? DO WE NEED GLOBAL???
+
+        if (assigned && variable.isFinal())
             throw new CompilingException();
-//        if (!assigned && assignVariable.isGlobal())
-//            throw new ;
+
+        if (!assignVariable.isAssigned())
+            throw new CompilingException();
 
         // checking for matching types
         if(variable.getType() == Variable.Type.DOUBLE) {
@@ -56,7 +57,7 @@ public class VariableWrapper {
      * @param value the value of the variable. It should be variable type as String
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
-    void assign(String value) throws CompilingException{  // I FEEL THAT THERE SHOULD BE A WAY TO COMBINE THE METHODS SINCE SOME OF THE IF'S ARE THE SAME
+    void assign(String value) throws CompilingException {  // I FEEL THAT THERE SHOULD BE A WAY TO COMBINE THE METHODS SINCE SOME OF THE IF'S ARE THE SAME
         if (assigned && variable.isFinal())
             throw new CompilingException();
 
@@ -123,12 +124,5 @@ public class VariableWrapper {
      */
     public Variable.Type getType(){
         return variable.getType();
-    }
-
-    /**
-     * @return true iff the variable is global
-     */
-    private boolean isGlobal(){
-        return variable.isGlobal();
     }
 }
