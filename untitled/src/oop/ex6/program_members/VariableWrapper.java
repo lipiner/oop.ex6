@@ -136,6 +136,9 @@ public class VariableWrapper {
         return variable.getType();
     }
 
+    /**
+     * @return true iff the variable type consists with boolean type (int, double or boolean)
+     */
     public boolean canBeBoolean() {
         return variable.canBeBoolean();
     }
