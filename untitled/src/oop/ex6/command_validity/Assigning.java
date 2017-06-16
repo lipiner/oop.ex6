@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 public class Assigning extends CommandLine {
     private String variableName, value;
     private VariableWrapper variable;
+    private static final String VARIABLE_NOT_FOUND_MSG = "Invalid assignment: the variable is not found";
 
     public Assigning(String variableName, String value){
         this.variableName = variableName;
@@ -28,7 +29,7 @@ public class Assigning extends CommandLine {
             variable = scope.getVariable(variableName);
 
         if (variable == null)
-            throw new CompilingException();
+            throw new CompilingException(VARIABLE_NOT_FOUND_MSG);
             //scope.addUnidentifiedCommand(this);
         else {
             Matcher variableNameMatcher = SyntaxChecker.VARIABLE_NAME_PATTERN.matcher(value);
@@ -36,7 +37,7 @@ public class Assigning extends CommandLine {
             if (variableNameMatcher.matches()) { // the value is a variable
                 VariableWrapper assignVariable = scope.getVariable(value);
                 if (assignVariable == null) {
-                    throw new CompilingException();
+                    throw new CompilingException(VARIABLE_NOT_FOUND_MSG);
                     //variable.assign(); // assuming the variable is legally assigned until the unidentified check
                     //scope.addUnidentifiedCommand(this);
                 }

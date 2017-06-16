@@ -45,6 +45,12 @@ public class Sjavac {
             }
 
             // reading the local section
+            for (Method method: GlobalMembers.getInstance().getAllMethods()) {
+                method.openScope();
+                reader.setLineNumber(method.getLineNumber()+1);
+                while (!scope.isMethodClosed())
+                    scope.readLine(reader.readLine());
+            }
 
             System.out.println(CORRECT_CODE);
 
@@ -53,6 +59,7 @@ public class Sjavac {
             System.out.println(IO_PROBLEM); //EXPLANATION??
         }
         catch (CompilingException e) {
+            System.err.println(e.getMessage());
             System.out.println(COMPILATION_PROBLEM); //EXPLANATION??
 
         }

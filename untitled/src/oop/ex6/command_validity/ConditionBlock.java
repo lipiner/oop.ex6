@@ -7,6 +7,11 @@ import java.util.LinkedList;
 public class ConditionBlock extends CommandLine {
 
     private LinkedList<String> conditionVariables;
+    private static final String
+            CONDITION_NOT_FOUND_MSG = "Invalid condition: the variable used as condition does not exist",
+            INVALID_CONDITION_TYPE_MSG = "Invalid condition: the variable used as condition is from wrong type",
+            CONDITION_VARIABLE_EMPTY_MSG = "Invalid condition: the variable used as condition not assigned";
+
 
     public ConditionBlock(LinkedList<String> variables){
         conditionVariables = variables;
@@ -25,13 +30,13 @@ public class ConditionBlock extends CommandLine {
 
         // the variable does not exist
         if (variable == null)
-            throw new CompilingException();
+            throw new CompilingException(CONDITION_NOT_FOUND_MSG);
         // the variable type is wrong
-        else if (variable.getType().equals(Variable.Type.CHAR) || variable.getType().equals(Variable.Type.STRING))
-            throw new CompilingException();
+        else if (!variable.canBeBoolean())
+            throw new CompilingException(INVALID_CONDITION_TYPE_MSG);
         // the variable is not assigned
         else if (!variable.isAssigned())
-            throw new CompilingException();
+            throw new CompilingException(CONDITION_VARIABLE_EMPTY_MSG);
 
         // opening new scope
         ScopeChecker newScope = new LocalScope(scope);

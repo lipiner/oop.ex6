@@ -78,6 +78,9 @@ public class SyntaxChecker {
             CHAR_VALUE_PATTERN,
             INT_VALUE_PATTERN,
             DOUBLE_VALUE_PATTERN;
+    private static final String
+            FINAL_WITHOUT_ASSIGNMENT_MSG = "Invalid declaration: final variable not assigned while declaration",
+            INVALID_SYNTAX_MESSAGE = "Invalid syntax: line doesn't match s-Java syntax";
 
 
 
@@ -137,7 +140,7 @@ public class SyntaxChecker {
         } else if (isMatchPattern(IF_WHILE_PATTERN, line)) {
             return blockCreation();
         } else {
-            throw new CompilingException();
+            throw new CompilingException(INVALID_SYNTAX_MESSAGE);
         }
     }
 
@@ -200,7 +203,7 @@ public class SyntaxChecker {
 
             // checks if the variable is final and it was not assigned while declaration
             if (isFinal && input == null)
-                throw new CompilingException();
+                throw new CompilingException(FINAL_WITHOUT_ASSIGNMENT_MSG);
             lineList.add(new VariableDeclaration(variableType, isFinal, variableName, input));
         }
 

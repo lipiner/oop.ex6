@@ -9,6 +9,11 @@ public class VariableWrapper {
 
     private Variable variable;
     private boolean assigned;
+    private static final String
+            FINAL_VARIABLE_ASSIGNMENT_MSG = "Invalid assignment: assigning final variable after declaration",
+            UNASSIGNED_VARIABLE_MSG = "Invalid assignment: assigning variable to variable with unassigned variable",
+            INVALID_ASSIGNMENT_TYPE = "Invalid assignment: assignment type doesn't match the variable type";
+
 
     public VariableWrapper(Variable variable){
 //        super(name, type, isFinal, isGlobal);
@@ -31,23 +36,12 @@ public class VariableWrapper {
     void assign (VariableWrapper assignVariable) throws CompilingException {
 
         if (assigned && variable.isFinal())
-            throw new CompilingException();
+            throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
         if (!assignVariable.isAssigned())
-            throw new CompilingException();
+            throw new CompilingException(UNASSIGNED_VARIABLE_MSG);
 
-        // checking for matching types
-        if(variable.getType() == Variable.Type.DOUBLE) {
-            if (assignVariable.getType() != Variable.Type.DOUBLE && assignVariable.getType() != Variable.Type.INT)
-                throw new CompilingException();
-        } else if (variable.getType() == Variable.Type.BOOLEAN) {
-            if (assignVariable.getType() != Variable.Type.DOUBLE && assignVariable.getType() != Variable.Type.INT
-                    && assignVariable.getType() != Variable.Type.BOOLEAN)
-                throw new CompilingException();
-        } else {
-            if (variable.getType() != assignVariable.getType())
-                throw new CompilingException();
-        }
+        checkAssignmentTypeMatch(assignVariable.getType());
 
         assigned = true;
     }
@@ -57,32 +51,45 @@ public class VariableWrapper {
      * @param value the value of the variable. It should be variable type as String
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
-    void assign(String value) throws CompilingException {  // I FEEL THAT THERE SHOULD BE A WAY TO COMBINE THE METHODS SINCE SOME OF THE IF'S ARE THE SAME
+    void assign(String value) throws CompilingException {
         if (assigned && variable.isFinal())
-            throw new CompilingException();
+            throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
-        if (isMatchedType(SyntaxChecker.STRING_VALUE_PATTERN, value)) {
-            if (!variable.getType().equals(Variable.Type.STRING))
-                throw new CompilingException();
-        }
-        else if (isMatchedType(SyntaxChecker.INT_VALUE_PATTERN, value)) {
-            if (variable.getType().equals(Variable.Type.STRING) || variable.getType().equals(Variable.Type.CHAR))
-                throw new CompilingException();
-        }
-        else if (isMatchedType(SyntaxChecker.DOUBLE_VALUE_PATTERN, value)) {
-            if (!variable.getType().equals(Variable.Type.DOUBLE) && !variable.getType().equals(Variable.Type.BOOLEAN))
-                throw new CompilingException();
-        }
-        else if (isMatchedType(SyntaxChecker.CHAR_VALUE_PATTERN, value)) {
-            if (!variable.getType().equals(Variable.Type.CHAR))
-                throw new CompilingException();
-        }
-        else if (isMatchedType(SyntaxChecker.BOOLEAN_VALUE_PATTERN, value)) {
-            if (!variable.getType().equals(Variable.Type.BOOLEAN)) //SHOULD DO ELSE?
-                throw new CompilingException();
-        }
+        Variable.Type assignType = getInputType(value);
+        checkAssignmentTypeMatch(assignType);
 
         assigned = true;
+    }
+
+    /**
+     *
+     * @param input
+     * @return
+     */
+    private Variable.Type getInputType(String input) {
+        if (isMatchedType(SyntaxChecker.STRING_VALUE_PATTERN, input))
+            return Variable.Type.STRING;
+        else if (isMatchedType(SyntaxChecker.INT_VALUE_PATTERN, input))
+            return Variable.Type.INT;
+        else if (isMatchedType(SyntaxChecker.DOUBLE_VALUE_PATTERN, input))
+            return Variable.Type.DOUBLE;
+        else if (isMatchedType(SyntaxChecker.CHAR_VALUE_PATTERN, input))
+            return Variable.Type.CHAR;
+        else // boolean
+            return Variable.Type.BOOLEAN;
+    }
+
+    private void checkAssignmentTypeMatch (Variable.Type assignmentType) throws CompilingException{
+        if(variable.getType() == Variable.Type.DOUBLE) {
+            if (assignmentType != Variable.Type.DOUBLE && assignmentType != Variable.Type.INT)
+                throw new CompilingException(INVALID_ASSIGNMENT_TYPE);
+        } else if (variable.getType() == Variable.Type.BOOLEAN) {
+            if (assignmentType == Variable.Type.STRING || assignmentType == Variable.Type.CHAR)
+                throw new CompilingException(INVALID_ASSIGNMENT_TYPE);
+        } else {
+            if (variable.getType() != assignmentType)
+                throw new CompilingException(INVALID_ASSIGNMENT_TYPE);
+        }
     }
 
     /**
@@ -124,5 +131,9 @@ public class VariableWrapper {
      */
     public Variable.Type getType(){
         return variable.getType();
+    }
+
+    public boolean canBeBoolean() {
+        return variable.canBeBoolean();
     }
 }

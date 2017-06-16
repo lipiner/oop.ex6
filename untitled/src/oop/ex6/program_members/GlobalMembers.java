@@ -35,6 +35,9 @@ public class GlobalMembers {
         methodsList.add(new Method(methodName, methodVariables, scope, lineNumber));
     }
 
+    public LinkedList<Method> getAllMethods() {
+        return methodsList;
+    }
     VariableWrapper getGlobalVariable(String variableName) {
         for (VariableWrapper variable: globalVariables)
             if (variable.getVariableName().equals(variableName))
