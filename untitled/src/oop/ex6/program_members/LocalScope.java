@@ -47,11 +47,11 @@ public class LocalScope extends ScopeChecker {
 //        GlobalMembers.getInstance().addMethod(methodName, types, this);
 //    }
 
-    @Override
-    public void freeze() throws CompilingException{
-        if (isMethod())
-            status = Status.FROZEN;
-    }
+//    @Override
+//    public void freeze() throws CompilingException{
+//        if (isMethod())
+//            status = Status.FROZEN;
+//    }
 
 //    @Override
 //    public void close() throws CompilingException{

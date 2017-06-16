@@ -20,9 +20,12 @@ public class Sjavac {
         IO_PROBLEM = "2";
 
     public static void main (String[] args){
+        FileReader fileReader = null;
+        LineNumberReader reader = null;
         try {
-            File file = new File(args[FILE_NAME_POSITION]);
-            LineNumberReader reader = new LineNumberReader(new FileReader(file));
+//            File file = new File(args[FILE_NAME_POSITION]);
+            fileReader = new FileReader(args[FILE_NAME_POSITION]);
+            reader = new LineNumberReader(fileReader);
             SyntaxChecker.createPatterns();
             GlobalScope scope = new GlobalScope();
 
@@ -38,7 +41,18 @@ public class Sjavac {
         catch (CompilingException e) {
             System.err.println(e.getMessage());
             System.out.println(COMPILATION_PROBLEM); //EXPLANATION??
+        } finally {
+            //closes the file
+            try {
+                if (fileReader != null)
+                    fileReader.close();
+                if (reader != null)
+                    reader.close();
+            } catch (IOException e){
+                System.out.println(IO_PROBLEM);
+            }
 
+            GlobalMembers.nullifyInstance();
         }
 
     }

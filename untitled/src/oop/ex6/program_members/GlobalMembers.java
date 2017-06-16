@@ -27,6 +27,10 @@ public class GlobalMembers {
         return instance;
     }
 
+    public static void nullifyInstance(){
+        instance = null;
+    }
+
     public Method getMethod(String methodName) {
         for (Method method: methodsList)
             if (method.getName().equals(methodName))

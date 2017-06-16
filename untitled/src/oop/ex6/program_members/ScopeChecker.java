@@ -11,8 +11,8 @@ public abstract class ScopeChecker {
     enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED}
 //    private GlobalMembers globalMembers;
     private boolean method;
+    private Status status;
     ScopeChecker innerScope;
-    Status status;
     String scopeName;
 
     /**
@@ -40,10 +40,13 @@ public abstract class ScopeChecker {
     }
 
     /**
-     * Freeze the scope (after a return statement)
+     * Freeze the scope (after a return statement) in case it is a method
      * @throws CompilingException if the action is not valid in the scope
      */
-    public abstract void freeze() throws CompilingException;
+    public void freeze() throws CompilingException{
+        if (isMethod())
+            status = Status.FROZEN;
+    }
 
     /**
      * Close the scope (after a '}' )
