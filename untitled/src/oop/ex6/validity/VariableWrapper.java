@@ -19,7 +19,7 @@ public class VariableWrapper {
     /**
      * Change the assigning status.
      */
-    public void assign () {
+    void assign () {
         assigned = true;
     }
 
@@ -28,7 +28,7 @@ public class VariableWrapper {
      * @param assignVariable the value of the variable. The variable that is being assign into
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
-    public void assign (VariableWrapper assignVariable) throws CompilingException {
+    void assign (VariableWrapper assignVariable) throws CompilingException {
         if (!assigned && !assignVariable.isGlobal()) //WHAT FOR?? DO WE NEED GLOBAL???
             throw new CompilingException();
 //        if (!assigned && assignVariable.isGlobal())
@@ -55,7 +55,7 @@ public class VariableWrapper {
      * @param value the value of the variable. It should be variable type as String
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
-    public void assign(String value) throws CompilingException{
+    void assign(String value) throws CompilingException{
         if (assigned && variable.isFinal())
             throw new CompilingException();
 
