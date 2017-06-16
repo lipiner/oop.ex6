@@ -19,9 +19,9 @@ public class Sjavac {
         COMPILATION_PROBLEM = "1",
         IO_PROBLEM = "2";
 
-    public static void main (String[] arg){
+    public static void main (String[] args){
         try {
-            File file = new File(arg[FILE_NAME_POSITION]);
+            File file = new File(args[FILE_NAME_POSITION]);
             LineNumberReader reader = new LineNumberReader(new FileReader(file));
             SyntaxChecker.createPatterns();
             GlobalScope scope = new GlobalScope();
