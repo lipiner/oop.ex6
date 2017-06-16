@@ -1,6 +1,4 @@
-package oop.ex6.validity;
-
-import oop.ex6.validity.command_validity.CommandLine;
+package oop.ex6.program_members;
 
 import java.util.LinkedList;
 

@@ -1,7 +1,7 @@
-package oop.ex6.validity;
+package oop.ex6.program_members;
 
 import oop.ex6.SyntaxChecker;
-import oop.ex6.validity.command_validity.CommandLine;
+import oop.ex6.command_validity.CommandLine;
 
 public abstract class ScopeChecker {
 

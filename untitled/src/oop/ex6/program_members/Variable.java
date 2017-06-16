@@ -1,9 +1,4 @@
-package oop.ex6.validity;
-
-import oop.ex6.SyntaxChecker;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+package oop.ex6.program_members;
 
 public class Variable {
 

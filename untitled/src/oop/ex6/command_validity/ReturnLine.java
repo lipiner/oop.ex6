@@ -1,7 +1,7 @@
-package oop.ex6.validity.command_validity;
+package oop.ex6.command_validity;
 
-import oop.ex6.validity.CompilingException;
-import oop.ex6.validity.ScopeChecker;
+import oop.ex6.program_members.CompilingException;
+import oop.ex6.program_members.ScopeChecker;
 
 public class ReturnLine extends CommandLine {
 

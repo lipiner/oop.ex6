@@ -1,6 +1,6 @@
-package oop.ex6.validity.command_validity;
+package oop.ex6.command_validity;
 
-import oop.ex6.validity.ScopeChecker;
+import oop.ex6.program_members.ScopeChecker;
 
 import java.util.LinkedList;
 

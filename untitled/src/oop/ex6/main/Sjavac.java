@@ -1,10 +1,10 @@
 package oop.ex6.main;
 
 import oop.ex6.SyntaxChecker;
-import oop.ex6.validity.CompilingException;
-import oop.ex6.validity.GlobalMembers;
-import oop.ex6.validity.GlobalScope;
-import oop.ex6.validity.Method;
+import oop.ex6.program_members.CompilingException;
+import oop.ex6.program_members.GlobalMembers;
+import oop.ex6.program_members.GlobalScope;
+import oop.ex6.program_members.Method;
 
 import java.io.File;
 import java.io.FileReader;

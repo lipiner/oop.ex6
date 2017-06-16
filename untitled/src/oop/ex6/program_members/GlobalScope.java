@@ -1,4 +1,4 @@
-package oop.ex6.validity;
+package oop.ex6.program_members;
 
 public class GlobalScope extends ScopeChecker {
 

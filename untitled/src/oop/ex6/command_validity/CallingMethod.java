@@ -1,6 +1,6 @@
-package oop.ex6.validity.command_validity;
+package oop.ex6.command_validity;
 
-import oop.ex6.validity.*;
+import oop.ex6.program_members.*;
 
 import java.util.Iterator;
 import java.util.LinkedList;

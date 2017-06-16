@@ -1,9 +1,9 @@
-package oop.ex6.validity.command_validity;
+package oop.ex6.command_validity;
 
-import oop.ex6.validity.CompilingException;
-import oop.ex6.validity.ScopeChecker;
-import oop.ex6.validity.Variable;
-import oop.ex6.validity.VariableWrapper;
+import oop.ex6.program_members.CompilingException;
+import oop.ex6.program_members.ScopeChecker;
+import oop.ex6.program_members.Variable;
+import oop.ex6.program_members.VariableWrapper;
 
 import java.util.LinkedList;
 

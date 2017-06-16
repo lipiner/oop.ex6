@@ -1,4 +1,4 @@
-package oop.ex6.validity;
+package oop.ex6.program_members;
 
 import oop.ex6.SyntaxChecker;
 
