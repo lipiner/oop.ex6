@@ -17,6 +17,10 @@ public class GlobalMembers {
         lineNumber = 0;
     }
 
+//    public LinkedList<VariableWrapper> getGlobalVariables() {
+//        return globalVariables;
+//    }
+
     public static GlobalMembers getInstance(){
         if (instance == null)
             instance = new GlobalMembers();
@@ -70,9 +74,9 @@ public class GlobalMembers {
 //        return unidentifiedCommands;
 //    }
 
-    public int getLineNumber() {
-        return lineNumber;
-    }
+//    public int getLineNumber() {
+//        return lineNumber;
+//    }
 
     public void updateLineNumber() {
         lineNumber++;
