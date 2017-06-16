@@ -15,8 +15,6 @@ public class Method {
      * @param methodVariables a list of the type of variables that the method gets.
      */
     Method(String methodName, LinkedList<VariableWrapper> methodVariables, ScopeChecker superScope, int lineNumber){
-//        LocalScope m = new LocalScope(methodName, scope, knownMethods, methodVariables);
-//        scope.addScope(m);
         this.superScope = superScope;
         name = methodName;
         this.methodVariables = methodVariables;
