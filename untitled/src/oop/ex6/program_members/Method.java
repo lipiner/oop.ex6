@@ -48,5 +48,9 @@ public class Method {
 
     public void openScope() throws CompilingException{
         ScopeChecker scope = new LocalScope(superScope, methodVariables);
+
+        // assigning the method parameters
+        for (VariableWrapper variable: methodVariables)
+            scope.assignVariable(variable);
     }
 }

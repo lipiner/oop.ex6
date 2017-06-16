@@ -10,7 +10,7 @@ public class VariableWrapper {
     private Variable variable;
     private boolean assigned;
 
-    VariableWrapper(Variable variable){
+    public VariableWrapper(Variable variable){
 //        super(name, type, isFinal, isGlobal);
         this.variable = variable;
         assigned = false;

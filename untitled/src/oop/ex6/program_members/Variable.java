@@ -44,6 +44,10 @@ public class Variable {
         return finalModifier;
     }
 
+    boolean canBeBoolean() {
+        if (type)
+    }
+
 //    public void assign () {
 //        assigned = true;
 //    }

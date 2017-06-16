@@ -1,17 +1,14 @@
 package oop.ex6.command_validity;
 
-import oop.ex6.program_members.CompilingException;
-import oop.ex6.program_members.ScopeChecker;
-import oop.ex6.program_members.Variable;
-import oop.ex6.program_members.VariableWrapper;
+import oop.ex6.program_members.*;
 
 import java.util.LinkedList;
 
-public class DefiningBlock extends CommandLine {
+public class ConditionBlock extends CommandLine {
 
     private LinkedList<String> conditionVariables;
 
-    public DefiningBlock (LinkedList<String> variables){
+    public ConditionBlock(LinkedList<String> variables){
         conditionVariables = variables;
     }
 
@@ -35,5 +32,8 @@ public class DefiningBlock extends CommandLine {
         // the variable is not assigned
         else if (!variable.isAssigned())
             throw new CompilingException();
+
+        // opening new scope
+        ScopeChecker newScope = new LocalScope(scope);
     }
 }

@@ -185,17 +185,21 @@ public class SyntaxChecker {
     private static MultipleVariableDeclaration varDeclarationCreation() throws CompilingException{
         LinkedList<VariableDeclaration> lineList = new LinkedList<VariableDeclaration>();
         boolean isFinal = false;
-        if (lineMatcher.group(1) != null) // the word final exist in the pattern
+
+        // checks if the word final exist in the pattern
+        if (lineMatcher.group(1) != null)
             isFinal = true;
         String variableType = lineMatcher.group(2);
         String declares = lineMatcher.group(3);
 
         lineMatcher = DECLARATION_EXPRESSION_PATTERN.matcher(declares);
-        while (lineMatcher.find()) { // finding all the declarations
+        // finding all the declarations
+        while (lineMatcher.find()) {
             String variableName = lineMatcher.group(1);
             String input = lineMatcher.group(8);
 
-            if (isFinal && input == null) // the variable is final and it was not assigned while declaration
+            // checks if the variable is final and it was not assigned while declaration
+            if (isFinal && input == null)
                 throw new CompilingException();
             lineList.add(new VariableDeclaration(variableType, isFinal, variableName, input));
         }
@@ -204,20 +208,23 @@ public class SyntaxChecker {
     }
 
     /**
-     * @return a DefiningBlock CommandLine according to the match
+     * @return a ConditionBlock CommandLine according to the match
      */
-    private static DefiningBlock blockCreation() {
+    private static ConditionBlock blockCreation() {
         String conditions = lineMatcher.group(2);
 
         lineMatcher = CONDITION_PATTERN.matcher(conditions);
         LinkedList<String> variables = new LinkedList<String>();
-        while (lineMatcher.find()) { // finding all the conditions
-            String variable = lineMatcher.group(1); // gets only the variables used as a pattern
+        // finding all the conditions
+        while (lineMatcher.find()) {
+
+            // finds all the variables used as a condition
+            String variable = lineMatcher.group(1);
             if (variable != null)
                 variables.add(variable);
         }
 
-        return new DefiningBlock(variables);
+        return new ConditionBlock(variables);
     }
 
     /**
@@ -229,7 +236,8 @@ public class SyntaxChecker {
 
         lineMatcher = METHOD_INPUT_PATTERN.matcher(inputs);
         LinkedList<String> inputsList = new LinkedList<String>();
-        while (lineMatcher.find()) { // finding all the method inputs
+        // finding all the method inputs
+        while (lineMatcher.find()) {
             inputsList.add(inputs.substring(lineMatcher.start(), lineMatcher.end()));
         }
 
@@ -246,13 +254,14 @@ public class SyntaxChecker {
 
         lineMatcher = METHOD_PARAMETER_PATTERN.matcher(parameters);
         LinkedList<VariableDeclaration> methodParameters = new LinkedList<VariableDeclaration>();
-        while (lineMatcher.find()) { // finding all the method parameters declarations
+        // finding all the method parameters declarations
+        while (lineMatcher.find()) {
             boolean isFinal = false;
             if (lineMatcher.group(1) != null)
                 isFinal = true;
             String parameterType = lineMatcher.group(2);
             String parameterName = lineMatcher.group(3);
-            methodParameters.add(new VariableDeclaration(parameterType, isFinal, parameterName));
+            methodParameters.add(new VariableDeclaration(parameterType, isFinal, parameterName, null));
         }
 
         return new MethodDeclaration(methodName, methodParameters);

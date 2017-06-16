@@ -45,7 +45,7 @@ public class Sjavac {
             }
 
             // reading the local section
-            for (Method method: GlobalMembers.getInstance())
+
             System.out.println(CORRECT_CODE);
 
         }
