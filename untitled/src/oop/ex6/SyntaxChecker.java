@@ -50,7 +50,7 @@ public class SyntaxChecker {
             METHOD_CALL_LINE = "\\s*(" + METHOD_NAME + ")\\s*\\((" + "(\\s*(" + METHOD_INPUT + ")\\s*,)*" +
                     "\\s*(" + METHOD_INPUT + "))\\s*\\);\\s*",
             RETURN_LINE = "\\s*return\\s*;\\s*",
-            END_SCOPE_LINE = "\\s*\\}\\s*",
+            END_SCOPE_LINE = "\\s*}\\s*",
             OPEN_SCOPE_LINE = ".*\\{\\s*",
             IF_WHILE_LINE = "\\s*(if|while)\\s*\\(" + "((\\s*(" + CONDITION + ")\\s*(\\|\\||&&))*" +
                     "\\s*(" + CONDITION + "))\\s*\\)\\s*\\{\\s*";
