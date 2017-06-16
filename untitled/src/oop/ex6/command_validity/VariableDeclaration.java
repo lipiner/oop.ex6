@@ -22,6 +22,7 @@ public class VariableDeclaration extends CommandLine {
     public void check(ScopeChecker scope) throws CompilingException{
         VariableWrapper newVariable = new VariableWrapper(new Variable(variableName, variableType, isFinal));
         scope.addVariable(newVariable);
+//        System.out.println("value in declaration: " + variableValue); ///////////////////////////////
 
         // assigns variables that were assigned during declarations
         if (variableValue != null) {

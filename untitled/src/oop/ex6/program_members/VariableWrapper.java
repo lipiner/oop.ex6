@@ -34,7 +34,7 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
-
+        System.out.println("here");
         if (assigned && variable.isFinal())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
@@ -52,6 +52,7 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign(String value) throws CompilingException {
+        System.out.println("value" + value);
         if (assigned && variable.isFinal())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
@@ -67,6 +68,7 @@ public class VariableWrapper {
      * @return
      */
     private Variable.Type getInputType(String input) {
+        System.out.println("input" + input);
         if (isMatchedType(SyntaxChecker.STRING_VALUE_PATTERN, input))
             return Variable.Type.STRING;
         else if (isMatchedType(SyntaxChecker.INT_VALUE_PATTERN, input))
@@ -80,6 +82,7 @@ public class VariableWrapper {
     }
 
     private void checkAssignmentTypeMatch (Variable.Type assignmentType) throws CompilingException{
+        System.out.println(assignmentType);
         if(variable.getType() == Variable.Type.DOUBLE) {
             if (assignmentType != Variable.Type.DOUBLE && assignmentType != Variable.Type.INT)
                 throw new CompilingException(INVALID_ASSIGNMENT_TYPE);
