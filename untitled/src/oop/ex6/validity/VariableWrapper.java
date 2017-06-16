@@ -19,7 +19,7 @@ public class VariableWrapper {
     /**
      * Change the assigning status.
      */
-    void assign () {
+    public void assign () {
         assigned = true;
     }
 
@@ -28,7 +28,7 @@ public class VariableWrapper {
      * @param assignVariable the value of the variable. The variable that is being assign into
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
-    void assign (VariableWrapper assignVariable) throws CompilingException {
+    public void assign (VariableWrapper assignVariable) throws CompilingException {
         if (!assigned && !assignVariable.isGlobal()) //WHAT FOR?? DO WE NEED GLOBAL???
             throw new CompilingException();
 //        if (!assigned && assignVariable.isGlobal())
@@ -55,27 +55,27 @@ public class VariableWrapper {
      * @param value the value of the variable. It should be variable type as String
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
-    void assign(String value) throws CompilingException{
+    public void assign(String value) throws CompilingException{
         if (assigned && variable.isFinal())
             throw new CompilingException();
 
-        if (isMatchedType(SyntaxChecker.STRING_VALUE, value)) {
+        if (isMatchedType(SyntaxChecker.STRING_VALUE_PATTERN, value)) {
             if (!variable.getType().equals(Variable.Type.STRING))
                 throw new CompilingException();
         }
-        else if (isMatchedType(SyntaxChecker.INT_VALUE, value)) {
+        else if (isMatchedType(SyntaxChecker.INT_VALUE_PATTERN, value)) {
             if (variable.getType().equals(Variable.Type.STRING) || variable.getType().equals(Variable.Type.CHAR))
                 throw new CompilingException();
         }
-        else if (isMatchedType(SyntaxChecker.DOUBLE_VALUE, value)) {
+        else if (isMatchedType(SyntaxChecker.DOUBLE_VALUE_PATTERN, value)) {
             if (!variable.getType().equals(Variable.Type.DOUBLE) && !variable.getType().equals(Variable.Type.BOOLEAN))
                 throw new CompilingException();
         }
-        else if (isMatchedType(SyntaxChecker.CHAR_VALUE, value)) {
+        else if (isMatchedType(SyntaxChecker.CHAR_VALUE_PATTERN, value)) {
             if (!variable.getType().equals(Variable.Type.CHAR))
                 throw new CompilingException();
         }
-        else if (isMatchedType(SyntaxChecker.BOOLEAN_VALUE, value)) {
+        else if (isMatchedType(SyntaxChecker.BOOLEAN_VALUE_PATTERN, value)) {
             if (!variable.getType().equals(Variable.Type.BOOLEAN)) //SHOULD DO ELSE?
                 throw new CompilingException();
         }
@@ -85,12 +85,11 @@ public class VariableWrapper {
 
     /**
      *
-     * @param stringPattern
+     * @param pattern
      * @param value
      * @return
      */
-    private boolean isMatchedType(String stringPattern, String value) {
-        Pattern pattern = Pattern.compile(stringPattern);
+    private boolean isMatchedType(Pattern pattern, String value) {
         Matcher patternMatcher = pattern.matcher(value);
 
         return patternMatcher.matches();

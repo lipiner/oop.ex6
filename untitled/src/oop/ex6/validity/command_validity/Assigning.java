@@ -33,8 +33,7 @@ public class Assigning extends CommandLine {
             throw new CompilingException();
             //scope.addUnidentifiedCommand(this);
         else {
-            Pattern variableNamePattern = Pattern.compile(SyntaxChecker.VARIABLE_NAME);
-            Matcher variableNameMatcher = variableNamePattern.matcher(value);
+            Matcher variableNameMatcher = SyntaxChecker.VARIABLE_NAME_PATTERN.matcher(value);
 
             if (variableNameMatcher.matches()) { // the value is a variable
                 VariableWrapper assignVariable = scope.getVariable(value);

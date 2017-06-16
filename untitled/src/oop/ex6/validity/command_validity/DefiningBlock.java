@@ -22,7 +22,6 @@ public class DefiningBlock extends CommandLine {
             checkVariable(variableName, scope);
 
         }
-        // OPEN NEW SCOPE
     }
 
     private void checkVariable (String variableName, ScopeChecker scope) throws CompilingException {

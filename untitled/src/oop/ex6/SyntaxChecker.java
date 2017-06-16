@@ -3,14 +3,16 @@ package oop.ex6;
 
 import oop.ex6.validity.CompilingException;
 import oop.ex6.validity.command_validity.*;
-
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
+/**
+ * The class encapsulates the syntax handling in the problem. It checks the syntax of a given row, and provides
+ * patterns of valid syntax
+ */
 public class SyntaxChecker {
 
-    public enum LineStatus {OPEN_SCOPE, CLOSE_SCOPE, STANDART};
+    public enum LineStatus {OPEN_SCOPE, CLOSE_SCOPE, STANDARD}
     public static final String
             // types regex
             INT_TYPE = "int",
@@ -52,71 +54,123 @@ public class SyntaxChecker {
             OPEN_SCOPE_LINE = ".*\\{\\s*",
             IF_WHILE_LINE = "\\s*(if|while)\\s*\\(" + "((\\s*(" + CONDITION + ")\\s*(\\|\\||&&))*" +
                     "\\s*(" + CONDITION + "))\\s*\\)\\s*\\{\\s*";
+    public static Pattern
+            // line patterns
+            EMPTY_LINE_PATTERN,
+            COMMENT_LINE_PATTERN,
+            VARIABLE_DECLARATION_PATTERN,
+            ASSIGNMENT_LINE_PATTERN,
+            METHOD_DECLARATION_PATTERN,
+            METHOD_CALL_PATTERN,
+            RETURN_LINE_PATTERN,
+            END_SCOPE_LINE_PATTERN,
+            IF_WHILE_PATTERN,
+            OPEN_SCOPE_PATTERN,
+            // expression patterns
+            DECLARATION_EXPRESSION_PATTERN,
+            CONDITION_PATTERN,
+            METHOD_INPUT_PATTERN,
+            METHOD_PARAMETER_PATTERN,
+            // values patterns
+            VARIABLE_NAME_PATTERN,
+            BOOLEAN_VALUE_PATTERN,
+            STRING_VALUE_PATTERN,
+            CHAR_VALUE_PATTERN,
+            INT_VALUE_PATTERN,
+            DOUBLE_VALUE_PATTERN;
+
+
+
 
     private static Matcher lineMatcher;
 
 
     /**
-     *
-     * @param line
-     * @return
+     * The method creates the syntax static Patterns for using in the program
+     */
+    public static void createPatterns() {
+        EMPTY_LINE_PATTERN = Pattern.compile(EMPTY_LINE);
+        COMMENT_LINE_PATTERN = Pattern.compile(COMMENT_LINE);
+        VARIABLE_DECLARATION_PATTERN = Pattern.compile(VARIABLE_DECLARATION_LINE);
+        ASSIGNMENT_LINE_PATTERN = Pattern.compile(ASSIGNMENT_LINE);
+        METHOD_DECLARATION_PATTERN = Pattern.compile(METHOD_DECLARATION_LINE);
+        METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL_LINE);
+        RETURN_LINE_PATTERN = Pattern.compile(RETURN_LINE);
+        END_SCOPE_LINE_PATTERN = Pattern.compile(END_SCOPE_LINE);
+        IF_WHILE_PATTERN = Pattern.compile(IF_WHILE_LINE);
+        OPEN_SCOPE_PATTERN = Pattern.compile(OPEN_SCOPE_LINE);
+        DECLARATION_EXPRESSION_PATTERN = Pattern.compile(DECLARATION_EXPRESSION);
+        CONDITION_PATTERN = Pattern.compile(CONDITION);
+        METHOD_INPUT_PATTERN = Pattern.compile(METHOD_INPUT);
+        METHOD_PARAMETER_PATTERN = Pattern.compile(METHOD_PARAMETER);
+        VARIABLE_NAME_PATTERN = Pattern.compile(VARIABLE_NAME);
+        BOOLEAN_VALUE_PATTERN = Pattern.compile(BOOLEAN_VALUE);
+        STRING_VALUE_PATTERN = Pattern.compile(STRING_VALUE);
+        CHAR_VALUE_PATTERN = Pattern.compile(CHAR_VALUE);
+        INT_VALUE_PATTERN = Pattern.compile(INT_VALUE);
+        DOUBLE_VALUE_PATTERN = Pattern.compile(DOUBLE_VALUE);
+    }
+
+    /**
+     * The method gets a String line and checks if it matches one of the valid syntax patterns. If it does, the method
+     * returns a CommandLine matching the pattern. Otherwise, it throws an Exception.
+     * @param line the text line to be checked
+     * @return CommandLine matching the line pattern
+     * @throws CompilingException if the line does not match any of the valid syntax patterns
      */
     public static CommandLine checkLine(String line) throws CompilingException {
 
-        if (isMatchPattern(EMPTY_LINE, line)||isMatchPattern(COMMENT_LINE, line)) {
+        if (isMatchPattern(EMPTY_LINE_PATTERN, line)||isMatchPattern(COMMENT_LINE_PATTERN, line)) {
             return new EmptyCommand();
-        } else if (isMatchPattern(VARIABLE_DECLARATION_LINE, line)) {
-            return varDeclarationCreation(line);
-        } else if (isMatchPattern(ASSIGNMENT_LINE, line)) {
-            return assignmentCreation(line);
-        } else if (isMatchPattern(METHOD_DECLARATION_LINE, line)) {
-            return methodDeclarationCreation(line);
-        } else if (isMatchPattern(METHOD_CALL_LINE, line)) {
-            return methodCallCreation(line);
-        } else if (isMatchPattern(RETURN_LINE, line)) {
+        } else if (isMatchPattern(VARIABLE_DECLARATION_PATTERN, line)) {
+            return varDeclarationCreation();
+        } else if (isMatchPattern(ASSIGNMENT_LINE_PATTERN, line)) {
+            return assignmentCreation();
+        } else if (isMatchPattern(METHOD_DECLARATION_PATTERN, line)) {
+            return methodDeclarationCreation();
+        } else if (isMatchPattern(METHOD_CALL_PATTERN, line)) {
+            return methodCallCreation();
+        } else if (isMatchPattern(RETURN_LINE_PATTERN, line)) {
             return new ReturnLine();
-        } else if (isMatchPattern(END_SCOPE_LINE, line)) {
+        } else if (isMatchPattern(END_SCOPE_LINE_PATTERN, line)) {
             return new CloseScope();
-        } else if (isMatchPattern(IF_WHILE_LINE, line)) {
-            return blockCreation(line);
+        } else if (isMatchPattern(IF_WHILE_PATTERN, line)) {
+            return blockCreation();
         } else {
             throw new CompilingException();
         }
     }
 
     /**
-     *
-     * @param line
-     * @return
+     * Checks what is the type of the line: is it a line that opens scope, closes scope or a regular line.
+     * @param line the text line to be checked
+     * @return LineStatus object representing the line type
      */
     public static LineStatus getLineType(String line) {
-        if (isMatchPattern(OPEN_SCOPE_LINE, line))
+        if (isMatchPattern(OPEN_SCOPE_PATTERN, line))
             return LineStatus.OPEN_SCOPE;
-        else if (isMatchPattern(END_SCOPE_LINE, line))
+        else if (isMatchPattern(END_SCOPE_LINE_PATTERN, line))
             return LineStatus.CLOSE_SCOPE;
         else
-            return LineStatus.STANDART;
+            return LineStatus.STANDARD;
     }
 
     /**
-     *
-     * @param stringPattern
-     * @param text
-     * @return
+     * Gets text and a Pattern object, and checks whether the text matches the Pattern
+     * @param pattern the Pattern to be checked
+     * @param text the text to be checked
+     * @return true iff the text matches the pattern
      */
-    private static boolean isMatchPattern (String stringPattern, String text) {
-        Pattern pattern = Pattern.compile(stringPattern);
+    private static boolean isMatchPattern (Pattern pattern, String text) {
         lineMatcher = pattern.matcher(text);
 
         return lineMatcher.matches();
     }
 
     /**
-     *
-     * @param line
-     * @return
+     * @return an Assigning CommandLine according to the match
      */
-    private static CommandLine assignmentCreation(String line) {
+    private static Assigning assignmentCreation() {
         String variableName = lineMatcher.group(1);
         String input = lineMatcher.group(8);
 
@@ -124,27 +178,24 @@ public class SyntaxChecker {
     }
 
 
-
     /**
-     *
-     * @param line
-     * @return
+     * @return a MultipleVariableDeclaration CommandLine according to the match
+     * @throws CompilingException if there was a declaration of final variable without assignment
      */
-    private static CommandLine varDeclarationCreation(String line) throws CompilingException{
+    private static MultipleVariableDeclaration varDeclarationCreation() throws CompilingException{
         LinkedList<VariableDeclaration> lineList = new LinkedList<VariableDeclaration>();
         boolean isFinal = false;
-        if (lineMatcher.group(1) != null)
+        if (lineMatcher.group(1) != null) // the word final exist in the pattern
             isFinal = true;
         String variableType = lineMatcher.group(2);
         String declares = lineMatcher.group(3);
 
-        Pattern declarationExpPattern = Pattern.compile(DECLARATION_EXPRESSION);
-        lineMatcher = declarationExpPattern.matcher(declares);
-        while (lineMatcher.find()) {
+        lineMatcher = DECLARATION_EXPRESSION_PATTERN.matcher(declares);
+        while (lineMatcher.find()) { // finding all the declarations
             String variableName = lineMatcher.group(1);
             String input = lineMatcher.group(8);
 
-            if (isFinal && input == null)
+            if (isFinal && input == null) // the variable is final and it was not assigned while declaration
                 throw new CompilingException();
             lineList.add(new VariableDeclaration(variableType, isFinal, variableName, input));
         }
@@ -153,18 +204,15 @@ public class SyntaxChecker {
     }
 
     /**
-     *
-     * @param line
-     * @return
+     * @return a DefiningBlock CommandLine according to the match
      */
-    private static CommandLine blockCreation(String line) {
+    private static DefiningBlock blockCreation() {
         String conditions = lineMatcher.group(2);
-        Pattern conditionPattern = Pattern.compile(CONDITION);
 
-        lineMatcher = conditionPattern.matcher(conditions);
+        lineMatcher = CONDITION_PATTERN.matcher(conditions);
         LinkedList<String> variables = new LinkedList<String>();
-        while (lineMatcher.find()) {
-            String variable = lineMatcher.group(1);
+        while (lineMatcher.find()) { // finding all the conditions
+            String variable = lineMatcher.group(1); // gets only the variables used as a pattern
             if (variable != null)
                 variables.add(variable);
         }
@@ -173,18 +221,15 @@ public class SyntaxChecker {
     }
 
     /**
-     *
-     * @param line
-     * @return
+     * @return a CallingMethod CommandLine according to the match
      */
-    private static CommandLine methodCallCreation (String line) {
+    private static CallingMethod methodCallCreation () {
         String methodName = lineMatcher.group(1);
         String inputs = lineMatcher.group(4);
 
-        Pattern methodInputPattern = Pattern.compile(METHOD_INPUT);
-        lineMatcher = methodInputPattern.matcher(inputs);
+        lineMatcher = METHOD_INPUT_PATTERN.matcher(inputs);
         LinkedList<String> inputsList = new LinkedList<String>();
-        while (lineMatcher.find()) {
+        while (lineMatcher.find()) { // finding all the method inputs
             inputsList.add(inputs.substring(lineMatcher.start(), lineMatcher.end()));
         }
 
@@ -192,19 +237,16 @@ public class SyntaxChecker {
 
     }
 
-    /**
-     *
-     * @param line
+    /** a MethodDeclaration CommandLine according to the match
      * @return
      */
-    private static CommandLine methodDeclarationCreation (String line) {
+    private static MethodDeclaration methodDeclarationCreation () {
         String methodName = lineMatcher.group(1);
         String parameters = lineMatcher.group(4);
 
-        Pattern methodParameterPattern = Pattern.compile(METHOD_PARAMETER);
-        lineMatcher = methodParameterPattern.matcher(parameters);
+        lineMatcher = METHOD_PARAMETER_PATTERN.matcher(parameters);
         LinkedList<VariableDeclaration> methodParameters = new LinkedList<VariableDeclaration>();
-        while (lineMatcher.find()) {
+        while (lineMatcher.find()) { // finding all the method parameters declarations
             boolean isFinal = false;
             if (lineMatcher.group(1) != null)
                 isFinal = true;

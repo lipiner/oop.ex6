@@ -22,6 +22,7 @@ public class Sjavac {
         try {
             File file = new File(arg[FILE_NAME_POSITION]);
             LineNumberReader reader = new LineNumberReader(new FileReader(file));
+            SyntaxChecker.createPatterns();
             int scopeDepth = 0;
             String newLine = reader.readLine();
             GlobalScope scope = new GlobalScope();
@@ -38,6 +39,8 @@ public class Sjavac {
                     scopeDepth ++;
                 else if (lineStatus == SyntaxChecker.LineStatus.CLOSE_SCOPE)
                     scopeDepth --;
+
+                GlobalMembers.getInstance().updateLineNumber();
             }
 
             // reading the local section
