@@ -11,7 +11,7 @@ public class VariableWrapper {
     private boolean assigned;
     private static final String
             FINAL_VARIABLE_ASSIGNMENT_MSG = "Invalid assignment: assigning final variable after declaration",
-            UNASSIGNED_VARIABLE_MSG = "Invalid assignment: assigning variable to variable with unassigned variable",
+            UNASSIGNED_VARIABLE_MSG = "Invalid assignment: assigning variable with unassigned variable",
             INVALID_ASSIGNMENT_TYPE = "Invalid assignment: assignment type doesn't match the variable type";
 
 
