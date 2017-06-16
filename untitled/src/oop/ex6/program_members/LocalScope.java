@@ -30,6 +30,7 @@ public class LocalScope extends ScopeChecker {
         super(true, superScope);
         this.superScope = superScope;
 //        status = Status.OPEN;
+        this.variables = new LinkedList<VariableWrapper>();
         this.variables.addAll(variables);
 
 //        createMethod(methodName, methodSignature);

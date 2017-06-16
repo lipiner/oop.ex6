@@ -78,9 +78,9 @@ public class GlobalMembers {
 //        return unidentifiedCommands;
 //    }
 
-//    public int getLineNumber() {
-//        return lineNumber;
-//    }
+    public int getLineNumber() {
+        return lineNumber;
+    }
 
     public void updateLineNumber() {
         lineNumber++;
