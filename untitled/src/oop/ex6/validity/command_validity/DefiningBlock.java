@@ -30,7 +30,7 @@ public class DefiningBlock extends CommandLine {
         if (variable == null)
             throw new CompilingException();
         // the variable type is wrong
-        else if (variable.getType().equals(Variable.Type.CHAR) || variable.getType().equals(Variable.Type.STRING)) // WTF?
+        else if (variable.getType().equals(Variable.Type.CHAR) || variable.getType().equals(Variable.Type.STRING))
             throw new CompilingException();
         // the variable is not assigned
         else if (!variable.isAssigned())
