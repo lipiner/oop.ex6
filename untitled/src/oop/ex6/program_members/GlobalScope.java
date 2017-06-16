@@ -38,12 +38,12 @@ public class GlobalScope extends ScopeChecker {
         super.openScope(scope);
     }
 
-    public VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
-        Variable variable = new Variable(variableName, variableType, isFinal, true);
-        VariableWrapper variableWrapper = new VariableWrapper(variable);
-        super.addVariable(variableWrapper);
-        return variableWrapper;
-    }
+//    public VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
+//        Variable variable = new Variable(variableName, variableType, isFinal, true);
+//        VariableWrapper variableWrapper = new VariableWrapper(variable);
+//        super.addVariable(variableWrapper);
+//        return variableWrapper;
+//    }
 
     @Override
     public VariableWrapper getVariable(String variableName) {

@@ -97,7 +97,7 @@ public abstract class ScopeChecker {
      * @return
      * @throws CompilingException
      */
-    public abstract VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException;
+//    public abstract VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException;
 
     /**
      * Adds new variable to the scope
@@ -105,7 +105,7 @@ public abstract class ScopeChecker {
      * @throws CompilingException if the variable cannot be declared in the scope or
      * if the operation is not allowed
      */
-    void addVariable(VariableWrapper variable) throws CompilingException{
+    public void addVariable(VariableWrapper variable) throws CompilingException{
         if(canBeDeclared(variable.getVariableName()))
             addVariableToScope(variable);
         else

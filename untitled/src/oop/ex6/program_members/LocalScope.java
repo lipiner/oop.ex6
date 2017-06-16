@@ -88,13 +88,13 @@ public class LocalScope extends ScopeChecker {
         return variableWrapper == null;
     }
 
-    @Override
-    public VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
-        Variable variable = new Variable(variableName, variableType, isFinal, false);
-        VariableWrapper variableWrapper = new VariableWrapper(variable);
-        super.addVariable(variableWrapper);
-        return variableWrapper;
-    }
+//    @Override
+//    public VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
+//        Variable variable = new Variable(variableName, variableType, isFinal, false);
+//        VariableWrapper variableWrapper = new VariableWrapper(variable);
+//        super.addVariable(variableWrapper);
+//        return variableWrapper;
+//    }
 
     @Override
     void addVariableToScope(VariableWrapper variable) throws CompilingException{

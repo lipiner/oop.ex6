@@ -7,7 +7,7 @@ public class Variable {
     private Type type;
 //    private boolean assigned;
     private boolean finalModifier;
-    private boolean global;
+//    private boolean global;
 
     /**
      * Constructor fot a variable object.
@@ -15,12 +15,12 @@ public class Variable {
      * @param type the variable's type
      * @param isFinal if the variable is final or not
      */
-    public Variable(String name, String type, boolean isFinal, boolean isGlobal){
+    public Variable(String name, String type, boolean isFinal){
         this.name = name;
         this.type = Type.valueOf(type.toUpperCase());
         this.finalModifier = isFinal;
 //        assigned = false;
-        global = isGlobal;  // DO WE NEED THAT NOW???
+//        global = isGlobal;  // DO WE NEED THAT NOW???
     }
 
     /**
