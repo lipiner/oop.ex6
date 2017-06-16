@@ -237,8 +237,8 @@ public class SyntaxChecker {
 
     }
 
-    /** a MethodDeclaration CommandLine according to the match
-     * @return
+    /**
+     * @return a MethodDeclaration CommandLine according to the match
      */
     private static MethodDeclaration methodDeclarationCreation () {
         String methodName = lineMatcher.group(1);
