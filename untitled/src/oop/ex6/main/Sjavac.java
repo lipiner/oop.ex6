@@ -24,33 +24,10 @@ public class Sjavac {
             File file = new File(args[FILE_NAME_POSITION]);
             LineNumberReader reader = new LineNumberReader(new FileReader(file));
             SyntaxChecker.createPatterns();
-            int scopeDepth = 0;
-            String newLine = reader.readLine();
             GlobalScope scope = new GlobalScope();
 
-            // reading the global section
-            while (newLine != null) {
-                GlobalMembers.getInstance().updateLineNumber();
-
-                if (scopeDepth == 0)
-                    scope.readLine(newLine);
-
-                SyntaxChecker.LineStatus lineStatus = SyntaxChecker.getLineType(newLine);
-                if (lineStatus == SyntaxChecker.LineStatus.OPEN_SCOPE)
-                    scopeDepth ++;
-                else if (lineStatus == SyntaxChecker.LineStatus.CLOSE_SCOPE)
-                    scopeDepth --;
-
-                GlobalMembers.getInstance().updateLineNumber();
-            }
-
-            // reading the local section
-            for (Method method: GlobalMembers.getInstance().getAllMethods()) {
-                method.openScope();
-                reader.setLineNumber(method.getLineNumber()+1);
-                while (!scope.isMethodClosed())
-                    scope.readLine(reader.readLine());
-            }
+            readGlobalScope(scope, reader);
+            readMethods(scope, reader);
 
             System.out.println(CORRECT_CODE);
 
@@ -64,6 +41,37 @@ public class Sjavac {
 
         }
 
+    }
+
+    private static void readGlobalScope(GlobalScope scope, LineNumberReader reader)
+            throws IOException, CompilingException{
+        String newLine = reader.readLine();
+        int scopeDepth = 0;
+        // reading the global section
+        while (newLine != null) {
+            GlobalMembers.getInstance().updateLineNumber();
+
+            if (scopeDepth == 0)
+                scope.readLine(newLine);
+
+            SyntaxChecker.LineStatus lineStatus = SyntaxChecker.getLineType(newLine);
+            if (lineStatus == SyntaxChecker.LineStatus.OPEN_SCOPE)
+                scopeDepth ++;
+            else if (lineStatus == SyntaxChecker.LineStatus.CLOSE_SCOPE)
+                scopeDepth --;
+
+            GlobalMembers.getInstance().updateLineNumber();
+        }
+    }
+
+    private static void readMethods(GlobalScope scope, LineNumberReader reader)
+            throws IOException, CompilingException{
+        for (Method method: GlobalMembers.getInstance().getAllMethods()) {
+            method.openScope();
+            reader.setLineNumber(method.getLineNumber()+1);
+            while (!scope.isMethodClosed())
+                scope.readLine(reader.readLine());
+        }
     }
 
 
