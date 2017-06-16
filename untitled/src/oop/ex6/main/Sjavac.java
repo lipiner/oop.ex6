@@ -61,6 +61,7 @@ public class Sjavac {
                 scopeDepth --;
 
             GlobalMembers.getInstance().updateLineNumber();
+            newLine = reader.readLine();
         }
     }
 
