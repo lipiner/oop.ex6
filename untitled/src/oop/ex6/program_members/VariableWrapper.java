@@ -26,6 +26,7 @@ public class VariableWrapper {
      */
     void assign () {
         assigned = true;
+        variable.assign();
     }
 
     /**
@@ -35,7 +36,7 @@ public class VariableWrapper {
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
 //        System.out.println("here");
-        if (assigned && variable.isFinal())
+        if (variable.canBeAssigned())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
         if (!assignVariable.isAssigned())
@@ -44,6 +45,7 @@ public class VariableWrapper {
         checkAssignmentTypeMatch(assignVariable.getType());
 
         assigned = true;
+        variable.assign();
     }
 
     /**
@@ -53,13 +55,17 @@ public class VariableWrapper {
      */
     void assign(String value) throws CompilingException {
 //        System.out.println("value " + value);
-        if (assigned && variable.isFinal())
+//        System.out.println(variable.isFinal());
+//        System.out.print("assigned: ");
+//        System.out.println(assigned);
+        if (variable.canBeAssigned())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
         Variable.Type assignType = getInputType(value);
         checkAssignmentTypeMatch(assignType);
 
         assigned = true;
+        variable.assign();
     }
 
     /**

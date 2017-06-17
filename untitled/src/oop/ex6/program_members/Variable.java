@@ -7,6 +7,7 @@ public class Variable {
     private Type type;
 //    private boolean assigned;
     private boolean finalModifier;
+    private boolean hasBeenAssigned;
 //    private boolean global;
 
     /**
@@ -19,6 +20,7 @@ public class Variable {
         this.name = name;
         this.type = Type.valueOf(type.toUpperCase());
         this.finalModifier = isFinal;
+        hasBeenAssigned = false;
 //        assigned = false;
 //        global = isGlobal;  // DO WE NEED THAT NOW???
     }
@@ -48,9 +50,13 @@ public class Variable {
         return !(type == Type.STRING || type == Type.CHAR);
     }
 
-//    public void assign () {
-//        assigned = true;
-//    }
+    boolean canBeAssigned(){
+        return !(finalModifier && hasBeenAssigned);
+    }
+
+    void assign () {
+        hasBeenAssigned = true;
+    }
 
 //    public void assign (Variable assignVariable) throws CompilingException {
 //        if (!assigned && !assignVariable.isGlobal())  //WTF????
