@@ -38,12 +38,15 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
+        // the variable is final so it cannot be assigned
         if (!variable.canBeAssigned())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
+        // the assigning variable is empty
         if (!assignVariable.isAssigned())
             throw new CompilingException(UNASSIGNED_VARIABLE_MSG);
 
+        // checks if the types of the variable in the assigning variable match
         checkAssignmentTypeMatch(assignVariable.getType());
 
         assigned = true;
@@ -56,10 +59,13 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign(String value) throws CompilingException {
+        // the variable is final so it cannot be assigned
+
         if (!variable.canBeAssigned())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
-
+        //checks the type of the input
         Variable.Type assignType = getInputType(value);
+        // checks if the type of the input matches the type of the variable
         checkAssignmentTypeMatch(assignType);
 
         assigned = true;
@@ -85,9 +91,9 @@ public class VariableWrapper {
     }
 
     /**
-     *
-     * @param assignmentType
-     * @throws CompilingException
+     * when given the type of the assignment value or variable, checks if it matches the type of this variable
+     * @param assignmentType the type of the assignment
+     * @throws CompilingException if the type does not match
      */
     private void checkAssignmentTypeMatch (Variable.Type assignmentType) throws CompilingException{
         if(variable.getType() == Variable.Type.DOUBLE) {
@@ -103,10 +109,10 @@ public class VariableWrapper {
     }
 
     /**
-     *
-     * @param pattern
-     * @param value
-     * @return
+     * when given a certain value type pattern and text, checks if the pattern matches the text
+     * @param pattern value type pattern
+     * @param value the given text to be checked
+     * @return true iff the type matches the text
      */
     private boolean isMatchedType(Pattern pattern, String value) {
         Matcher patternMatcher = pattern.matcher(value);

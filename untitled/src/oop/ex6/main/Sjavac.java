@@ -17,20 +17,22 @@ public class Sjavac {
         IO_PROBLEM = "2",
         UNCLOSED_METHOD_MSG = "Method declaration was not closed";
 
+    /**
+     * The main method that runs the program and checks the file. Prints 0 for valid code, 1 for invalid code and 2
+     * for IO problems while reading the file.
+     * @param args one argument- the file name to be checked
+     */
     public static void main (String[] args){
-        //FileReader fileReader = null;
         RandomAccessFile reader = null;
         try {
-//            File file = new File(args[FILE_NAME_POSITION]);
             reader = new RandomAccessFile(args[FILE_NAME_POSITION], "r");
-            //fileReader = new FileReader(args[FILE_NAME_POSITION]);
-            //reader = new LineNumberReader(fileReader);
+            // creating all syntax patterns
             SyntaxChecker.createPatterns();
+
+            // checking the global scope of the code
             GlobalScope scope = new GlobalScope();
-
             readGlobalScope(scope, reader);
-
-            //reader = new LineNumberReader(fileReader);
+            // setting the reader to the beginning of the file and checking the methods
             reader.seek(0);
             readMethods(scope, reader);
 
@@ -38,11 +40,11 @@ public class Sjavac {
 
         }
         catch (IOException e) {
-            System.out.println(IO_PROBLEM); //EXPLANATION??
+            System.out.println(IO_PROBLEM);
         }
         catch (CompilingException e) {
             System.err.println(e.getMessage());
-            System.out.println(COMPILATION_PROBLEM); //EXPLANATION??
+            System.out.println(COMPILATION_PROBLEM);
         } finally {
             //closes the file
             try {
@@ -52,22 +54,33 @@ public class Sjavac {
                 System.out.println(IO_PROBLEM);
             }
 
+            // deletes the GlobalMembers instance to nullify the global members of the program
             GlobalMembers.nullifyInstance();
         }
 
     }
 
+    /**
+     * Checks the global scope of the file
+     * @param scope the global scope (GlobalScope object)
+     * @param reader the file reader
+     * @throws IOException if IO problem occurred while reading the file
+     * @throws CompilingException if the global scope did not compile
+     */
     private static void readGlobalScope(GlobalScope scope, RandomAccessFile reader)
             throws IOException, CompilingException{
         String newLine = reader.readLine();
+        /* the scope depth represents in what depth of scopes the reader is found, when 0 is the global scope, and
+        when opening new scope the number id going up.*/
         int scopeDepth = 0;
-        // reading the global section
+
         while (newLine != null) {
-//            System.out.println(GlobalMembers.getInstance().getLineNumber()); //////////////////////////
             GlobalMembers.getInstance().updateLineNumber();
+            // reading only the global scope
             if (scopeDepth == 0)
                 scope.readLine(newLine);
 
+            // checking if there is a change in the depth of the scope
             SyntaxChecker.LineStatus lineStatus = SyntaxChecker.getLineType(newLine);
             if (lineStatus == SyntaxChecker.LineStatus.OPEN_SCOPE)
                 scopeDepth ++;
@@ -77,27 +90,32 @@ public class Sjavac {
             newLine = reader.readLine();
         }
 
+        // checking if there is unclosed scope, so the depth in the end of the program is not 0
         if (scopeDepth > 0)
             throw new CompilingException(UNCLOSED_METHOD_MSG);
     }
 
+    /**
+     * Checks the methods declared in the file
+     * @param scope the global scope
+     * @param reader the file reader
+     * @throws IOException if IO problem occurred while reading the file
+     * @throws CompilingException if the global scope did not compile
+     */
     private static void readMethods(GlobalScope scope, RandomAccessFile reader)
             throws IOException, CompilingException{
         int currentLineNumber = 1;
+        // checking all the methods
         for (Method method: GlobalMembers.getInstance().getAllMethods()) {
-            method.openScope();
+            method.openScope(); // opens new inner scope for the method
+            // ignoring the global lines until getting to the method lines
             while (currentLineNumber < method.getLineNumber() + 1) {
                 reader.readLine();
                 currentLineNumber ++;
             }
-            //reader.setLineNumber(method.getLineNumber()+1);
-//            System.out.println("d");
-////            System.out.println(method.getLineNumber()+1);
-//            System.out.println(reader.getLineNumber());
-//            System.out.println(line);
-//            String line;//= reader.readLine();
+
+            // checking the method lines until the method is closed
             while (!scope.isMethodClosed()) {
-//                line = reader.readLine();
                 currentLineNumber++;
                 scope.readLine(reader.readLine());
             }
