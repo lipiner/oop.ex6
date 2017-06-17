@@ -64,7 +64,7 @@ public class Sjavac {
         // reading the global section
         while (newLine != null) {
             GlobalMembers.getInstance().updateLineNumber();
-            System.out.println(GlobalMembers.getInstance().getLineNumber()); //////////////////////////
+//            System.out.println(GlobalMembers.getInstance().getLineNumber()); //////////////////////////
             if (scopeDepth == 0)
                 scope.readLine(newLine);
 
@@ -74,7 +74,6 @@ public class Sjavac {
             else if (lineStatus == SyntaxChecker.LineStatus.CLOSE_SCOPE)
                 scopeDepth --;
 
-            GlobalMembers.getInstance().updateLineNumber();
             newLine = reader.readLine();
         }
     }
