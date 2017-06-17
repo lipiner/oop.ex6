@@ -95,12 +95,11 @@ public class Sjavac {
 ////            System.out.println(method.getLineNumber()+1);
 //            System.out.println(reader.getLineNumber());
 //            System.out.println(line);
-            String line;//= reader.readLine();
+//            String line;//= reader.readLine();
             while (!scope.isMethodClosed()) {
-//                System.out.println(line + " " + method.getLineNumber()+1); //////////////////////////
-                line = reader.readLine();
+//                line = reader.readLine();
                 currentLineNumber++;
-                scope.readLine(line);
+                scope.readLine(reader.readLine());
             }
         }
     }

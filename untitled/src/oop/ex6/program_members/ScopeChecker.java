@@ -56,6 +56,7 @@ public abstract class ScopeChecker {
             case FROZEN:
             case SEMI_CLOSED:
                 status = Status.CLOSED;
+                break;
             case OPEN:
                 throw new CompilingException(MISSING_RETURN_EXCEPTION_MESSAGE);
         }
