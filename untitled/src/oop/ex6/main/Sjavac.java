@@ -6,10 +6,7 @@ import oop.ex6.program_members.GlobalMembers;
 import oop.ex6.program_members.GlobalScope;
 import oop.ex6.program_members.Method;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.LineNumberReader;
+import java.io.*;
 
 public class Sjavac {
 
@@ -21,18 +18,20 @@ public class Sjavac {
         UNCLOSED_METHOD_MSG = "Method declaration was not closed";
 
     public static void main (String[] args){
-        FileReader fileReader = null;
-        LineNumberReader reader = null;
+        //FileReader fileReader = null;
+        RandomAccessFile reader = null;
         try {
 //            File file = new File(args[FILE_NAME_POSITION]);
-            fileReader = new FileReader(args[FILE_NAME_POSITION]);
-            reader = new LineNumberReader(fileReader);
+            reader = new RandomAccessFile(args[FILE_NAME_POSITION], "r");
+            //fileReader = new FileReader(args[FILE_NAME_POSITION]);
+            //reader = new LineNumberReader(fileReader);
             SyntaxChecker.createPatterns();
             GlobalScope scope = new GlobalScope();
 
             readGlobalScope(scope, reader);
 
-            reader = new LineNumberReader(fileReader);
+            //reader = new LineNumberReader(fileReader);
+            reader.seek(0);
             readMethods(scope, reader);
 
             System.out.println(CORRECT_CODE);
@@ -47,8 +46,6 @@ public class Sjavac {
         } finally {
             //closes the file
             try {
-                if (fileReader != null)
-                    fileReader.close();
                 if (reader != null)
                     reader.close();
             } catch (IOException e){
@@ -60,13 +57,14 @@ public class Sjavac {
 
     }
 
-    private static void readGlobalScope(GlobalScope scope, LineNumberReader reader)
+    private static void readGlobalScope(GlobalScope scope, RandomAccessFile reader)
             throws IOException, CompilingException{
         String newLine = reader.readLine();
         int scopeDepth = 0;
         // reading the global section
         while (newLine != null) {
 //            System.out.println(GlobalMembers.getInstance().getLineNumber()); //////////////////////////
+            GlobalMembers.getInstance().updateLineNumber();
             if (scopeDepth == 0)
                 scope.readLine(newLine);
 
@@ -76,7 +74,6 @@ public class Sjavac {
             else if (lineStatus == SyntaxChecker.LineStatus.CLOSE_SCOPE)
                 scopeDepth --;
 
-            GlobalMembers.getInstance().updateLineNumber();
             newLine = reader.readLine();
         }
 
@@ -84,12 +81,15 @@ public class Sjavac {
             throw new CompilingException(UNCLOSED_METHOD_MSG);
     }
 
-    private static void readMethods(GlobalScope scope, LineNumberReader reader)
+    private static void readMethods(GlobalScope scope, RandomAccessFile reader)
             throws IOException, CompilingException{
+        int currentLineNumber = 1;
         for (Method method: GlobalMembers.getInstance().getAllMethods()) {
             method.openScope();
-            while (reader.getLineNumber() < method.getLineNumber() + 1)
+            while (currentLineNumber < method.getLineNumber() + 1) {
                 reader.readLine();
+                currentLineNumber ++;
+            }
             //reader.setLineNumber(method.getLineNumber()+1);
 //            System.out.println("d");
 ////            System.out.println(method.getLineNumber()+1);
@@ -99,6 +99,7 @@ public class Sjavac {
             while (!scope.isMethodClosed()) {
 //                System.out.println(line + " " + method.getLineNumber()+1); //////////////////////////
                 line = reader.readLine();
+                currentLineNumber++;
                 scope.readLine(line);
             }
         }
