@@ -64,7 +64,6 @@ public class Sjavac {
         int scopeDepth = 0;
         // reading the global section
         while (newLine != null) {
-            GlobalMembers.getInstance().updateLineNumber();
 //            System.out.println(GlobalMembers.getInstance().getLineNumber()); //////////////////////////
             if (scopeDepth == 0)
                 scope.readLine(newLine);
@@ -75,6 +74,7 @@ public class Sjavac {
             else if (lineStatus == SyntaxChecker.LineStatus.CLOSE_SCOPE)
                 scopeDepth --;
 
+            GlobalMembers.getInstance().updateLineNumber();
             newLine = reader.readLine();
         }
 
@@ -88,8 +88,12 @@ public class Sjavac {
             method.openScope();
             reader.setLineNumber(method.getLineNumber()+1);
             String line = reader.readLine();
+//            System.out.println("d");
+////            System.out.println(method.getLineNumber()+1);
+//            System.out.println(reader.getLineNumber());
+//            System.out.println(line);
             while (!scope.isMethodClosed()) {
-                System.out.println(line + " " + method.getLineNumber()+1); //////////////////////////
+//                System.out.println(line + " " + method.getLineNumber()+1); //////////////////////////
                 scope.readLine(line);
                 line = reader.readLine();
             }
