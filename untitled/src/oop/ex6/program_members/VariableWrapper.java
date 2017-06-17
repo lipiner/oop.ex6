@@ -15,8 +15,11 @@ public class VariableWrapper {
             INVALID_ASSIGNMENT_TYPE = "Invalid assignment: assignment type doesn't match the variable type";
 
 
+    /**
+     * Creates a variable wrapper object that wraps a variable for specific scope assigning status.
+     * @param variable the variable to wrap
+     */
     public VariableWrapper(Variable variable){
-//        super(name, type, isFinal, isGlobal);
         this.variable = variable;
         assigned = false;
     }
@@ -35,8 +38,7 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
-//        System.out.println("here");
-        if (variable.canBeAssigned())
+        if (!variable.canBeAssigned())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
         if (!assignVariable.isAssigned())
@@ -54,11 +56,7 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign(String value) throws CompilingException {
-//        System.out.println("value " + value);
-//        System.out.println(variable.isFinal());
-//        System.out.print("assigned: ");
-//        System.out.println(assigned);
-        if (variable.canBeAssigned())
+        if (!variable.canBeAssigned())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
         Variable.Type assignType = getInputType(value);
@@ -74,7 +72,6 @@ public class VariableWrapper {
      * @return
      */
     private Variable.Type getInputType(String input) {
-//        System.out.println("input " + input);
         if (isMatchedType(SyntaxChecker.STRING_VALUE_PATTERN, input))
             return Variable.Type.STRING;
         else if (isMatchedType(SyntaxChecker.INT_VALUE_PATTERN, input))
@@ -87,8 +84,12 @@ public class VariableWrapper {
             return Variable.Type.BOOLEAN;
     }
 
+    /**
+     *
+     * @param assignmentType
+     * @throws CompilingException
+     */
     private void checkAssignmentTypeMatch (Variable.Type assignmentType) throws CompilingException{
-//        System.out.println(assignmentType);
         if(variable.getType() == Variable.Type.DOUBLE) {
             if (assignmentType != Variable.Type.DOUBLE && assignmentType != Variable.Type.INT)
                 throw new CompilingException(INVALID_ASSIGNMENT_TYPE);
