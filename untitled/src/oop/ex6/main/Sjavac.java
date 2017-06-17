@@ -31,6 +31,8 @@ public class Sjavac {
             GlobalScope scope = new GlobalScope();
 
             readGlobalScope(scope, reader);
+
+            reader = new LineNumberReader(fileReader);
             readMethods(scope, reader);
 
             System.out.println(CORRECT_CODE);
@@ -86,16 +88,18 @@ public class Sjavac {
             throws IOException, CompilingException{
         for (Method method: GlobalMembers.getInstance().getAllMethods()) {
             method.openScope();
-            reader.setLineNumber(method.getLineNumber()+1);
-            String line = reader.readLine();
+            while (reader.getLineNumber() < method.getLineNumber() + 1)
+                reader.readLine();
+            //reader.setLineNumber(method.getLineNumber()+1);
 //            System.out.println("d");
 ////            System.out.println(method.getLineNumber()+1);
 //            System.out.println(reader.getLineNumber());
 //            System.out.println(line);
+            String line;//= reader.readLine();
             while (!scope.isMethodClosed()) {
 //                System.out.println(line + " " + method.getLineNumber()+1); //////////////////////////
-                scope.readLine(line);
                 line = reader.readLine();
+                scope.readLine(line);
             }
         }
     }
