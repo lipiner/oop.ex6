@@ -2,8 +2,14 @@ package oop.ex6.command_validity;
 
 import oop.ex6.program_members.ScopeChecker;
 
+/**
+ * The class represents a code line that does not contain commands: an empty line or a comment line
+ */
 public class EmptyCommand extends CommandLine {
 
+    /**
+     * constructs a new EmptyCommand instance
+     */
     public EmptyCommand(){
     }
 
