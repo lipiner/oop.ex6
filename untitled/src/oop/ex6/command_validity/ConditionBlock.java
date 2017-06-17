@@ -23,7 +23,7 @@ public class ConditionBlock extends CommandLine {
             checkVariable(variableName, scope);
         }
 
-        // opening new scope
+        // opening the new scope
         ScopeChecker newScope = new LocalScope(scope);
     }
 
