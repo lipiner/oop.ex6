@@ -34,7 +34,7 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
-        System.out.println("here");
+//        System.out.println("here");
         if (assigned && variable.isFinal())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 

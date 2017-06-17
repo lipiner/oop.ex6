@@ -80,7 +80,7 @@ public class SyntaxChecker {
             DOUBLE_VALUE_PATTERN;
     private static final String
             FINAL_WITHOUT_ASSIGNMENT_MSG = "Invalid declaration: final variable not assigned while declaration",
-            INVALID_SYNTAX_MESSAGE = "Invalid syntax: line doesn't match s-Java syntax";
+            INVALID_SYNTAX_MESSAGE = "Invalid syntax: line doesn't match s-Java syntax: ";
 
 
 
@@ -140,7 +140,7 @@ public class SyntaxChecker {
         } else if (isMatchPattern(IF_WHILE_PATTERN, line)) {
             return blockCreation();
         } else {
-            throw new CompilingException(INVALID_SYNTAX_MESSAGE);
+            throw new CompilingException(INVALID_SYNTAX_MESSAGE + line);
         }
     }
 
