@@ -80,7 +80,8 @@ public class SyntaxChecker {
             DOUBLE_VALUE_PATTERN;
     private static final String
             FINAL_WITHOUT_ASSIGNMENT_MSG = "Invalid declaration: final variable not assigned while declaration",
-            INVALID_SYNTAX_MESSAGE = "Invalid syntax: line doesn't match s-Java syntax: ";
+            INVALID_SYNTAX_MESSAGE = "Invalid syntax: line doesn't match s-Java syntax",
+            NO_INPUT = "";
 
 
 
@@ -237,6 +238,9 @@ public class SyntaxChecker {
         String methodName = lineMatcher.group(1);
         String inputs = lineMatcher.group(4);
 
+        if (inputs == null)
+            inputs = NO_INPUT;
+
         lineMatcher = METHOD_INPUT_PATTERN.matcher(inputs);
         LinkedList<String> inputsList = new LinkedList<String>();
         // finding all the method inputs
@@ -254,6 +258,9 @@ public class SyntaxChecker {
     private static MethodDeclaration methodDeclarationCreation () {
         String methodName = lineMatcher.group(1);
         String parameters = lineMatcher.group(4);
+
+        if (parameters == null)
+            parameters = NO_INPUT;
 
         lineMatcher = METHOD_PARAMETER_PATTERN.matcher(parameters);
         LinkedList<VariableDeclaration> methodParameters = new LinkedList<VariableDeclaration>();
