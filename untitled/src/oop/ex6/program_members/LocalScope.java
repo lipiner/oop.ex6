@@ -15,6 +15,7 @@ public class LocalScope extends ScopeChecker {
      */
     public LocalScope(ScopeChecker superScope) throws CompilingException{
         super(false, superScope);
+        System.out.println("thereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         this.superScope = superScope;
         variables = new LinkedList<VariableWrapper>();
 //        status = Status.SEMI_CLOSED;
@@ -28,6 +29,7 @@ public class LocalScope extends ScopeChecker {
     LocalScope(ScopeChecker superScope, LinkedList<VariableWrapper> variables)
             throws CompilingException{
         super(true, superScope);
+//        System.out.println("here");
         this.superScope = superScope;
 //        status = Status.OPEN;
         this.variables = new LinkedList<VariableWrapper>();

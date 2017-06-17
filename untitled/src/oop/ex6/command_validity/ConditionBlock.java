@@ -21,7 +21,6 @@ public class ConditionBlock extends CommandLine {
     public void check(ScopeChecker scope) throws CompilingException{
         for (String variableName: conditionVariables){
             checkVariable(variableName, scope);
-
         }
     }
 
@@ -39,6 +38,7 @@ public class ConditionBlock extends CommandLine {
             throw new CompilingException(CONDITION_VARIABLE_EMPTY_MSG);
 
         // opening new scope
+        System.out.println("boooooooooooooooo");
         ScopeChecker newScope = new LocalScope(scope);
     }
 }
