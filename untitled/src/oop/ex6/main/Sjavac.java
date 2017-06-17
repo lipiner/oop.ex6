@@ -17,7 +17,8 @@ public class Sjavac {
     private static final String
         CORRECT_CODE = "0",
         COMPILATION_PROBLEM = "1",
-        IO_PROBLEM = "2";
+        IO_PROBLEM = "2",
+        UNCLOSED_METHOD_MSG = "Method declaration was not closed";
 
     public static void main (String[] args){
         FileReader fileReader = null;
@@ -76,6 +77,9 @@ public class Sjavac {
 
             newLine = reader.readLine();
         }
+
+        if (scopeDepth > 0)
+            throw new CompilingException(UNCLOSED_METHOD_MSG);
     }
 
     private static void readMethods(GlobalScope scope, LineNumberReader reader)
