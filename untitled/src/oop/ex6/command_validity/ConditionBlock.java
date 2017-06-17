@@ -21,8 +21,10 @@ public class ConditionBlock extends CommandLine {
     public void check(ScopeChecker scope) throws CompilingException{
         for (String variableName: conditionVariables){
             checkVariable(variableName, scope);
-
         }
+
+        // opening new scope
+        ScopeChecker newScope = new LocalScope(scope);
     }
 
     private void checkVariable (String variableName, ScopeChecker scope) throws CompilingException {
@@ -37,8 +39,5 @@ public class ConditionBlock extends CommandLine {
         // the variable is not assigned
         else if (!variable.isAssigned())
             throw new CompilingException(CONDITION_VARIABLE_EMPTY_MSG);
-
-        // opening new scope
-        ScopeChecker newScope = new LocalScope(scope);
     }
 }
