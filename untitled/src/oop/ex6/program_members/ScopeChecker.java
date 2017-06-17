@@ -136,7 +136,6 @@ public abstract class ScopeChecker {
         if (innerScope != null && !innerScope.isClosed())
             innerScope.readLine(command);
         else {
-            System.out.println(command); ////////////////
             boolean shouldBeActivate = status == Status.FROZEN;
             CommandLine commandLine = SyntaxChecker.checkLine(command);
             commandLine.check(this);
