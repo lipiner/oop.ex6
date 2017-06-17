@@ -52,8 +52,8 @@ public abstract class ScopeChecker {
      * Close the scope (after a '}' )
      */
     public void close() throws CompilingException{
-        System.out.println(method);
-        System.out.println(status); /////////////////////////////////////
+//        System.out.println(method);
+//        System.out.println(status); /////////////////////////////////////
         switch (status) {
             case FROZEN:
             case SEMI_CLOSED:
@@ -157,7 +157,7 @@ public abstract class ScopeChecker {
         if (innerScope != null && !innerScope.isClosed())
             innerScope.readLine(command);
         else {
-            System.out.println(command); ////////////////
+//            System.out.println(command); ////////////////
             boolean shouldBeActivate = status == Status.FROZEN;
             CommandLine commandLine = SyntaxChecker.checkLine(command);
             commandLine.check(this);
