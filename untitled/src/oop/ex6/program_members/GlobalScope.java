@@ -6,7 +6,7 @@ public class GlobalScope extends ScopeChecker {
             FREEZE_CLOSE_EXCEPTION_MESSAGE = "Illegal operation: return or in } in global scope";
 
     /**
-     * Constructor for a global scope.
+     * Constructor for a global scope. Can only have methods inside a global members.
      */
     public GlobalScope() throws CompilingException{
         super(false, null);
@@ -61,12 +61,16 @@ public class GlobalScope extends ScopeChecker {
         GlobalMembers.getInstance().addVariable(variable);
     }
 
-    public boolean isMethodClosed(){
-        return innerScope == null || innerScope.isClosed();
-    }
-
+    @Override
     VariableWrapper getScopeVariableWrapper(VariableWrapper variable){
         return GlobalMembers.getInstance().getGlobalVariable(variable);
+    }
+
+    /**
+     * @return true iff there is no opened inner scopes (there is no inner method or it is closed)
+     */
+    public boolean isMethodClosed(){
+        return innerScope == null || innerScope.isClosed();
     }
 
 }
