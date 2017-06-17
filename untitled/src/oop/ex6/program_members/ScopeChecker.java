@@ -192,8 +192,4 @@ public abstract class ScopeChecker {
      */
     abstract VariableWrapper getScopeVariableWrapper(VariableWrapper variable);
 
-//    ScopeChecker getInnerScope(){
-//        return innerScope;
-//    }
-
 }
