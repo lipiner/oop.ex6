@@ -27,7 +27,6 @@ public class Assigning extends CommandLine {
 
     @Override
     public void check(ScopeChecker scope) throws CompilingException{
-//        System.out.println(value); //////////////////////////////
         if (variableName != null)
             variable = scope.getVariable(variableName);
 

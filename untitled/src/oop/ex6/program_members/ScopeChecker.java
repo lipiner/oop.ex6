@@ -9,7 +9,6 @@ public abstract class ScopeChecker {
     private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
 
     enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED}
-//    private GlobalMembers globalMembers;
     private boolean method;
     private Status status;
     ScopeChecker innerScope;
@@ -25,11 +24,6 @@ public abstract class ScopeChecker {
 
         if (superScope != null)
             superScope.openScope(this);
-//        unidentifiedCommands = new LinkedList<CommandLine>();
-//        scopes = new LinkedList<ScopeChecker>();
-//        variables = new LinkedList<Variable>();
-//        globalMembers = GlobalMembers.getInstance();
-//        variables.addAll(scopeVariables);
     }
 
     /**
@@ -52,8 +46,6 @@ public abstract class ScopeChecker {
      * Close the scope (after a '}' )
      */
     public void close() throws CompilingException{
-//        System.out.println(method);
-//        System.out.println(status); /////////////////////////////////////
         switch (status) {
             case FROZEN:
             case SEMI_CLOSED:
@@ -70,8 +62,6 @@ public abstract class ScopeChecker {
      * @throws CallingClosedScopeException if the scope is closed
      */
     private void isActivate() throws CompilingException, CallingClosedScopeException {
-//        if (status.equals(Status.FROZEN))
-//            throw new CompilingException(UNREACHABLE_STATEMENT_EXCEPTION_MESSAGE);
         if (isClosed())
             throw new CallingClosedScopeException();
     }
@@ -136,17 +126,6 @@ public abstract class ScopeChecker {
      */
     public abstract VariableWrapper getVariable(String variableName);
 
-//    /**
-//     * Adds an unidentified command to the global unidentified commands list.
-//     * @param command the unidentified command.
-//     * @throws CompilingException if the command is already added.
-//     */
-//    public void addUnidentifiedCommand(CommandLine command) throws CompilingException{
-//        if (status.equals(Status.CLOSED))
-//            throw new CompilingException(UNIDENTIFIED_COMMAND_EXCEPTION_MESSAGE);
-//        GlobalMembers.getInstance().addUnidentifiedCommands(command);
-//    }
-
     /**
      * Process a command line.
      * @param command Sjavac command line.
@@ -157,7 +136,7 @@ public abstract class ScopeChecker {
         if (innerScope != null && !innerScope.isClosed())
             innerScope.readLine(command);
         else {
-//            System.out.println(command); ////////////////
+            System.out.println(command); ////////////////
             boolean shouldBeActivate = status == Status.FROZEN;
             CommandLine commandLine = SyntaxChecker.checkLine(command);
             commandLine.check(this);

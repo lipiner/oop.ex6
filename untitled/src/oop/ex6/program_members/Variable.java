@@ -5,10 +5,8 @@ public class Variable {
     public enum Type {INT, DOUBLE, STRING, BOOLEAN, CHAR}
     private final String name;
     private Type type;
-//    private boolean assigned;
     private boolean finalModifier;
     private boolean hasBeenAssigned;
-//    private boolean global;
 
     /**
      * Constructor fot a variable object.
@@ -21,8 +19,6 @@ public class Variable {
         this.type = Type.valueOf(type.toUpperCase());
         this.finalModifier = isFinal;
         hasBeenAssigned = false;
-//        assigned = false;
-//        global = isGlobal;  // DO WE NEED THAT NOW???
     }
 
     /**
@@ -40,20 +36,22 @@ public class Variable {
     }
 
     /**
-     * @return true iff the variable is final
+     * @return true iff the variable type consists with boolean type (int, double or boolean)
      */
-    boolean isFinal(){
-        return finalModifier;
-    }
-
     boolean canBeBoolean() {
         return !(type == Type.STRING || type == Type.CHAR);
     }
 
+    /**
+     * @return true iff the variable can be assigned (not a final that is being assigned twice)
+     */
     boolean canBeAssigned(){
         return !(finalModifier && hasBeenAssigned);
     }
 
+    /**
+     * Changes the assigning status of the variable to assigned
+     */
     void assign () {
         hasBeenAssigned = true;
     }
