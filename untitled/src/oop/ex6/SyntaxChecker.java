@@ -46,9 +46,9 @@ public class SyntaxChecker {
                     + "(" + DECLARATION_EXPRESSION + "\\s*,\\s*)*" + DECLARATION_EXPRESSION + ")\\s*;\\s*",
             ASSIGNMENT_LINE = "\\s*(" + VARIABLE_NAME + ")(" + ASSIGNMENT + ")\\s*;\\s*",
             METHOD_DECLARATION_LINE =  "\\s*void\\s+(" + METHOD_NAME + ")\\s*\\(" +
-                    "(((" + METHOD_PARAMETER + ",)*\\s*" + METHOD_PARAMETER + ")*\\s*)\\)\\s*\\{\\s*",
+                    "(((" + METHOD_PARAMETER + ",)*\\s*" + METHOD_PARAMETER + ")?\\s*)\\)\\s*\\{\\s*",
             METHOD_CALL_LINE = "\\s*(" + METHOD_NAME + ")\\s*\\((" + "(\\s*(" + METHOD_INPUT + ")\\s*,)*" +
-                    "\\s*(" + METHOD_INPUT + "))*\\s*\\);\\s*",
+                    "\\s*(" + METHOD_INPUT + "))?\\s*\\);\\s*",
             RETURN_LINE = "\\s*return\\s*;\\s*",
             END_SCOPE_LINE = "\\s*}\\s*",
             OPEN_SCOPE_LINE = ".*\\{\\s*",
