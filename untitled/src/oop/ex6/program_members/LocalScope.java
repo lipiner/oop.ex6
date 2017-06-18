@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 public class LocalScope extends ScopeChecker {
 
-    //    private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
     private static final String NESTED_METHODS_EXCEPTION_MESSAGE = "Nested methods";
     private LinkedList<VariableWrapper> variables;
     private ScopeChecker superScope;
@@ -17,7 +16,6 @@ public class LocalScope extends ScopeChecker {
         super(false, superScope);
         this.superScope = superScope;
         variables = new LinkedList<VariableWrapper>();
-//        status = Status.SEMI_CLOSED;
     }
 
     /**
@@ -28,47 +26,19 @@ public class LocalScope extends ScopeChecker {
     LocalScope(ScopeChecker superScope, LinkedList<VariableWrapper> variables)
             throws CompilingException{
         super(true, superScope);
-//        System.out.println("here");
         this.superScope = superScope;
-//        status = Status.OPEN;
         this.variables = new LinkedList<VariableWrapper>();
+
+        //Adds the variable that the method gets to its variable list
         for (VariableWrapper variableWrapper: variables)
             addVariable(variableWrapper);
-
-//        createMethod(methodName, methodSignature);
-//        this.methodVariables = methodVariables;
-//        variables = new LinkedList<Variable>();
     }
 
-//    private void createMethod(String methodName, LinkedList<CommandLine> methodSignature) throws CompilingException{
-//        variables = new LinkedList<VariableWrapper>();
-//        for (CommandLine commandLine: methodSignature)
-//            commandLine.check(this);
-//        LinkedList<Variable.Type> types = new LinkedList<Variable.Type>();
-//        for (VariableWrapper variable: variables)
-//            types.add(variable.getType());
-//        GlobalMembers.getInstance().addMethod(methodName, types, this);
-//    }
-
-//    @Override
-//    public void freeze() throws CompilingException{
-//        if (isMethod())
-//            status = Status.FROZEN;
-//    }
-
-//    @Override
-//    public void close() throws CompilingException{
-//        switch (status){
-//            case CLOSED:
-//                throw new CallingClosedScopeException();
-//            case FROZEN:
-//            case SEMI_CLOSED:
-//                status = Status.CLOSED;
-//            default:
-//                throw new CompilingException(MISSING_RETURN_EXCEPTION_MESSAGE);
-//        }
-//    }
-
+    /**
+     * Operation is allowed only if the sub scope is not a method.
+     * @param scope the new sub-scope
+     * @throws CompilingException if the sub-scope is a method
+     */
     @Override
     void openScope(ScopeChecker scope) throws CompilingException{
         if (scope.isMethod())
@@ -90,14 +60,6 @@ public class LocalScope extends ScopeChecker {
         VariableWrapper variableWrapper = getScopeVariable(variableName);
         return variableWrapper == null;
     }
-
-//    @Override
-//    public VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
-//        Variable variable = new Variable(variableName, variableType, isFinal, false);
-//        VariableWrapper variableWrapper = new VariableWrapper(variable);
-//        super.addVariable(variableWrapper);
-//        return variableWrapper;
-//    }
 
     @Override
     void addVariableToScope(VariableWrapper variable) throws CompilingException{

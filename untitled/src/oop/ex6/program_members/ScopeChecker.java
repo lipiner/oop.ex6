@@ -15,13 +15,17 @@ public abstract class ScopeChecker {
     String scopeName;
 
     /**
-     * Constructor for a scope
+     * Constructor for a scope.
+     * @param isMethod true if the scope is a method
+     * @param superScope the scope object of the outer scope or null if there is no outer scope
+     * @throws CompilingException if the scope cannot be open in the outer scope
      */
     ScopeChecker(boolean isMethod, ScopeChecker superScope) throws CompilingException{
         innerScope = null;
         method = isMethod;
         activate();
 
+        //open the scope in outer scope
         if (superScope != null)
             superScope.openScope(this);
     }
@@ -44,6 +48,7 @@ public abstract class ScopeChecker {
 
     /**
      * Close the scope (after a '}' )
+     * @throws CompilingException if a return statement is missing
      */
     public void close() throws CompilingException{
         switch (status) {
@@ -66,6 +71,9 @@ public abstract class ScopeChecker {
             throw new CallingClosedScopeException();
     }
 
+    /**
+     * Activate the scope as if a return statement has never been.
+     */
     private void activate(){
         if (method)
             status = Status.OPEN;
@@ -87,17 +95,7 @@ public abstract class ScopeChecker {
      * @param variableName the name of the variable to check
      * @return true iff the variable can be declared
      */
-    public abstract boolean canBeDeclared(String variableName);
-
-//    /**
-//     * Creates a variable and adds it into the scope
-//     * @param variableName
-//     * @param variableType
-//     * @param isFinal
-//     * @return
-//     * @throws CompilingException
-//     */
-//    public abstract VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException;
+    public abstract boolean canVariableBeDeclared(String variableName);
 
     /**
      * Adds new variable to the scope
@@ -106,7 +104,7 @@ public abstract class ScopeChecker {
      * if the operation is not allowed
      */
     public void addVariable(VariableWrapper variable) throws CompilingException{
-        if(canBeDeclared(variable.getVariableName()))
+        if(canVariableBeDeclared(variable.getVariableName()))
             addVariableToScope(variable);
         else
             throw new CompilingException(REPEATED_DECLARATION_EXCEPTION_MESSAGE);
@@ -120,7 +118,7 @@ public abstract class ScopeChecker {
     abstract void addVariableToScope(VariableWrapper variable) throws CompilingException;
 
     /**
-     * Gets a variable in the scope given it's name.
+     * Gets a variable in the scope given its name.
      * @param variableName the variable's name.
      * @return the found variable if existed, null otherwise.
      */
@@ -136,9 +134,11 @@ public abstract class ScopeChecker {
         if (innerScope != null && !innerScope.isClosed())
             innerScope.readLine(command);
         else {
+            //There is no open inner scope
             boolean shouldBeActivate = status == Status.FROZEN;
             CommandLine commandLine = SyntaxChecker.checkLine(command);
             commandLine.check(this);
+            //activate the scope if a return statement was without closing the scope afterwards
             if (!isClosed() && shouldBeActivate)
                 activate();
         }
@@ -174,15 +174,6 @@ public abstract class ScopeChecker {
         VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
         scopeVariable.assign(value);
     }
-
-//    /**
-//     * Change the assigning status in the scope of the given variable.
-//     * @param variable the variable to be assigned
-//     */
-//    public void assignVariable(VariableWrapper variable){
-//        VariableWrapper scopeVariable = getScopeVariableWrapper(variable);
-//        scopeVariable.assign();
-//    }
 
     /**
      * Gets the VariableWrapper object of the variable in the current scope. If the variable is not

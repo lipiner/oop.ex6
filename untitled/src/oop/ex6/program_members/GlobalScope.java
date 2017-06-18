@@ -11,39 +11,35 @@ public class GlobalScope extends ScopeChecker {
     public GlobalScope() throws CompilingException{
         super(false, null);
         scopeName = null;
-//        status = Status.SEMI_CLOSED;
     }
 
+    /**
+     * Operation is not support in the scope. Throws CompilingException
+     */
     @Override
     public void freeze() throws CompilingException{
         throw new CompilingException(FREEZE_CLOSE_EXCEPTION_MESSAGE);
     }
 
+    /**
+     * Operation is not support in the scope. Throws CompilingException
+     */
     @Override
     public void close() throws CompilingException {
         throw new CompilingException(FREEZE_CLOSE_EXCEPTION_MESSAGE);
     }
 
-//    public void closeFile() throws CompilingException {
-//        status = Status.CLOSED;
-////        LinkedList<CommandLine> commandLines = GlobalMembers.getInstance().getUnidentifiedCommands();
-////        for (CommandLine commandLine : commandLines)
-////            commandLine.check(this);
-//    }
-
+    /**
+     * Operation is allowed only if the sub scope is a method.
+     * @param scope the new sub-scope
+     * @throws CompilingException if the sub-scope is not a method
+     */
     @Override
     void openScope(ScopeChecker scope) throws CompilingException{
         if (!scope.isMethod())
             throw new CompilingException(ILLEGAL_SCOPE_OPENING_MESSAGE);
         super.openScope(scope);
     }
-
-//    public VariableWrapper addVariable(String variableName, String variableType, boolean isFinal) throws CompilingException {
-//        Variable variable = new Variable(variableName, variableType, isFinal, true);
-//        VariableWrapper variableWrapper = new VariableWrapper(variable);
-//        super.addVariable(variableWrapper);
-//        return variableWrapper;
-//    }
 
     @Override
     public VariableWrapper getVariable(String variableName) {
