@@ -82,11 +82,23 @@ public class SyntaxChecker {
             FINAL_WITHOUT_ASSIGNMENT_MSG = "Invalid declaration: final variable not assigned while declaration",
             INVALID_SYNTAX_MESSAGE = "Invalid syntax: line doesn't match s-Java syntax",
             NO_INPUT = "";
-
-
-
-
-
+    private static final int
+            // group numbers
+            ASSIGNED_VARIABLE_NAME = 1,
+            ASSIGN_INPUT = 8,
+            FINAL_MODIFIER_DECLARATION = 1,
+            DECLARED_VARIABLE_TYPE = 2,
+            VARIABLE_DECLARATIONS = 3,
+            DECLARED_VARIABLE_NAME = 1,
+            ASSIGNING_INPUT_IN_DECLARATION = 8,
+            BLOCK_CONDITIONS = 2,
+            VARIABLES_USED_AS_CONDITIONS = 1,
+            CALLED_METHOD_NAME = 1,
+            CALLED_METHOD_INPUTS = 4,
+            DECLARED_METHOD_NAME = 1,
+            DECLARED_METHOD_PARAMETERS = 4,
+            PARAMETER_TYPE = 2,
+            PARAMETER_NAME = 3;
     private static Matcher lineMatcher;
 
 
@@ -176,8 +188,8 @@ public class SyntaxChecker {
      * @return an Assigning CommandLine according to the match
      */
     private static Assigning assignmentCreation() {
-        String variableName = lineMatcher.group(1);
-        String input = lineMatcher.group(8);
+        String variableName = lineMatcher.group(ASSIGNED_VARIABLE_NAME);
+        String input = lineMatcher.group(ASSIGN_INPUT);
 
         return new Assigning(variableName, input);
     }
@@ -192,16 +204,16 @@ public class SyntaxChecker {
         boolean isFinal = false;
 
         // checks if the word final exist in the pattern
-        if (lineMatcher.group(1) != null)
+        if (lineMatcher.group(FINAL_MODIFIER_DECLARATION) != null)
             isFinal = true;
-        String variableType = lineMatcher.group(2);
-        String declares = lineMatcher.group(3);
+        String variableType = lineMatcher.group(DECLARED_VARIABLE_TYPE);
+        String declares = lineMatcher.group(VARIABLE_DECLARATIONS);
 
         lineMatcher = DECLARATION_EXPRESSION_PATTERN.matcher(declares);
         // finding all the declarations
         while (lineMatcher.find()) {
-            String variableName = lineMatcher.group(1);
-            String input = lineMatcher.group(8);
+            String variableName = lineMatcher.group(DECLARED_VARIABLE_NAME);
+            String input = lineMatcher.group(ASSIGNING_INPUT_IN_DECLARATION);
 
             // checks if the variable is final and it was not assigned while declaration
             if (isFinal && input == null)
@@ -216,7 +228,7 @@ public class SyntaxChecker {
      * @return a ConditionBlock CommandLine according to the match
      */
     private static ConditionBlock blockCreation() {
-        String conditions = lineMatcher.group(2);
+        String conditions = lineMatcher.group(BLOCK_CONDITIONS);
 
         lineMatcher = CONDITION_PATTERN.matcher(conditions);
         LinkedList<String> variables = new LinkedList<String>();
@@ -224,7 +236,7 @@ public class SyntaxChecker {
         while (lineMatcher.find()) {
 
             // finds all the variables used as a condition
-            String variable = lineMatcher.group(1);
+            String variable = lineMatcher.group(VARIABLES_USED_AS_CONDITIONS);
             if (variable != null)
                 variables.add(variable);
         }
@@ -236,8 +248,8 @@ public class SyntaxChecker {
      * @return a CallingMethod CommandLine according to the match
      */
     private static CallingMethod methodCallCreation () {
-        String methodName = lineMatcher.group(1);
-        String inputs = lineMatcher.group(4);
+        String methodName = lineMatcher.group(CALLED_METHOD_NAME);
+        String inputs = lineMatcher.group(CALLED_METHOD_INPUTS);
 
         if (inputs == null)
             inputs = NO_INPUT;
@@ -257,8 +269,8 @@ public class SyntaxChecker {
      * @return a MethodDeclaration CommandLine according to the match
      */
     private static MethodDeclaration methodDeclarationCreation () {
-        String methodName = lineMatcher.group(1);
-        String parameters = lineMatcher.group(4);
+        String methodName = lineMatcher.group(DECLARED_METHOD_NAME);
+        String parameters = lineMatcher.group(DECLARED_METHOD_PARAMETERS);
 
         if (parameters == null)
             parameters = NO_INPUT;
@@ -268,10 +280,10 @@ public class SyntaxChecker {
         // finding all the method parameters declarations
         while (lineMatcher.find()) {
             boolean isFinal = false;
-            if (lineMatcher.group(1) != null)
+            if (lineMatcher.group(FINAL_MODIFIER_DECLARATION) != null)
                 isFinal = true;
-            String parameterType = lineMatcher.group(2);
-            String parameterName = lineMatcher.group(3);
+            String parameterType = lineMatcher.group(PARAMETER_TYPE);
+            String parameterName = lineMatcher.group(PARAMETER_NAME);
             methodParameters.add(new VariableDeclaration(parameterType, isFinal, parameterName, null));
         }
 
