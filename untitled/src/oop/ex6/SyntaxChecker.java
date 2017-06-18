@@ -92,7 +92,7 @@ public class SyntaxChecker {
             DECLARED_VARIABLE_NAME = 1,
             ASSIGNING_INPUT_IN_DECLARATION = 8,
             BLOCK_CONDITIONS = 2,
-            VARIABLES_USED_AS_CONDITIONS = 1,
+            VARIABLES_USED_AS_CONDITIONS = 2,
             CALLED_METHOD_NAME = 1,
             CALLED_METHOD_INPUTS = 4,
             DECLARED_METHOD_NAME = 1,
