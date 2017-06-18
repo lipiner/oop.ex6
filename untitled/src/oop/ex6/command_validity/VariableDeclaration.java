@@ -43,7 +43,7 @@ public class VariableDeclaration extends CommandLine {
     /**
      * an overload of the regular check method. This method only creates the variable according to the given details
      * and returns it
-     * @return
+     * @return the newly created variable
      */
     VariableWrapper check() {
         return new VariableWrapper(new Variable(variableName, variableType, isFinal));
