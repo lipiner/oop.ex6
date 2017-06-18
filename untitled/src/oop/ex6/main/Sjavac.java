@@ -28,7 +28,7 @@ public class Sjavac {
      */
     public static void main (String[] args) throws InvalidInputException {
         // checking input validity
-        if (args.length != 1)
+        if (args.length != ARGS_NUMBER)
             throw new InvalidInputException(WRONG_ARGUMENTS_NUMBER_MESSAGE);
         if (!args[FILE_NAME_POSITION].endsWith(SJAVA_FILE_SUFFIX))
             throw new InvalidInputException(WRONG_FILE_TYPE_MESSAGE);
