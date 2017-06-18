@@ -23,7 +23,7 @@ public class SyntaxChecker {
             VARIABLE_TYPE = INT_TYPE + "|" + DOUBLE_TYPE + "|" + STRING_TYPE + "|" + BOOLEAN_TYPE + "|" + CHAR_TYPE,
             // values regex
             INT_VALUE = "-?\\d+",
-            DOUBLE_VALUE = "-?\\d+(\\.\\d+)?",
+            DOUBLE_VALUE = "-?\\d+(?:\\.\\d+)?",
             STRING_VALUE = "\".*\"",
             BOOLEAN_VALUE = "true|false",
             CHAR_VALUE = "\'.?\'",
@@ -92,7 +92,7 @@ public class SyntaxChecker {
             DECLARED_VARIABLE_NAME = 1,
             ASSIGNING_INPUT_IN_DECLARATION = 8,
             BLOCK_CONDITIONS = 2,
-            VARIABLES_USED_AS_CONDITIONS = 2,
+            VARIABLES_USED_AS_CONDITIONS = 1,
             CALLED_METHOD_NAME = 1,
             CALLED_METHOD_INPUTS = 4,
             DECLARED_METHOD_NAME = 1,
