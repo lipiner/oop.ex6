@@ -23,7 +23,7 @@ public class SyntaxChecker {
             VARIABLE_TYPE = INT_TYPE + "|" + DOUBLE_TYPE + "|" + STRING_TYPE + "|" + BOOLEAN_TYPE + "|" + CHAR_TYPE,
             // values regex
             INT_VALUE = "-?\\d+",
-            DOUBLE_VALUE = "-?\\d+\\.*\\d*",
+            DOUBLE_VALUE = "-?\\d+(\\.\\d)*",
             STRING_VALUE = "\".*\"",
             BOOLEAN_VALUE = "true|false",
             CHAR_VALUE = "\'.?\'",
