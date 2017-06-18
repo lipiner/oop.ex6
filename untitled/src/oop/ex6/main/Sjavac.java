@@ -10,19 +10,29 @@ import java.io.*;
 
 public class Sjavac {
 
-    private static final int FILE_NAME_POSITION = 0;
+    private static final int FILE_NAME_POSITION = 0,
+        ARGS_NUMBER = 1;
     private static final String
         CORRECT_CODE = "0",
         COMPILATION_PROBLEM = "1",
         IO_PROBLEM = "2",
-        UNCLOSED_METHOD_MSG = "Method declaration was not closed";
+        SJAVA_FILE_SUFFIX = ".sjava",
+        UNCLOSED_METHOD_MSG = "Method declaration was not closed",
+        WRONG_ARGUMENTS_NUMBER_MESSAGE = "Wrong number of arguments",
+        WRONG_FILE_TYPE_MESSAGE = "Wrong file type: the given file is not sJava file";
 
     /**
      * The main method that runs the program and checks the file. Prints 0 for valid code, 1 for invalid code and 2
      * for IO problems while reading the file.
      * @param args one argument- the file name to be checked
      */
-    public static void main (String[] args){
+    public static void main (String[] args) throws InvalidInputException {
+        // checking input validity
+        if (args.length != 1)
+            throw new InvalidInputException(WRONG_ARGUMENTS_NUMBER_MESSAGE);
+        if (!args[FILE_NAME_POSITION].endsWith(SJAVA_FILE_SUFFIX))
+            throw new InvalidInputException(WRONG_FILE_TYPE_MESSAGE);
+
         RandomAccessFile reader = null;
         try {
             reader = new RandomAccessFile(args[FILE_NAME_POSITION], "r");
