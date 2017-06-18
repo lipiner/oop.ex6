@@ -80,6 +80,7 @@ public class LocalScope extends ScopeChecker {
 
     @Override
     VariableWrapper getScopeVariableWrapper(VariableWrapper variable){
+        //Checks if the VariableWrapper belongs to the current scope
         VariableWrapper scopeVariable = null;
         for (VariableWrapper variableWrapper: variables) {
             if (variableWrapper == variable) {
@@ -88,6 +89,7 @@ public class LocalScope extends ScopeChecker {
             }
         }
         if (scopeVariable == null) {
+            //This isn't a VariableWrapper of the scope, so creates a wrapper of the variable to the current scope
             scopeVariable = new VariableWrapper(variable.getVariable());
             variables.add(scopeVariable);
         }
