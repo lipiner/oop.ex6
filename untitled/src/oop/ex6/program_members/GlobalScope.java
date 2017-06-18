@@ -51,7 +51,7 @@ public class GlobalScope extends ScopeChecker {
     }
 
     @Override
-    public boolean canBeDeclared(String variableName) {
+    public boolean canVariableBeDeclared(String variableName) {
         VariableWrapper variable = getVariable(variableName);
         return variable == null;
     }

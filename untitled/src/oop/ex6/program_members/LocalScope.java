@@ -86,7 +86,7 @@ public class LocalScope extends ScopeChecker {
     }
 
     @Override
-    public boolean canBeDeclared(String variableName) {
+    public boolean canVariableBeDeclared(String variableName) {
         VariableWrapper variableWrapper = getScopeVariable(variableName);
         return variableWrapper == null;
     }
