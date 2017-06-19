@@ -11,7 +11,10 @@ lipiner
 =  Design:  =
 =============
 The program contains 3 separate packages (all part of the oop.ex6 package):
-- main:
+- main: responsible for the main class that runs the program. contains 2 classes:
+  - Sjavac - Contains the main method. This class is responsible for reading the sjava files, and for checking the
+    validity of the code using classes from the validity package.
+  - InvalidInputException -
 - command_validity:
 - program_members:
 
