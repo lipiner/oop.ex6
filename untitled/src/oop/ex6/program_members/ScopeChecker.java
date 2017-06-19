@@ -12,7 +12,6 @@ public abstract class ScopeChecker {
     private final boolean method;
     private Status status;
     ScopeChecker innerScope;
-//    String scopeName; ///////////////////////////////////////////////////////////////
 
     /**
      * Constructor for a scope.

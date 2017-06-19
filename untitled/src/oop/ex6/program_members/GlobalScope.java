@@ -10,7 +10,6 @@ public class GlobalScope extends ScopeChecker {
      */
     public GlobalScope() throws CompilingException{
         super(false, null);
-//        scopeName = null; //////////////////////////////////////////////////////////////////////
     }
 
     /**
@@ -61,7 +60,6 @@ public class GlobalScope extends ScopeChecker {
     VariableWrapper getScopeVariableWrapper(VariableWrapper variable){
         //There is no super scope to the global scope, so the variable must be in this scope
         return variable;
-//        return GlobalMembers.getInstance().containsVariable(variable); /////////////////////////////////////////////
     }
 
     /**
