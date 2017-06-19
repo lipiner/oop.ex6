@@ -1,0 +1,29 @@
+
+
+
+=======================
+=  File Description:  =
+=======================
+
+
+=============
+=  Design:  =
+=============
+
+
+============================
+=  Implementation Issues:  =
+============================
+
+
+==================
+=  UML changes:  =
+==================
+
+
+===========================
+=  Answers to Questions:  =
+===========================
+- Using tools that not discussed in course material: we used the class RandomAccessFile to read the file. We chose
+  this class so we could reset the reader to the beginning of the file since we chose to read the file twice (once
+  for the global members and methods and then for reader the inner lines of the methods).
