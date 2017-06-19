@@ -1,4 +1,5 @@
 
+lipiner
 
 
 =======================
@@ -9,7 +10,10 @@
 =============
 =  Design:  =
 =============
-
+The program contains 3 separate packages (all part of the oop.ex6 package):
+- main:
+- command_validity:
+- program_members:
 
 ============================
 =  Implementation Issues:  =
@@ -19,7 +23,9 @@
 ==================
 =  UML changes:  =
 ==================
-
+- Changing the package hierarchy:
+- Remove unidentified:
+- Adding pattern members:
 
 ===========================
 =  Answers to Questions:  =
