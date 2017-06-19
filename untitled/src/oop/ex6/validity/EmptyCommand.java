@@ -1,4 +1,4 @@
-package oop.ex6.command_validity;
+package oop.ex6.validity;
 
 import oop.ex6.program_members.ScopeChecker;
 

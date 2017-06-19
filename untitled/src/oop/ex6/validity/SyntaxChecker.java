@@ -1,8 +1,8 @@
-package oop.ex6;
+package oop.ex6.validity;
 
 
 import oop.ex6.program_members.CompilingException;
-import oop.ex6.command_validity.*;
+import oop.ex6.validity.*;
 import java.util.LinkedList;
 import java.util.regex.*;
 

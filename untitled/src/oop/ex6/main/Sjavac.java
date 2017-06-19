@@ -1,6 +1,6 @@
 package oop.ex6.main;
 
-import oop.ex6.SyntaxChecker;
+import oop.ex6.validity.SyntaxChecker;
 import oop.ex6.program_members.CompilingException;
 import oop.ex6.program_members.GlobalMembers;
 import oop.ex6.program_members.GlobalScope;
