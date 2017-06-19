@@ -8,11 +8,11 @@ public abstract class ScopeChecker {
     private static final String REPEATED_DECLARATION_EXCEPTION_MESSAGE = "Variable has already declared";
     private static final String MISSING_RETURN_EXCEPTION_MESSAGE = "Missing return statement";
 
-    enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED}
-    private boolean method;
+    private enum Status {OPEN, FROZEN, SEMI_CLOSED, CLOSED}
+    private final boolean method;
     private Status status;
     ScopeChecker innerScope;
-    String scopeName;
+//    String scopeName; ///////////////////////////////////////////////////////////////
 
     /**
      * Constructor for a scope.

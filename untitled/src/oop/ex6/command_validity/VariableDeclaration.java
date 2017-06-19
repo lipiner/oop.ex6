@@ -27,7 +27,7 @@ public class VariableDeclaration extends CommandLine {
         this.isFinal = isFinal;
     }
 
-
+    @Override
     public void check(ScopeChecker scope) throws CompilingException{
         // creates the new variable
         VariableWrapper newVariable = new VariableWrapper(new Variable(variableName, variableType, isFinal));

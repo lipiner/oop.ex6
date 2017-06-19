@@ -73,13 +73,14 @@ public class VariableWrapper {
     }
 
     /**
-     *
-     * @param input
-     * @return
+     * Returns the type of the value, according to its format
+     * @param input the value of the variable
+     * @return the type of the value
      */
     private Variable.Type getInputType(String input) {
         if (isMatchedType(SyntaxChecker.STRING_VALUE_PATTERN, input))
             return Variable.Type.STRING;
+        //Checks first for int since double can be also in the format of int
         else if (isMatchedType(SyntaxChecker.INT_VALUE_PATTERN, input))
             return Variable.Type.INT;
         else if (isMatchedType(SyntaxChecker.DOUBLE_VALUE_PATTERN, input))

@@ -45,17 +45,17 @@ public class GlobalMembers {
         globalVariables.add(variable);
     }
 
-    /**
-     *
-     * @param variable
-     * @return
-     */
-    VariableWrapper getGlobalVariable(VariableWrapper variable) {
-        for (VariableWrapper scopeVariable: globalVariables)
-            if (scopeVariable == variable)
-                return scopeVariable;
-        return null;
-    }
+//    /**
+//     *
+//     * @param variable
+//     * @return
+//     */
+//    VariableWrapper containsVariable(VariableWrapper variable) {
+//        for (VariableWrapper scopeVariable: globalVariables)
+//            if (scopeVariable == variable)
+//                return scopeVariable;
+//        return null;
+//    }
 
     /**
      * Creates and adds a new method to the program's method list.
@@ -91,7 +91,7 @@ public class GlobalMembers {
      * @param variableName the searching variable's name
      * @return the variableWrapper object of the given variable name, if existed. Null, otherwise.
      */
-    VariableWrapper getGlobalVariable(String variableName) {
+    VariableWrapper containsVariable(String variableName) {
         for (VariableWrapper variable: globalVariables)
             if (variable.getVariableName().equals(variableName))
                 return variable;
