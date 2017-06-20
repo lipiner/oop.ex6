@@ -1,6 +1,10 @@
 int a	= 4;
 void foo(){
-String a = 5;
-int b = a;
+int a = 5;
+return;
+double b = 5.5
 return;
 }
+int b = a;
+a = 5;
+return;

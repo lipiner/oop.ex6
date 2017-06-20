@@ -3,7 +3,7 @@ package oop.ex6.program_members;
 public class GlobalScope extends ScopeChecker {
 
     private static final String ILLEGAL_SCOPE_OPENING_MESSAGE = "If/while statements not in a method",
-            FREEZE_CLOSE_EXCEPTION_MESSAGE = "Illegal operation: return or in } in global scope";
+            FREEZE_CLOSE_EXCEPTION_MESSAGE = "Illegal operation: return or } in global scope";
 
     /**
      * Constructor for a global scope. This is the most outer scope. Can only have methods inside a global members.

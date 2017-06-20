@@ -37,7 +37,7 @@ The program contains 3 separate packages (all part of the oop.ex6 package):
 =  UML changes:  =
 ==================
 - Changing the package hierarchy:
-- Remove unidentified:
+- Remove unidentifiedCommand class and related methods from the GlobalScope and the GlobalMembers:
 - Adding pattern members:
 
 ===========================
