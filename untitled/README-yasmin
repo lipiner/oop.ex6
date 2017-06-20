@@ -51,7 +51,12 @@ The program contains 3 separate packages (all part of the oop.ex6 package):
     method object. The GlobalMembers is being update during the first reading of the file when the global part is being
     read.
   - Variable - a variable object. It saves the code's variable information (such as its name and type).
-  - VariableWrapper -
+  - VariableWrapper - a wrapper object for a variable. Since the assigning status is relevant only for the current
+    scope and its inner sub scopes, the assigning operation is more relevant to the scope than the variable (since
+    we would like to assign the variable only in the current). For that reason we wrapped the variable with a wrapper
+    that contains the actual variable and its assigning status. Whenever a variable is being assigned, the scope will
+    create a new wrapper (unless it is already a variable that was open and exists in the scope) for its own and assign
+    this VariableWrapper object.
   - Method - a method object. It saves the code's method signature (its name and the parameters it gets), and also
     the line number of the method declaration in the file, and its super scope, so when reading the methods codes
     part, we could jump to the method line number without processing other lines, and then the method could open its
