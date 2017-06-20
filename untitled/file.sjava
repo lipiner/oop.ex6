@@ -1,6 +1,6 @@
 int a	= 4;
 void foo(){
 return;
-String b = "ff" + "g";
+String b = "ff' -'g";
 return;
 }
