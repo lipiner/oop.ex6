@@ -7,7 +7,7 @@ import oop.ex6.program_members.GlobalScope;
 import oop.ex6.program_members.Method;
 
 import java.io.*;
-//Hi
+
 public class Sjavac {
 
     private static final int FILE_NAME_POSITION = 0,
