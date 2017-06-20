@@ -50,7 +50,7 @@ The program contains 3 separate packages (all part of the oop.ex6 package):
     saves the line number of the file while reading so it would be easy to access the line number and save it in the
     method object. The GlobalMembers is being update during the first reading of the file when the global part is being
     read.
-  - Variable - a variable object. It saves the code's variable information
+  - Variable - a variable object. It saves the code's variable information (such as its name and type).
   - VariableWrapper -
   - Method - a method object. It saves the code's method signature (its name and the parameters it gets), and also
     the line number of the method declaration in the file, and its super scope, so when reading the methods codes

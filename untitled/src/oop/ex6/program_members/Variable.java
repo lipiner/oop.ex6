@@ -6,6 +6,7 @@ public class Variable {
     private final String name;
     private Type type;
     private boolean finalModifier;
+    //since final modifier cannot be assigned twice, saves the first assigning status
     private boolean hasBeenAssigned;
 
     /**
