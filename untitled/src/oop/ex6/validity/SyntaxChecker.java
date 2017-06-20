@@ -24,7 +24,7 @@ public class SyntaxChecker {
             // values regex
             INT_VALUE = "-?\\d+",
             DOUBLE_VALUE = "-?\\d+(?:\\.\\d+)?",
-            STRING_VALUE = "\".*\"",
+            STRING_VALUE = "\"[^+-]*\"",
             BOOLEAN_VALUE = "true|false",
             CHAR_VALUE = "\'.?\'",
             VARIABLE_VALUE = DOUBLE_VALUE + "|" + INT_VALUE + "|" + STRING_VALUE + "|" + BOOLEAN_VALUE + "|" +
