@@ -17,7 +17,8 @@ The program contains 3 separate packages (all part of the oop.ex6 package):
   - InvalidInputException - an exception that is being thrown when the input is invalid.
 - validity: this package is responsible for any validity check check or test is being made. The validity check is
   separate to 2 parts:
-  - SyntaxChecker - this is a static class that checks the syntax of the code using regex.
+  - SyntaxChecker - this is a static class that checks the syntax of the code using regex. Its main method (checkLine)
+    returns a CommandLine object (as describe below).
   - CommandLine - this class makes the more complex validity test that checks the validity of the command that is not
     related to syntax but to the content of the command, such as the validity of the declaration of variables (whether
     the variable can be declared in the scope), the variable assignment (whether the value consists the variable type),
@@ -26,7 +27,22 @@ The program contains 3 separate packages (all part of the oop.ex6 package):
     has 9 classes that inheritance from it, each one checks different type of commands. All classes has one public
     command which is common for all CommandLine (check) due to polymorphism so when calling a CommandLine object
     there is no need to know the type of the command but you still can check its validity.
-- program_members: this package is responsible
+- program_members: this package is responsible for all the members of the Sjava code, such as the variables and members.
+  It contains 9 classes:
+  - ScopeChecker - this is an abstract class for a scope in the program. It contains some common methods for all the
+    scope due to polymorphism. Its main method is readLine that reads the next command line of the scope (the method
+    is called by the main class that reads the file). The scope class interacts with the validity package by first
+    check the command syntax (using SyntaxChecker), and second check the validity of the command by calling the
+    CommandLine check method. The scope also has methods for the commands that available in the scope such as the
+    adding variable, assigning an existed variable and close the scope. These methods are called by the CommandLine
+    that checks the validity and makes the operation. If the operation is invalid in the specific scope, an exception
+    is being thrown.
+  - GlobalScope & LocalScope - these are the 2 types of scopes.
+  - GlobalMembers -
+  - Variable -
+  - VariableWrapper -
+  - Method -
+  - 2 Exception classes -
 
 ============================
 =  Implementation Issues:  =
