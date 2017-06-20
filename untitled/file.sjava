@@ -1,6 +1,7 @@
 int a	= 4;
-void foo(){
+void foo(int c){
 return;
 String b = "ff g";
+foo(2.2);
 return;
 }

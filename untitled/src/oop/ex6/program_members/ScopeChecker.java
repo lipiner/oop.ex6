@@ -151,6 +151,16 @@ public abstract class ScopeChecker {
     }
 
     /**
+     * Gets the method object of the given name.
+     * @param methodName the method name
+     * @return the method with the same name as the given one, if existed. If the method is not existed, returns null
+     * @throws CompilingException if a calling method action is not valid in the scope
+     */
+    public Method getMethod(String methodName) throws CompilingException{
+        return GlobalMembers.getInstance().getMethod(methodName);
+    }
+
+    /**
      * Change the assigning status in the scope of the given variable.
      * Tries to assign a given variable into another one.
      * @param variable the variable to be assigned

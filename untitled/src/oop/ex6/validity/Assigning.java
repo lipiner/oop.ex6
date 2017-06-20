@@ -12,8 +12,6 @@ import java.util.regex.Matcher;
 public class Assigning extends CommandLine {
     private String variableName, value;
     private VariableWrapper variable;
-    private static final String TRUE_VALUE = "true";
-    private static final String FALSE_VALUE = "false";
     private static final String VARIABLE_NOT_FOUND_MSG = "Invalid assignment: the variable is not found";
 
     /**
@@ -48,26 +46,12 @@ public class Assigning extends CommandLine {
             throw new CompilingException(VARIABLE_NOT_FOUND_MSG);
 
         else {
-            Matcher variableNameMatcher = SyntaxChecker.VARIABLE_NAME_PATTERN.matcher(value);
-
-            // checks if the assigned value is a variable
-            if (variableNameMatcher.matches()) {
-                VariableWrapper assignVariable = scope.getVariable(value);
-                if (assignVariable != null)
-                    scope.assignVariable(variable, assignVariable);
-                // the assigning variable does not exist
-                else {
-                    // the assigning variable is true/false so can be a boolean value as well
-                    if (!isBooleanValue(value))
-                        throw new CompilingException(VARIABLE_NOT_FOUND_MSG);
-                    else
-                        scope.assignVariable(variable, value);
-                }
-            }
-            // the assigning value is not a variable
-            else {
+            VariableWrapper assignVariable = getAssigningVariable(scope);
+            if (assignVariable != null)
+                scope.assignVariable(variable, assignVariable);
+            else
+                // the assigning value is not a variable
                 scope.assignVariable(variable, value);
-            }
         }
     }
 
@@ -77,6 +61,28 @@ public class Assigning extends CommandLine {
      * @return iff the text is matches boolean value
      */
     private boolean isBooleanValue(String value){
-        return value.equals(TRUE_VALUE) || value.equals(FALSE_VALUE);
+        Matcher variableNameMatcher = SyntaxChecker.BOOLEAN_VALUE_PATTERN.matcher(value);
+        return variableNameMatcher.matches();
+    }
+
+    /**
+     * Checks the type of the assigning value (if its a variable or not) and returns the assigning variable object.
+     * @param scope the scope from which the line was read.
+     * @return the variable object of the value, if it is a variable name. Otherwise, returns null.
+     * @throws CompilingException if the value is not consists with either a non variable value or an existed
+     * variable name
+     */
+    VariableWrapper getAssigningVariable(ScopeChecker scope) throws CompilingException{
+        Matcher variableNameMatcher = SyntaxChecker.VARIABLE_NAME_PATTERN.matcher(value);
+
+        VariableWrapper assignVariable = null;
+        // checks if the assigned value is a variable
+        if (variableNameMatcher.matches()) {
+            assignVariable = scope.getVariable(value);
+            if (assignVariable == null && !isBooleanValue(value))
+                // the assigned value doesn't consists to a type of value format and is not an existed variable name
+                throw new CompilingException(VARIABLE_NOT_FOUND_MSG);
+        }
+        return assignVariable;
     }
 }

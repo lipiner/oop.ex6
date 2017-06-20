@@ -38,19 +38,8 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
-        // checks that the variable is not final
-        if (!variable.canBeAssigned())
-            throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
-
-        // the assigning variable is empty
-        if (!assignVariable.isAssigned())
-            throw new CompilingException(UNASSIGNED_VARIABLE_MSG);
-
-        // checks if the types of the variable in the assigning variable match
-        checkAssignmentTypeMatch(assignVariable.getType());
-
-        assigned = true;
-        variable.assign();
+        checkAssigningValue(assignVariable);
+        assign();
     }
 
     /**
@@ -59,17 +48,24 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign(String value) throws CompilingException {
-        // checks that the variable is not final
-        if (!variable.canBeAssigned())
-            throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
+        checkAssigningValue(value);
+        assign();
+    }
 
+    public void checkAssigningValue(VariableWrapper assignVariable) throws CompilingException{
+        // the assigning variable is empty
+        if (!assignVariable.isAssigned())
+            throw new CompilingException(UNASSIGNED_VARIABLE_MSG);
+
+        // checks if the types of the variable in the assigning variable match
+        checkAssignmentValidity(assignVariable.getType());
+    }
+
+    public void checkAssigningValue(String value) throws CompilingException{
         // checks the type of the input
         Variable.Type assignType = getInputType(value);
         // checks if the type of the input matches the type of the variable
-        checkAssignmentTypeMatch(assignType);
-
-        assigned = true;
-        variable.assign();
+        checkAssignmentValidity(assignType);
     }
 
     /**
@@ -96,7 +92,11 @@ public class VariableWrapper {
      * @param assignmentType the type of the assignment
      * @throws CompilingException if the type does not match
      */
-    private void checkAssignmentTypeMatch (Variable.Type assignmentType) throws CompilingException{
+    private void checkAssignmentValidity(Variable.Type assignmentType) throws CompilingException{
+        // checks that the variable is not final and can be assigned
+        if (!variable.canBeAssigned())
+            throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
+
         if(variable.getType() == Variable.Type.DOUBLE) {
             if (assignmentType != Variable.Type.DOUBLE && assignmentType != Variable.Type.INT)
                 throw new CompilingException(INVALID_ASSIGNMENT_TYPE);

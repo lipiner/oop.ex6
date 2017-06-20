@@ -26,7 +26,7 @@ public class CallingMethod extends CommandLine {
 
     @Override
     public void check(ScopeChecker scope) throws CompilingException {
-        Method method = GlobalMembers.getInstance().getMethod(methodName);
+        Method method = scope.getMethod(methodName);
         // the method does not exist
         if (method == null)
             throw new CompilingException(METHOD_NOT_FOUND_MSG);
@@ -40,11 +40,18 @@ public class CallingMethod extends CommandLine {
         Iterator<VariableWrapper> variableIterator = methodVariables.listIterator();
         Iterator<String> inputIterator = methodInput.listIterator();
 
-        // assigning the given input to the method parameter
+        // checks if the given input suits the method parameter
         while (variableIterator.hasNext()) {
-            Assigning assignLine = new Assigning(variableIterator.next(), inputIterator.next());
-            assignLine.check(scope);
-        }
+            VariableWrapper methodVariable = variableIterator.next();
+            String input = inputIterator.next();
 
+            Assigning assignLine = new Assigning(methodVariable, input);
+            VariableWrapper assignVariable = assignLine.getAssigningVariable(scope);
+            if (assignVariable != null)
+                methodVariable.checkAssigningValue(assignVariable);
+            else
+                // the assigning value is not a variable
+                methodVariable.checkAssigningValue(input);
+        }
     }
 }

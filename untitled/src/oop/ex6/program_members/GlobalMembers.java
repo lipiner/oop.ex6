@@ -60,7 +60,7 @@ public class GlobalMembers {
      * @param methodName the search method's name
      * @return a method the consists with the given name if existed. Null otherwise.
      */
-    public Method getMethod(String methodName) {
+    Method getMethod(String methodName) {
         for (Method method: methodsList)
             if (method.getName().equals(methodName))
                 return method;
