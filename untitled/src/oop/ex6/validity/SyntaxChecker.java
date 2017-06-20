@@ -1,8 +1,8 @@
-package oop.ex6;
+package oop.ex6.validity;
 
 
 import oop.ex6.program_members.CompilingException;
-import oop.ex6.command_validity.*;
+import oop.ex6.validity.*;
 import java.util.LinkedList;
 import java.util.regex.*;
 
@@ -80,7 +80,7 @@ public class SyntaxChecker {
             DOUBLE_VALUE_PATTERN;
     private static final String
             FINAL_WITHOUT_ASSIGNMENT_MSG = "Invalid declaration: final variable not assigned while declaration",
-            INVALID_SYNTAX_MESSAGE = "Invalid syntax: line doesn't match s-Java syntax",
+            INVALID_SYNTAX_MESSAGE = "Invalid syntax: line doesn't match s-Java syntax: ",
             NO_INPUT = "";
     private static final int
             // group numbers

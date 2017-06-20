@@ -1,6 +1,6 @@
 package oop.ex6.program_members;
 
-import oop.ex6.SyntaxChecker;
+import oop.ex6.validity.SyntaxChecker;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

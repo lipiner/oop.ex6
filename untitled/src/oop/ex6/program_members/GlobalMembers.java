@@ -45,18 +45,6 @@ public class GlobalMembers {
         globalVariables.add(variable);
     }
 
-//    /**
-//     *
-//     * @param variable
-//     * @return
-//     */
-//    VariableWrapper containsVariable(VariableWrapper variable) {
-//        for (VariableWrapper scopeVariable: globalVariables)
-//            if (scopeVariable == variable)
-//                return scopeVariable;
-//        return null;
-//    }
-
     /**
      * Creates and adds a new method to the program's method list.
      * @param methodName the method's name

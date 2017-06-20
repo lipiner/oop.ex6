@@ -1,6 +1,5 @@
-package oop.ex6.command_validity;
+package oop.ex6.validity;
 
-import oop.ex6.SyntaxChecker;
 import oop.ex6.program_members.CompilingException;
 import oop.ex6.program_members.ScopeChecker;
 import oop.ex6.program_members.VariableWrapper;

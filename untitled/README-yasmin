@@ -1,0 +1,48 @@
+
+lipiner
+
+
+=======================
+=  File Description:  =
+=======================
+
+
+=============
+=  Design:  =
+=============
+The program contains 3 separate packages (all part of the oop.ex6 package):
+- main: responsible for the main class that runs the program. contains 2 classes:
+  - Sjavac - Contains the main method. This class is responsible for reading the sjava files, and for checking the
+    validity of the code using classes from the validity package.
+  - InvalidInputException - an exception that is being thrown when the input is invalid.
+- validity: this package is responsible for any validity check check or test is being made. The validity check is
+  separate to 2 parts:
+  - SyntaxChecker - this is a static class that checks the syntax of the code using regex.
+  - CommandLine - this class makes the more complex validity test that checks the validity of the command that is not
+    related to syntax but to the content of the command, such as the validity of the declaration of variables (whether
+    the variable can be declared in the scope), the variable assignment (whether the value consists the variable type),
+    the conditions and method blocks (whether the parameters or conditions are valid and it's in the correct outer
+    scope), the validity of closing scope (with or without return statement) and etc. This is an abstract class that
+    has 9 classes that inheritance from it, each one checks different type of commands. All classes has one public
+    command which is common for all CommandLine (check) due to polymorphism so when calling a CommandLine object
+    there is no need to know the type of the command but you still can check its validity.
+- program_members: this package is responsible
+
+============================
+=  Implementation Issues:  =
+============================
+
+
+==================
+=  UML changes:  =
+==================
+- Changing the package hierarchy:
+- Remove unidentifiedCommand class and related methods from the GlobalScope and the GlobalMembers:
+- Adding pattern members:
+
+===========================
+=  Answers to Questions:  =
+===========================
+- Using tools that not discussed in course material: we used the class RandomAccessFile to read the file. We chose
+  this class so we could reset the reader to the beginning of the file since we chose to read the file twice (once
+  for the global members and methods and then for reader the inner lines of the methods).
