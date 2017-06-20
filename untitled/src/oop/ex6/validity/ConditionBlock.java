@@ -32,7 +32,7 @@ public class ConditionBlock extends CommandLine {
         }
 
         // opening the new scope
-        ScopeChecker newScope = new LocalScope(scope);
+        new LocalScope(scope);
     }
 
     /**

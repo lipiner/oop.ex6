@@ -38,7 +38,7 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign (VariableWrapper assignVariable) throws CompilingException {
-        // the variable is final so it cannot be assigned
+        // checks that the variable is not final
         if (!variable.canBeAssigned())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
 
@@ -59,11 +59,11 @@ public class VariableWrapper {
      * @throws CompilingException if the operation is invalid (the value cannot be assigned to the variable)
      */
     void assign(String value) throws CompilingException {
-        // the variable is final so it cannot be assigned
-
+        // checks that the variable is not final
         if (!variable.canBeAssigned())
             throw new CompilingException(FINAL_VARIABLE_ASSIGNMENT_MSG);
-        //checks the type of the input
+
+        // checks the type of the input
         Variable.Type assignType = getInputType(value);
         // checks if the type of the input matches the type of the variable
         checkAssignmentTypeMatch(assignType);
@@ -80,7 +80,7 @@ public class VariableWrapper {
     private Variable.Type getInputType(String input) {
         if (isMatchedType(SyntaxChecker.STRING_VALUE_PATTERN, input))
             return Variable.Type.STRING;
-        //Checks first for int since double can be also in the format of int
+        // checks first for int, since double can be also in the format of int
         else if (isMatchedType(SyntaxChecker.INT_VALUE_PATTERN, input))
             return Variable.Type.INT;
         else if (isMatchedType(SyntaxChecker.DOUBLE_VALUE_PATTERN, input))

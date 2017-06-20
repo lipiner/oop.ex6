@@ -13,7 +13,10 @@ lipiner
 The program contains 3 separate packages (all part of the oop.ex6 package):
 - main: responsible for the main class that runs the program. contains 2 classes:
   - Sjavac - Contains the main method. This class is responsible for reading the sjava files, and for checking the
-    validity of the code using classes from the validity package.
+    validity of the code using classes from the validity package. The class reads the file twice. During the first
+    time it goes through the file, it reads only the global scope so all the global information will be saved, since
+    it can be update at any stage in the global scope code but all the inner methods should be familiar with it no
+    matter when if it is after or before the method. This subject will discuss more later.
   - InvalidInputException - an exception that is being thrown when the input is invalid.
 - validity: this package is responsible for any validity check check or test is being made. The validity check is
   separate to 2 parts:
@@ -38,24 +41,59 @@ The program contains 3 separate packages (all part of the oop.ex6 package):
     that checks the validity and makes the operation. If the operation is invalid in the specific scope, an exception
     is being thrown.
   - GlobalScope & LocalScope - these are the 2 types of scopes. Each contains its variables and supports the commands
-    that are available in the specific type of scope.
-  - GlobalMembers - this is a singleton class that contains all the global members (variables and methods signatures)
-  - Variable -
+    that are available in the specific type of scope (the GlobalScope saves its variable in the GlobalMembers object
+    and interacts with it).
+  - GlobalMembers - this is a singleton class that contains all the global members (variables and methods signatures).
+    This is a singleton since there could be only one global scope in a program and therefore only one object for
+    global members. Moreover, the global members should be accessible for the CommandLine objects and for all the
+    scopes so we made it as a singleton that can be accessed and modified from any part of the program. The class also
+    saves the line number of the file while reading so it would be easy to access the line number and save it in the
+    method object. The GlobalMembers is being update during the first reading of the file when the global part is being
+    read.
+  - Variable - a variable object. It saves the code's variable information
   - VariableWrapper -
-  - Method -
-  - 2 Exception classes -
+  - Method - a method object. It saves the code's method signature (its name and the parameters it gets), and also
+    the line number of the method declaration in the file, and its super scope, so when reading the methods codes
+    part, we could jump to the method line number without processing other lines, and then the method could open its
+    relevant scope in its outer scope.
+  - 2 Exception classes - will be discussed in the exceptions part in the answers to questions section.
 
 ============================
 =  Implementation Issues:  =
 ============================
-
+Dealing with the disorder in the global scope: as described before we went through the code file twice, once for
+process only the global scope, and second for process only the methods, due to the face that variables and methods
+that are being accessed in the method can be declared only later in the code, after reading a command line that refers
+to it. This can caused an error since the method doesn't familiar with the variable or method. To solve this subject
+we found 2 options: either read the file twice as describe above, or save every unresolved command while reading the
+file in the first time, and after reading the whole code, check these unresolved commands again.
+Each solution has advantages and disadvantages. Reading the file twice may cause problem while connecting to the file
+for long time and is not efficient in run time. On the other hand the other solution may be complex and cause some
+problems while implementing (since it has to save in each scope and line in the scope the command was to make sure
+that any other affected commands are fine, and it also has to call a closed scope which may be cause problems), and it
+is not efficient in memory (since it can saves a lot commands). It also can be not efficient as the first solution,
+if all the commands will be unresolved and have to be read twice.
+Finally, since we had no time or memory demands we chose the more memory efficient
+solution and we implemented the fist solution.
 
 ==================
 =  UML changes:  =
 ==================
-- Changing the package hierarchy:
-- Remove unidentifiedCommand class and related methods from the GlobalScope and the GlobalMembers:
-- Adding pattern members:
+- Changing the package hierarchy: we decided to change the package hierarchy so it will make more sense. We combined
+  all the validity classes together, since there is no much difference between the SyntaxChecker and the CommandLine
+  in their purpose, and it makes more sense that the SyntaxChecker will be part of a package. This structure of
+  packages also allows the CommandLine objects constructor to be with lower modifier (package-private instead of
+  public). Another change was to separate the program_members classes from the validity class it was since it doesn't
+  really check the validity but contains details about the current members of the program.
+- Remove unidentifiedCommand class and related methods from the GlobalScope and the GlobalMembers: as described above
+  we faced 2 options to deal with the disorder in the global scope. First we chose the second option that is described
+  in the Implementation issues since we thought it is more efficient. When we realized it can be complex and not
+  efficient in memory and even in time, we decided to switch the first option and removed these related classes
+  and methods.
+- Adding pattern members: we add an initializer method in the SyntaxChecker class (createPatterns) that first when
+  running the program, creates all the patterns that are needed for the regex and saves them as static members of
+  the class. That way the patterns will be complied only once and will they will be reused. Since these patterns
+  are needed often and this operation is heavy, this is the more efficient that way.
 
 ===========================
 =  Answers to Questions:  =
