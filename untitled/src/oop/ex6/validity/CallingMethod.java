@@ -19,7 +19,7 @@ public class CallingMethod extends CommandLine {
      * @param methodName the name of the called method
      * @param methodInput the given values of the call
      */
-    public CallingMethod(String methodName, LinkedList<String> methodInput) {
+    CallingMethod(String methodName, LinkedList<String> methodInput) {
         this.methodName = methodName;
         this.methodInput= methodInput;
     }

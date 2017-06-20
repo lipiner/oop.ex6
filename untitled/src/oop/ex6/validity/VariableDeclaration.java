@@ -20,7 +20,7 @@ public class VariableDeclaration extends CommandLine {
      * @param name the name of the declared variable
      * @param value the value assigned to the variable while declaration
      */
-    public VariableDeclaration(String type, boolean isFinal, String name, String value){
+    VariableDeclaration(String type, boolean isFinal, String name, String value){
         variableType = type;
         variableValue = value;
         variableName = name;

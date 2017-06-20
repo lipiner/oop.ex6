@@ -10,7 +10,7 @@ public class EmptyCommand extends CommandLine {
     /**
      * constructs a new EmptyCommand instance
      */
-    public EmptyCommand(){
+    EmptyCommand(){
     }
 
     @Override

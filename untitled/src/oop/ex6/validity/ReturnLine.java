@@ -11,7 +11,7 @@ public class ReturnLine extends CommandLine {
     /**
      * constructs a new ReturnLine instance
      */
-    public ReturnLine(){}
+    ReturnLine(){}
 
     @Override
     public void check(ScopeChecker scope) throws CompilingException {

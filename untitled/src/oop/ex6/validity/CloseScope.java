@@ -11,7 +11,7 @@ public class CloseScope extends CommandLine {
     /**
      * constructs a new CloseScope instance
      */
-    public CloseScope(){}
+    CloseScope(){}
 
     @Override
     public void check(ScopeChecker scope) throws CompilingException{

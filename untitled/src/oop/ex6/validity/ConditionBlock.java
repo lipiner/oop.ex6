@@ -20,7 +20,7 @@ public class ConditionBlock extends CommandLine {
      * constructs a new ConditionBlock instance
      * @param variables the condition of the block execution which are variable names
      */
-    public ConditionBlock(LinkedList<String> variables){
+    ConditionBlock(LinkedList<String> variables){
         conditionVariables = variables;
     }
 

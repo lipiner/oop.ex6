@@ -19,7 +19,7 @@ public class Assigning extends CommandLine {
      * @param variableName the name of the assigned variable
      * @param value the assigning value
      */
-    public Assigning(String variableName, String value){
+    Assigning(String variableName, String value){
         this.variableName = variableName;
         this.value = value;
     }

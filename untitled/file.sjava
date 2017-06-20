@@ -1,7 +1,6 @@
-int a	= 4;
-void foo(int c){
-return;
-String b = "ff g";
-foo(2.2);
+void foo(int a){
+if (a) {
+
+}
 return;
 }

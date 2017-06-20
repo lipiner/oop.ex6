@@ -14,7 +14,7 @@ public class MultipleVariableDeclaration extends CommandLine {
      * constructs a new MultipleVariableDeclaration instance when given the declarations
      * @param declarations a LinkedList of VariableDeclaration objects
      */
-    public MultipleVariableDeclaration(LinkedList<VariableDeclaration> declarations){
+    MultipleVariableDeclaration(LinkedList<VariableDeclaration> declarations){
         variableDeclarations = declarations;
     }
 

@@ -1,6 +1,6 @@
 package oop.ex6.program_members;
 
-class CallingClosedScopeException extends RuntimeException {
+public class CallingClosedScopeException extends RuntimeException {
 
     /**
      * Constructor for a CallingClosedScopeException

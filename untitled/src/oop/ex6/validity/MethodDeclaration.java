@@ -18,14 +18,13 @@ public class MethodDeclaration extends CommandLine {
      * @param methodName the name of the declared method
      * @param methodVariableDeclares the declaration of the method parameters
      */
-    public MethodDeclaration(String methodName, LinkedList<VariableDeclaration> methodVariableDeclares){
+    MethodDeclaration(String methodName, LinkedList<VariableDeclaration> methodVariableDeclares){
         this.methodName = methodName;
         this.methodVariableDeclares = methodVariableDeclares;
     }
 
     @Override
     public void check(ScopeChecker scope) {
-
         LinkedList<VariableWrapper> methodVariables = new LinkedList<VariableWrapper>();
 
         // creates the method parameters using the given CommandLines
