@@ -1,5 +1,6 @@
 package oop.ex6.validity;
 
+import oop.ex6.program_members.CompilingException;
 import oop.ex6.program_members.GlobalMembers;
 import oop.ex6.program_members.ScopeChecker;
 import oop.ex6.program_members.VariableWrapper;
@@ -24,7 +25,7 @@ public class MethodDeclaration extends CommandLine {
     }
 
     @Override
-    public void check(ScopeChecker scope) {
+    public void check(ScopeChecker scope) throws CompilingException{
         LinkedList<VariableWrapper> methodVariables = new LinkedList<VariableWrapper>();
 
         // creates the method parameters using the given CommandLines
