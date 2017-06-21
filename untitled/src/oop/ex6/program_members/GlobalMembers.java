@@ -9,6 +9,9 @@ public class GlobalMembers {
     private LinkedList<VariableWrapper> globalVariables;
     private int lineNumber;
 
+    private static final String DOUBLE_METHOD_NAME_EXCEPTION_MESSAGE = "Invalid method declaration: " +
+            "the method name already existed";
+
     /**
      * Constructor for the GlobalMembers object that contains all the global members of the program (methods,
      * global variable and the line number in the code). This is a singleton object for all the program.
@@ -51,7 +54,11 @@ public class GlobalMembers {
      * @param methodVariables a list of all the variables that the method gets
      * @param superScope the super scope of the method (the outer scope of method)
      */
-    public void addMethod(String methodName, LinkedList<VariableWrapper> methodVariables, ScopeChecker superScope){
+    public void addMethod(String methodName, LinkedList<VariableWrapper> methodVariables, ScopeChecker superScope)
+            throws CompilingException{
+        Method isExisted = getMethod(methodName);
+        if (isExisted != null)
+            throw new CompilingException(DOUBLE_METHOD_NAME_EXCEPTION_MESSAGE);
         methodsList.add(new Method(methodName, methodVariables, superScope, lineNumber));
     }
 
